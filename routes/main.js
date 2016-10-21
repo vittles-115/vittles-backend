@@ -39,3 +39,9 @@ module.exports.restaurant = function(req, res) {
 		template: 'restaurant'
 	})
 }
+
+module.exports.additem = function(req, res) {
+	res.renderT('additem', {
+		template: 'additem'
+	})
+}
