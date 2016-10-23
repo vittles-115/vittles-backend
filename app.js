@@ -87,7 +87,10 @@ app.get('/restaurant', routes.main.restaurant)
 app.get('/results', routes.main.results )
 app.get('/writereview', routes.main.writereview )
 app.get('/additem', routes.main.additem)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49494116d21be685c8ece5ce4f40395ed9bc36dd
 
 
 const server = app.listen(app.get('port'), () => {
