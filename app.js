@@ -8,10 +8,10 @@ const ejs = require("ejs")
 const firebase = require("firebase")
 const FirebaseStore = require("connect-session-firebase")(session)
 
-// const ref = firebase.initializeApp({
-//     serviceAccount: "credentials-go-here.json",
-//     databaseURL: "https://your-database.firebaseio.com"
-// });
+const ref = firebase.initializeApp({
+    serviceAccount: "Vittles-46fbefa423f8.json",
+    databaseURL: "https://vittles-1c0fb.firebaseio.com/"
+});
 
 dotenv.load({path: '.env'})
 
