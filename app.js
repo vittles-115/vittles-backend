@@ -86,6 +86,7 @@ app.get('/profile', routes.main.profile )
 app.get('/restaurant', routes.main.restaurant)
 app.get('/results', routes.main.results )
 app.get('/writereview', routes.main.writereview )
+app.get('/additem', routes.main.additem)
 
 
 
