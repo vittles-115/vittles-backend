@@ -1,45 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
-    <title>Vittles | Home</title>
+  <%- include('partials/head') %>
+  <title>Vittles | Home</title>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="containerheader">
-            <div class="container">
-                <div class="navbar-header  col-md-3">
-                        <a class = "navbar-brand" href="/">Vittles</a>
-                </div>
-                <form class="navbar-form col-md-6">
-                    <div class="form-group ">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-
-                <!--If logged out -->
-                <div class="navbar navbar-right">
-                <a href="signin.html" class="btn btn-default navbar-btn">Sign in</a>
-                <a href="register.html" class="btn btn-default navbar-btn">Register</a>
-                </div>
-                <!--If logged in
-                <a href="writereview.ejs" class="btn btn-default navbar-btn">Write Review</a>
-                <a href="profile.ejs" class = "btn btn-default navbar-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
-                -->
-            </div>
-        </div>
-    </nav>
+    <%- include('partials/header') %>
     <div class="container">
         <div class="jumbotron">
             <h1>Vittles</h1>
             <p>Menu focused food app to review and discover the best dishes nearby.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
         </div>
         <ul class="nav nav-tabs">
             <li class="nav-item col-md-4">
@@ -54,7 +24,7 @@
         </ul>
     </div>
 
-<!--<script src="js/jquery-1.11.3.min.js"></script>
-<script src="js/bootstrap.min.js"></script> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>

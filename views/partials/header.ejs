@@ -1,0 +1,33 @@
+<!-- views/partials/header.ejs -->
+
+<nav class="navbar navbar-default">
+  <div class="containerheader">
+		<div class="container">
+			<div class="navbar-header col-md-3 cl-effect-4">
+				<a class = "navbar-name" href="/">Vittles</a>
+			</div>
+			<div class="col-md-4 search-i" role="search">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+			<div class="btn-group">
+				<a class="btn btn-default dropdown-toggle" type="submit" data-toggle="dropdown" id="dropdownMenu" href="#"><i class="fa fa-search" aria-hidden="true"></i></i>
+					<span class="caret" title="Toggle dropdown menu"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="results" class="dropdown-item">Restaurants</a></li>
+					<li><a href="results" class="dropdown-item">Dishes</a></li>
+				</ul>
+			</div>
+
+			<!--If logged out-->
+			<div class="navbar navbar-right cl-effect-4">
+				<a href="signin" class="clink">Sign in</a>
+				<a href="register" class="clink">Register</a>
+			</div>
+			<!--If logged in
+			<a href="writereview.html" class="clink"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
+			<a href="profile.html" class = "clink"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
+			-->
+		</div>
+	</div>
+</nav>

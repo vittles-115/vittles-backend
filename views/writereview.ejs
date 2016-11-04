@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +8,17 @@
     <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+
     <title>Vittles | Write Review</title>
 </head>
+
 <body>
     <nav class="navbar navbar-default">
         <div class="containerheader">
             <div class="container">
                 <div class="navbar-header col-md-3 ">
-                    <a class = "navbar-brand" href="index.html">Vittles</a>
+                    <a class="navbar-brand" href="index.html">Vittles</a>
                 </div>
                 <form class="navbar-form col-md-6 ">
                     <div class="form-group">
@@ -24,7 +28,7 @@
                 </form>
                 <div class="navbar navbar-right">
                     <a href="writereview.html" class="btn btn-default navbar-btn">Write Review</a>
-                    <a href="profile.html" class = "btn btn-default navbar-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
+                    <a href="profile.html" class="btn btn-default navbar-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -33,15 +37,60 @@
         <h1>Review</h1>
         <form class="form-horizontal" role="form">
             <div class="form-group">
+                <label class="col-lg-3 control-label">Title:</label>
+                <div class="col-lg-8">
+                    <input class="form-control" type="text" rows="3" placeholder="Review title" id="reviewtitle"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-lg-3 control-label">Restaurant:</label>
                 <div class="col-lg-8">
-                    <input class="form-control" type="text" placeholder="Restaurant Name" id="reviewrestaurant">
+                    <select class="myselect" style="width: 50%">
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>                      
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>                      
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                      <option value="AL">Restaurant</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-3 control-label">Dish:</label>
                 <div class="col-lg-8">
-                    <input class="form-control" type="text" placeholder="Restaurant Dish" id="reviewdish">
+                    <!---Select2 Stuff I forgot to push-->
+                    <select class="myselect" style="width: 50%">
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                      <option value="AL">Dish</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -71,4 +120,10 @@
         </form>
     </div>
 </body>
+
+<script src="/js/jquery-3.1.1.min.js"></script>
+<script src="/js/select2.min.js"></script>
+<script src="/js/writereview.js"></script>
+ 
+
 </html>

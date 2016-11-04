@@ -9,7 +9,7 @@ const firebase = require("firebase")
 const FirebaseStore = require("connect-session-firebase")(session)
 
 const ref = firebase.initializeApp({
-    serviceAccount: "Vittles-46fbefa423f8.json",
+    serviceAccount: "vittles-46fbefa423f8.json",
     databaseURL: "https://vittles-1c0fb.firebaseio.com/"
 });
 
@@ -87,11 +87,13 @@ app.get('/restaurant', routes.main.restaurant)
 app.get('/results', routes.main.results )
 app.get('/writereview', routes.main.writereview )
 app.get('/additem', routes.main.additem)
-<<<<<<< HEAD
+app.get('/register', routes.main.register)
 
-=======
->>>>>>> 49494116d21be685c8ece5ce4f40395ed9bc36dd
+app.get('/search', routes.functions.search, routes.main.results )
 
+
+app.post('/newUser', routes.functions.createUser, routes.main.profile )
+app.post('/newItem', routes.functions.addItem, routes.main.dish)
 
 const server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode: http://localhost:%s', app.get('port'), app.get('env'), app.get('port'));

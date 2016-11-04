@@ -1,88 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
-    <title>Vittles | Add Item</title>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+  <title>Vittles | Add Item</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="containerheader">
-        <div class="container">
-            <div class="navbar-header col-md-3 ">
-                <a class = "navbar-brand" href="index.html">Vittles</a>
-            </div>
-            <form class="navbar-form col-md-6 ">
-                <div class="form-group">
-                    <input class="form-control btn-long" type="text" placeholder="Search" id="search">
-                </div>
-                <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-            </form>
-            <div class="navbar navbar-right">
-                <a href="writereview.html" class="btn btn-default navbar-btn">Write Review</a>
-                <a href="profile.html" class = "btn btn-default navbar-btn"><i class="fa fa-user" aria-hidden="true"></i></a>
-            </div>
-        </div>
-    </div>
-</nav>
-<div class="container">
+  <%- include('partials/header') %>
+  <div class="container">
     <h1>Add Item</h1>
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Choose Restaurant:</label>
-            <div class="col-lg-8 dropdown">
-                <button class="btn btn-default btn-lg dropdown-toggle btn-block" type="button" id="dropdownRestaurant" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Restaurants
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-long" aria-labelledby="dropdownRestaurant">
-                    <li><a href="#">Restaurant 1</a></li>
-                    <li><a href="#">Restaurant 2</a></li>
-                    <li><a href="#">Restaurant 3</a></li>
-                </ul>
-            </div>
+    <form class="form-horizontal" role="form" method="post" action="/newItem">
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Choose Restaurant:</label>
+        <div class="col-lg-8">
+          <select class="myselect" name="addrestaurant" style="width: 50%" >
+            <option></option>
+            <%restaurants.forEach(function(restaurant) {%>
+              <option id="AL"><%= restaurant.name%></option>
+            <%}); %>
+          </select>
         </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Category:</label>
-            <div class="col-lg-8 dropdown">
-                <button class="btn btn-default btn-lg dropdown-toggle btn-block" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Category
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-long" aria-labelledby="dropdownCategory">
-                    <li><a href="#">Category 1</a></li>
-                    <li><a href="#">Category 2</a></li>
-                    <li><a href="#">Category 3</a></li>
-                </ul>
-            </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Category:</label>
+        <div class="col-lg-8 dropdown">
+          <select class="myselect" name="addtype" style="width: 50%">
+            <option></option>
+            <%types.forEach(function(types) {%>
+              <option id="AL"><%= types.type%></option>
+            <%}); %>
+          </select>
         </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Add Dish:</label>
-            <div class="col-lg-8">
-                <input class="form-control" type="text" placeholder="Restaurant Dish" id="adddish">
-            </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Add Dish:</label>
+        <div class="col-lg-8">
+          <input class="form-control" type="text" placeholder="Name" name="adddishname">
         </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Add Image:</label>
-            <div class="col-lg-8">
-                <input type="file" name="filename" accept="image/gif, image/jpeg, image/png">
-            </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Add Description:</label>
+        <div class="col-lg-8">
+          <textarea class="form-control" rows="3" type="text" placeholder="Decription" name="adddishdesc"></textarea>
         </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label"></label>
-            <div class="col-md-8 buttons">
-                <input type="button" class="btn btn-primary" value="Add Item" required>
-                <span></span>
-                <input type="reset" class="btn btn-default" value="Cancel">
-            </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Add Image:</label>
+        <div class="col-lg-8">
+          <input type="file" name="adddishimage" accept="image/gif, image/jpeg, image/png">
         </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8 buttons">
+          <input type="submit" class="btn btn-primary" value="Add Item" id="additem"required>
+          <span></span>
+          <input type="reset" class="btn btn-default" value="Cancel">
+        </div>
+      </div>
     </form>
-</div>
+  </div>
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="/js/select2.min.js"></script>
 </html>
