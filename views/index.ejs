@@ -5,23 +5,34 @@
   <title>Vittles | Home</title>
 </head>
 <body>
-    <%- include('partials/header') %>
-    <div class="container">
-        <div class="jumbotron">
-            <h1>Vittles</h1>
-            <p>Menu focused food app to review and discover the best dishes nearby.</p>
+  <%- include('partials/header') %>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Vittles</h1>
+        <p>Menu focused food app to review and discover the best dishes nearby.</p>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item col-md-4">
+        <a class="nav-link active" href="#hotdish" id="tab-1" data-toggle="tab">Hot Dishes</a>
+      </li>
+      <li class="nav-item col-md-4">
+        <a class="nav-link" data-target="#hotrestaurants" id="tab-2" data-toggle="tab">Hot Restaurants</a>
+      </li>
+      <li class="nav-item col-md-4">
+        <a class="nav-link" href="#recent" id="tab-3" data-toggle="tab">Recent</a>
+      </li>
+    </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="hotdish">
+          <%- include('partials/showdishcontent')%>
         </div>
-        <ul class="nav nav-tabs">
-            <li class="nav-item col-md-4">
-                <a class="nav-link active" href="#">Hot Dishes</a>
-            </li>
-            <li class="nav-item col-md-4">
-                <a class="nav-link" href="#">Hot Restaurants</a>
-            </li>
-            <li class="nav-item col-md-4">
-                <a class="nav-link" href="#">Recent</a>
-            </li>
-        </ul>
+        <div class="tab-pane" id="hotrestaurants">
+          <%- include('partials/showrestaurantscontent')%>
+        </div>
+        <div class="tab-pane" id="recent">
+          <%- include('partials/showrecentcontent')%>
+        </div>
+      </div>
     </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
