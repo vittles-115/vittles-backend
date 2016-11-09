@@ -47,7 +47,9 @@ module.exports.results = function(req, res) {
 
 module.exports.writereview = function(req, res) {
 	res.renderT('writereview', {
-		template: 'writereview'
+		template: 'writereview',
+		restaurants:restaurants,
+		dishes:revdishes,
 	})
 }
 
@@ -129,4 +131,13 @@ refDishes.orderByChild("number_of_ratings").limitToFirst(10).on("child_added", f
 var reviews = [];
 refRev.orderByChild("name").on("child_added", function (snapshot){
 	reviews.push({name:snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
+});
+
+//Thais
+//Write Review: Dishes
+var revdishes = [];
+var revdish;
+refDishes.orderByChild("name").on("child_added", function (snapshot) {
+	revdish = {name: snapshot.val().name, restaurant_name: snapshot.val().restaurant_name};
+	revdishes.push(revdish);
 });

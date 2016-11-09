@@ -160,3 +160,58 @@ a.clink{
 .signin{
   text-align: center;
 }
+
+
+/*Rating https://jsfiddle.net/leaverou/CGP87/*/
+.rating {
+  float:left;
+}
+
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.rating:not(:checked) > input {
+  position:absolute;
+  top:-9999px;
+  clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+  float:right;
+  width:2em;
+  padding:0 .1em;
+  overflow:hidden;
+  white-space:nowrap;
+  cursor:pointer;
+  font-size:200%;
+  line-height:1.2;
+  color:#ddd;
+}
+
+.rating:not(:checked) > label:before {
+  font-family: FontAwesome;
+  content: "\f005";
+}
+
+.rating > input:checked ~ label {
+  color: gold;
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: gold;
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+  color: #ea0;
+}
+
+.rating > label:active {
+  position:relative;
+  top:2px;
+  left:2px;
+}

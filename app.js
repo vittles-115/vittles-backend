@@ -94,6 +94,7 @@ app.get('/search', routes.functions.search, routes.main.results )
 
 app.post('/newUser', routes.functions.createUser, routes.main.profile )
 app.post('/newItem', routes.functions.addItem, routes.main.dish)
+app.post('/newReview', routes.functions.addReview,routes.main.restaurant)
 
 const server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode: http://localhost:%s', app.get('port'), app.get('env'), app.get('port'));

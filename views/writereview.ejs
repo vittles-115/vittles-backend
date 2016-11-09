@@ -2,105 +2,91 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head') %>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
-
-    <title>Vittles | Write Review</title>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+  <title>Vittles | Write Review</title>
 </head>
 
 <body>
-    <%- include('partials/header') %>
-    <div class="container">
-        <h1>Review</h1>
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Title:</label>
-                <div class="col-lg-8">
-                    <input class="form-control" type="text" rows="3" placeholder="Review title" id="reviewtitle"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Restaurant:</label>
-                <div class="col-lg-8">
-                    <select class="myselect" style="width: 50%">
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>                      
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>                      
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                      <option value="AL">Restaurant</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Dish:</label>
-                <div class="col-lg-8">
-                    <!---Select2 Stuff I forgot to push-->
-                    <select class="myselect" style="width: 50%">
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                      <option value="AL">Dish</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Review:</label>
-                <div class="col-lg-8">
-                    <textarea class="form-control" rows="3" placeholder="What did you think?" id="reviewpost"></textarea>
-                </div>
-            </div>
-            <!-- Placeholder till we use js -->
-            <div class="form-group">
-                <label class="col-lg-3 control-label">Rating: </label>
-                <p class=" col-md-8 star-rating">
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                    <i class="fa fa-star-o" aria-hidden="true"></i></p>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label"></label>
-                <div class="col-md-8 buttons">
-                    <input type="button" class="btn btn-primary" value="Post Review" required>
-                    <span></span>
-                    <input type="reset" class="btn btn-default" value="Cancel">
-                </div>
-            </div>
-        </form>
-    </div>
+<%- include('partials/header') %>
+  <div class="container">
+    <h1>Review</h1>
+    <form class="form-horizontal" role="form" method="post" action="/newReview">
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Title:</label>
+        <div class="col-lg-8">
+          <input class="form-control" type="text" rows="3" placeholder="Review title" id="reviewtitle" name="reviewtitle"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Restaurant:</label>
+        <div class="col-lg-8">
+          <select class="myselect" id="restname" name="reviewrestaurant" style="width: 50%">
+            <%restaurants.forEach(function(restaurant) {%>
+              <option id="AL"><%= restaurant.name%></option>
+            <%});%>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Dish:</label>
+        <div class="col-lg-8">
+          <!---Select2 Stuff I forgot to push-->
+          <!--Thais: Having problems with displaying the chosen restaurant's dishes only
+                    The following code displays the dishes for Amazon Juices. Don't know how to
+                    get the value of the select2 above
+          <select class="myselect" name="reviewdish" style="width: 50%">
+            <% var resdishes = [];
+              for(var i=0; i<dishes.length;i++){
+                var dish= dishes[i];
+                if(dish.restaurant_name == "Amazon Juices"){
+                  resdishes.push(dish);
+                }
+              }
+              resdishes.forEach(function(dish) {%>
+                <option id="AL"><%= dish.name%></option>
+              <%}); 
+            %>
+          </select>-->
+          <select class="myselect" name="reviewdish" style="width: 50%">
+            <%dishes.forEach(function(dish) {%>
+              <option id="AL"><%= dish.name%></option>
+            <%});%>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Review:</label>
+        <div class="col-lg-8">
+          <textarea class="form-control" rows="3" placeholder="What did you think?" id="reviewpost" name="reviewpost"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Rating: </label>
+        <!--src= https://jsfiddle.net/leaverou/CGP87/ -->
+        <fieldset class="rating col-lg-6">
+          <input type="radio" id="star5" name="reviewrating" value="5" /><label for="star5"></label>
+          <input type="radio" id="star4" name="reviewrating" value="4" /><label for="star4"></label>
+          <input type="radio" id="star3" name="reviewrating" value="3" /><label for="star3"></label>
+          <input type="radio" id="star2" name="reviewrating" value="2" /><label for="star2"></label>
+          <input type="radio" id="star1" name="reviewrating" value="1" /><label for="star1"></label>
+        </fieldset>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8 buttons">
+          <input type="submit" class="btn btn-primary" value="Post Review" required>
+          <span></span>
+          <input type="reset" class="btn btn-default" value="Cancel">
+        </div>
+      </div>
+    </form>
+  </div>
 </body>
 
 <script src="/js/jquery-3.1.1.min.js"></script>
 <script src="/js/select2.min.js"></script>
 <script src="/js/writereview.js"></script>
- 
+
 
 </html>

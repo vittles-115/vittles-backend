@@ -50,3 +50,41 @@ module.exports.addItem = function(req, res, next){
   }
   next()
 }
+
+module.exports.addReview = function(req, res, next){
+  console.log(req.body);
+  if (req.body != null){
+    var restaurantname= req.body.reviewrestaurant;
+    var dishname = req.body.reviewdish;
+    var body= req.body.reviewpost;
+    var title= req.body.reviewtitle;
+    var date = new Date().toJSON().slice(0,10);
+    var rating = req.body.reviewrating;
+    //var revieweruid = user.uid;
+    //var revieweruid = auth.currentUser.uid;
+    //needs to get user name from user.uid
+    //var reviewer= user.name;
+
+    //Reviews -> Dish key -> Review key
+    var dishkey;
+    var refDish = db.ref("Dishes");
+    refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
+      dishkey = snapshot.key;
+    });
+
+    //Add Review to child of restaurants_id database
+    var revref= db.ref("Reviews").child(dishkey);
+    revref.push({
+      body: body,
+      rating: rating,
+      title: title,
+      // review_UID: revieweruid,
+      review_UID: "uid",
+      date: date,
+      //reviewer_name: reviewer
+      reviewer_name: "Thais Aoki",
+      //thumbnail_URL: image
+    });
+  }
+  next()
+}
