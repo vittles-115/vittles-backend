@@ -1,29 +1,33 @@
 const firebase = require("firebase")
 const db = firebase.database()
 var auth = firebase.auth()
-// const userRef = db.ref("")
+const userRef = db.ref("Users")
 
 module.exports.search = function(req, res, next) {
 	
 }
 
 module.exports.createUser = function(req, res, next) {
-	console.log(req.body)
+	console.log(req.body.user)
 	
 	if( req.body != null) {
-		var uid = req.body.useremail
-		var customToken = auth.createCustomToken(uid)
+		var uid = req.body.user
+		var newUserRef = userRef.child(uid)
+		newUserRef.update({
+		  "SavedDishes" : {},
+		  "SavedRestaurants": {},
+		  "general_location": req.body.location,
+		  "name" : req.body.name,
+		  "thumbnail_URL": ""
+		}).then(function() {
+		  req.session.user = uid;
+		  res.successT()
+		}).catch(function() {
+		  res.errorT({
+		    message: "Error writing new user info"
+		  })
+		})
 		
-		auth.signInWithCustomToken(customToken).catch(function(error) {
-		  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  // ...
-		  
-		  console.log(errorCode)
-		  console.log(errorMessage)
-		  next()
-		});
 	}
 	
 	

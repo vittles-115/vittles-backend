@@ -12,15 +12,18 @@ module.exports.index = function(req, res) {
 	})
 }
 
+
 module.exports.dish = function(req, res) {
 	res.renderT('dish', {
-		template: 'dish'
+		template: 'dish',
+		reviews: recents,
+		dishreviews : dishreviews
 	})
 }
 
 module.exports.restaurant = function(req, res) {
-	res.renderT('dish', {
-		template: 'dish'
+	res.renderT('restaurant', {
+		template: 'restaurant'
 	})
 }
 
@@ -99,11 +102,11 @@ refRes.orderByChild("name").on("child_added", function (snapshot){
 //Sveta
 //Add Item Reviews
 var reviews = [];
-var reviews;
+var review;
 var refRev = db.ref("Reviews");
-refRes.orderByChild("name").on("child_added", function (snapshot){
-	restaurant= {name: snapshot.val().name};
-	restaurants.push(restaurant);
+refRev.orderByChild("name").on("child_added", function (snapshot){
+	review= {name: snapshot.val().name};
+	reviews.push(review);
 });
 
 //Index: Hot dishes
@@ -128,10 +131,23 @@ refDishes.orderByChild("number_of_ratings").limitToFirst(10).on("child_added", f
 
 //Sveta
 //Dish: Reviews
-var reviews = [];
+//Okay so the problem is that Firebase for the Reviews is set up as Dish key -> Review key
+//that means that if you just do refRev.orderByChild("name") it will query the Review key 
+//which is why it doesn't show snapshot.val().reviewer_name.
+var dishreviews = [];
+var rev=[];
 refRev.orderByChild("name").on("child_added", function (snapshot){
-	reviews.push({name:snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
+	var dishkey= snapshot.key;
+	rev.push(dishkey);
 });
+refRev.orderByChild("name").on("child_added", function (snapshot){
+	for(var i=0; i< rev.length;i++){
+		db.ref("Reviews/" + rev[i]).orderByChild("name").on("child_added", function(snapshot){
+			dishreviews.push({name: snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
+		});
+	}
+});
+
 
 //Thais
 //Write Review: Dishes

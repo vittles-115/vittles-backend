@@ -11,29 +11,31 @@
     <div class="container">
       <div class="container-signin">
         <h1 class="signin">Register</h1>
-        <form class="form-horizontal" role="form" method="post" action="/newUser">
-          <div class="form-group">
+        <form class="form-horizontal" role="form">
+          <div class="form-group has-feedback">
             <label class="col-lg-3 control-label">Name:</label>
             <div class="col-lg-6">
-              <input type="text" class="form-control" placeholder="Enter Name" name="username" required>
+              <input type="text" class="form-control registerForm" placeholder="Enter Name" name="username" required>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group has-feedback">
             <label class="col-lg-3 control-label">Email:</label>
             <div class="col-lg-6">
-              <input type="email" class="form-control" placeholder="Enter Email" name="useremail" required>
+              <input type="email" class="form-control registerForm" placeholder="Enter Email" name="useremail" required>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group has-feedback">
             <label class="col-lg-3 control-label">Password:</label>
             <div class="col-lg-6">
-              <input type="password" class="form-control" placeholder="Enter Password" name="userpassword" required>
+              <input type="password" class="form-control registerForm" placeholder="Enter Password" name="userpassword" required>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group has-feedback">
             <label class="col-lg-3 control-label">Location:</label>
             <div class="col-lg-6">
-              <input type="text" class="form-control" placeholder="Enter Location" name="userlocation" required>
+              <input type="text" class="form-control registerForm" placeholder="Enter Location" name="userlocation" required>
+              <p class="errorMessage">Please fill out all forms with valid information</p>
+              <p class="statusMessage">Registering new account...</p>
             </div>
           </div>
           <div class="form-group">
@@ -45,7 +47,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-6 buttons">
-              <input type="submit" class="btn btn-primary" value="Sign Up" id="signUp">
+              <input type="button" class="btn btn-primary" value="Sign Up" id="signUp">
               <input type="reset" class="btn btn-default" value="Cancel">
             </div>
           </div>

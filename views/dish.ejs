@@ -49,59 +49,36 @@
                                 <div class="menu-container-fluid">
                                     <table class="table table-borderless">
                                         <tbody>
-
-                                        <tr>
-                                            <div class="profile">
-                                                <td class="review-rating">
-                                                    <div class="center-block">
-                                                        <a href="#" class="pull-left">
-                                                            <img src="blah.jpg" class="profile-photo">
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="review">
-                                                        <a>
-                                                            <i class="glyphicon glyphicon-star"></i>
-                                                        </a>
-                                                        <div class="review-description">
-                                                            <h4 class="title">
-                                                                <a href="profile.html">User Name</a>
-                                                                <p>Review Subject</p>
-                                                            </h4>
-                                                            <p class="summary">Add the flour, baking powder and cinnamon, and combine well. Add any additional ingredients. Baked in a greased and lined 2lb loaf tin for 20 minutes, before checking. Cover with foil, if the loaf cake is browning. Bake for another 40 minutes (approximately). Allow to cool a little before slicing. It's delicious freshly baked but even yummier when it goes gooey the next day!</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </div>
-                                        </tr>
-
-                                        <tr>
-                                            <div class="profile">
-                                                <td class="review-rating">
-                                                    <div class="center-block">
-                                                        <a href="#" class="pull-left">
-                                                            <img src="blah.jpg" class="profile-photo">
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="review">
-                                                        <a>
-                                                            <i class="glyphicon glyphicon-star"></i>
-                                                        </a>
-                                                        <div class="review-description">
-                                                            <h4 class="title">
-                                                                <a href="profile.html">User Name</a>
-                                                                <p>Review Subject</p>
-                                                            </h4>
-                                                            <p class="summary">Add the flour, baking powder and cinnamon, and combine well. Add any additional ingredients. Baked in a greased and lined 2lb loaf tin for 20 minutes, before checking. Cover with foil, if the loaf cake is browning. Bake for another 40 minutes (approximately). Allow to cool a little before slicing. It's delicious freshly baked but even yummier when it goes gooey the next day!</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </div>
-                                        </tr>
-
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                	<%reviews.forEach(function(review) {%>
+                                            		    <tr>
+                                            		        <div class="dish">
+                                            		            <td class="dish-rating">
+                                            		                <div class="center-block">
+                                            		                    <a href="#" class="pull-left">
+                                            		                        <img src="blah.jpg" class="sub-dish-photo">
+                                            		                    </a>
+                                            		                </div>
+                                            		            </td>
+                                            		            <td>
+                                            		                <div class="dish-description">
+                                            		                    <a>
+                                            		                        <i class="glyphicon glyphicon-star"></i>
+                                            		                    </a>
+                                            		                    <div class="dish-description">
+                                            		                        <h4 class="title">
+                                            		                            <a href="dish"><%-review.name%></a>
+                                            		                        </h4>
+                                            		                        <p class="summary"><%-review.title%></p>
+                                            		                    </div>
+                                            		                </div>
+                                            		            </td>
+                                            		        </div>
+                                            		    </tr>
+                                                	<%}); %>
+                                                </tbody>
+                                            </table>
                                         </tbody>
                                     </table>
                                 </div>

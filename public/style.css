@@ -215,3 +215,23 @@ a.clink{
   top:2px;
   left:2px;
 }
+
+.errorMessage {
+  height: 0px;
+  opacity: 0;
+  padding-top: 15px;
+  color: red;
+  text-align: center;
+  font-size: medium;
+  transition: all 0.6s ease;
+  
+}
+
+.statusMessage {
+  height: 0px;
+  opacity: 0;
+  color: green;
+  text-align: center;
+  font-size: medium;
+  transition: all 0.6s ease;
+}

@@ -35,17 +35,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(express.static('./public'))
-// app.use(session({
-//   store: new FirebaseStore({
-//     database: ref.database()
-//   }),
-//   secret: "etcetcetc",
-//   resave: true,
-//   saveUninitialized: false,
-//   cookie: { secure: true,
-//             httpOnly: true
-//   }
-// }))
+app.use(session({
+  store: new FirebaseStore({
+    database: ref.database()
+  }),
+  secret: "vittlesapproolz",
+  resave: true,
+  saveUninitialized: false,
+  cookie: { secure: true,
+            httpOnly: true,
+            maxAge: 2592000000
+  }
+}))
 
 
 app.use(function(req, res, next) {
@@ -88,6 +89,7 @@ app.get('/results', routes.main.results )
 app.get('/writereview', routes.main.writereview )
 app.get('/additem', routes.main.additem)
 app.get('/register', routes.main.register)
+//app.get('/signin', routes.main.signin)
 
 app.get('/search', routes.functions.search, routes.main.results )
 
