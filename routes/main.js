@@ -5,7 +5,7 @@ const db = firebase.database()
 
 module.exports.index = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	
 	
@@ -14,138 +14,118 @@ module.exports.index = function(req, res) {
 		dishes: dishes,
 		restaurants: hotrestaurants,
 		recents: recents,
-		user: user
+		user: req.user
 	})
 }
 
 
 module.exports.dish = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('dish', {
 		template: 'dish',
 		reviews: recents,
 		dishreviews : dishreviews,
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.restaurant = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('restaurant', {
 		template: 'restaurant',
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.profile = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	
 	res.renderT('profile', {
 		template: 'profile',
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.editprofile = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('editprofile', {
 		template: 'editprofile',
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.results = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	
 	res.renderT('results', {
 		template: 'results',
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.writereview = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('writereview', {
 		template: 'writereview',
 		restaurants:restaurants,
 		dishes:revdishes,
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.restaurant = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('restaurant', {
 		template: 'restaurant',
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.additem = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('additem', {
 		template: 'additem',
 		types:types,
 		restaurants: restaurants,
-		user: user
+		user: req.user
 	})
 }
 
 module.exports.register = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('register', {
 		template: 'register',
-		user: user
+		user: req.user
 	})	
 }
 
 module.exports.signin = function(req, res) {
 	var session = req.session
-	var user = getUser(session)
+	var user = req.user
 	
 	res.renderT('signin', {
 		template: 'signin',
-		user: user
+		user: req.user
 	})	
 }
-
-
-// GET USER SESSION
-
-function getUser(session) {
-	var user = ""
-	
-	if ( session.user != null ) {
-		console.log("USER: "+user)
-		user = session.user
-	}
-	
-	return user
-}
-
-
-
-
-
-
 
 
 

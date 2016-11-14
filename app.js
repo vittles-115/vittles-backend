@@ -80,19 +80,20 @@ app.use(function(req, res, next) {
 
 
 // GET REQUESTS (Page rendering, redirects, other non-database-modifying functions)
-app.get('/', routes.main.index )
-app.get('/dish', routes.main.dish )
-app.get('/editprofile', routes.main.editprofile )
-app.get('/profile', routes.main.profile )
-app.get('/restaurant', routes.main.restaurant)
-app.get('/results', routes.main.results )
-app.get('/writereview', routes.main.writereview )
-app.get('/additem', routes.main.additem)
-app.get('/register', routes.main.register)
-app.get('/logout', routes.functions.logout )
+app.get('/', routes.functions.auth, routes.main.index )
+app.get('/dish', routes.functions.auth, routes.main.dish )
+app.get('/editprofile', routes.functions.auth, routes.main.editprofile )
+app.get('/profile', routes.functions.auth, routes.main.profile )
+app.get('/restaurant', routes.functions.auth, routes.main.restaurant)
+app.get('/results', routes.functions.auth, routes.main.results )
+app.get('/writereview', routes.functions.auth, routes.main.writereview )
+app.get('/additem', routes.functions.auth, routes.main.additem)
+app.get('/register', routes.functions.auth, routes.main.register)
+app.get('/logout', routes.functions.auth, routes.functions.logout )
+app.get('/signin', routes.functions.auth, routes.main.signin)
 
-app.get('/signin', routes.main.signin)
 
+// GET REQUEST FOR DATA
 app.get('/search', routes.functions.search, routes.main.results )
 
 

@@ -10,22 +10,38 @@ module.exports.search = function(req, res, next) {
 //       var dish_or_rest = req.body.dish_or_rest;
 //       //what was inputted into the search bar
 //       var search_key = req.body.search_key;
+//       var results = [];
 //       if(dish_or_rest == "dish"){
 //         var ref = db.ref("Dish");
-//         var dishresults = [];
 //         ref.orderByKey().startAt(search_key).endAt(search_key+"\uf8ff").on("child_added", function(snapshot) {
-//         console.log(snapshot.key);
+//          	results = {name: snapshot.val().name, desc: snapshot.val().food_description};
+//          	results.push(dish);
+//         });
 //       }else if(dish_or_rest == "rest"){
-//         var ref = db.ref("Restaurants");
-//         var restresults = [];
+//         var ref = db.ref("Restaurant");
 //         ref.orderByKey().startAt(search_key).endAt(search_key+"\uf8ff").on("child_added", function(snapshot) {
-//         console.log(snapshot.key);
+//          	results = {name: snapshot.val().name, desc: snapshot.val().food_description};
+//          	results.push(dish);
+//         });
 //       }
-//     }
+//   }
 // });
       
 //     }
 	
+}
+
+module.exports.auth = function(req, res, next) {
+  var session = req.session
+  var user = ""
+	
+	if ( session.user != null ) {
+		console.log("USER: "+session.user)
+		user = session.user
+	}
+	
+  req.user = user
+  next()
 }
 
 module.exports.validateUser = function( req, res ) {
