@@ -42,9 +42,9 @@ app.use(session({
   secret: "vittlesapproolz",
   resave: true,
   saveUninitialized: false,
-  cookie: { secure: true,
-            httpOnly: true,
-            maxAge: 2592000000
+  cookie: { secure: false,
+            maxAge: 2592000000,
+            httpOnly: false
   }
 }))
 
@@ -89,7 +89,9 @@ app.get('/results', routes.main.results )
 app.get('/writereview', routes.main.writereview )
 app.get('/additem', routes.main.additem)
 app.get('/register', routes.main.register)
-//app.get('/signin', routes.main.signin)
+app.get('/logout', routes.functions.logout )
+
+app.get('/signin', routes.main.signin)
 
 app.get('/search', routes.functions.search, routes.main.results )
 
@@ -97,6 +99,7 @@ app.get('/search', routes.functions.search, routes.main.results )
 app.post('/newUser', routes.functions.createUser, routes.main.profile )
 app.post('/newItem', routes.functions.addItem, routes.main.dish)
 app.post('/newReview', routes.functions.addReview,routes.main.restaurant)
+app.post('/validateUser', routes.functions.validateUser )
 
 const server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode: http://localhost:%s', app.get('port'), app.get('env'), app.get('port'));

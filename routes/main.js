@@ -4,77 +4,150 @@ const db = firebase.database()
 
 
 module.exports.index = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
+	
+	
 	res.renderT('index', {
 		template: 'index',
 		dishes: dishes,
 		restaurants: hotrestaurants,
-		recents: recents
+		recents: recents,
+		user: user
 	})
 }
 
 
 module.exports.dish = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('dish', {
 		template: 'dish',
 		reviews: recents,
-		dishreviews : dishreviews
+		dishreviews : dishreviews,
+		user: user
 	})
 }
 
 module.exports.restaurant = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('restaurant', {
-		template: 'restaurant'
+		template: 'restaurant',
+		user: user
 	})
 }
 
 module.exports.profile = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
+	
 	res.renderT('profile', {
-		template: 'profile'
+		template: 'profile',
+		user: user
 	})
 }
 
 module.exports.editprofile = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('editprofile', {
-		template: 'editprofile'
+		template: 'editprofile',
+		user: user
 	})
 }
 
 module.exports.results = function(req, res) {
-	
+	var session = req.session
+	var user = getUser(session)
 	
 	
 	res.renderT('results', {
-		template: 'results'
+		template: 'results',
+		user: user
 	})
 }
 
 module.exports.writereview = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('writereview', {
 		template: 'writereview',
 		restaurants:restaurants,
 		dishes:revdishes,
+		user: user
 	})
 }
 
 module.exports.restaurant = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('restaurant', {
-		template: 'restaurant'
+		template: 'restaurant',
+		user: user
 	})
 }
 
 module.exports.additem = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('additem', {
 		template: 'additem',
 		types:types,
-		restaurants: restaurants
+		restaurants: restaurants,
+		user: user
 	})
 }
 
 module.exports.register = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
 	res.renderT('register', {
-		template: 'register'
+		template: 'register',
+		user: user
 	})	
 }
+
+module.exports.signin = function(req, res) {
+	var session = req.session
+	var user = getUser(session)
+	
+	res.renderT('signin', {
+		template: 'signin',
+		user: user
+	})	
+}
+
+
+// GET USER SESSION
+
+function getUser(session) {
+	var user = ""
+	
+	if ( session.user != null ) {
+		console.log("USER: "+user)
+		user = session.user
+	}
+	
+	return user
+}
+
+
+
+
+
+
+
+
 
 //Add Item Categories
 var refDishes= db.ref("Dishes");
@@ -131,21 +204,12 @@ refDishes.orderByChild("number_of_ratings").limitToFirst(10).on("child_added", f
 
 //Sveta
 //Dish: Reviews
-//Okay so the problem is that Firebase for the Reviews is set up as Dish key -> Review key
-//that means that if you just do refRev.orderByChild("name") it will query the Review key 
-//which is why it doesn't show snapshot.val().reviewer_name.
 var dishreviews = [];
-var rev=[];
+var rev="KTD3kA15O5pPCIv_ep4";
 refRev.orderByChild("name").on("child_added", function (snapshot){
-	var dishkey= snapshot.key;
-	rev.push(dishkey);
-});
-refRev.orderByChild("name").on("child_added", function (snapshot){
-	for(var i=0; i< rev.length;i++){
-		db.ref("Reviews/" + rev[i]).orderByChild("name").on("child_added", function(snapshot){
-			dishreviews.push({name: snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
-		});
-	}
+	db.ref("Reviews/" + rev).orderByChild("name").on("child_added", function(snapshot){
+		dishreviews.push({name: snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
+	});
 });
 
 

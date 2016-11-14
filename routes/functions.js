@@ -4,10 +4,50 @@ var auth = firebase.auth()
 const userRef = db.ref("Users")
 
 module.exports.search = function(req, res, next) {
+//     console.log(req.body);
+//     if (req.body != null){
+//       //is the search request on dishes or restuarant
+//       var dish_or_rest = req.body.dish_or_rest;
+//       //what was inputted into the search bar
+//       var search_key = req.body.search_key;
+//       if(dish_or_rest == "dish"){
+//         var ref = db.ref("Dish");
+//         var dishresults = [];
+//         ref.orderByKey().startAt(search_key).endAt(search_key+"\uf8ff").on("child_added", function(snapshot) {
+//         console.log(snapshot.key);
+//       }else if(dish_or_rest == "rest"){
+//         var ref = db.ref("Restaurants");
+//         var restresults = [];
+//         ref.orderByKey().startAt(search_key).endAt(search_key+"\uf8ff").on("child_added", function(snapshot) {
+//         console.log(snapshot.key);
+//       }
+//     }
+// });
+      
+//     }
 	
 }
 
+module.exports.validateUser = function( req, res ) {
+  var session = req.session
+  var uid = ""
+
+  if(req.body.user != null) {
+    uid = req.body.user
+  } else {
+    res.errorT()
+  }
+  
+  session.user = uid
+
+  res.successT()
+  
+}
+
 module.exports.createUser = function(req, res, next) {
+  var session = req.session
+  
+  
 	console.log(req.body.user)
 	
 	if( req.body != null) {
@@ -20,7 +60,7 @@ module.exports.createUser = function(req, res, next) {
 		  "name" : req.body.name,
 		  "thumbnail_URL": ""
 		}).then(function() {
-		  req.session.user = uid;
+		  session.user = uid;
 		  res.successT()
 		}).catch(function() {
 		  res.errorT({
@@ -91,4 +131,14 @@ module.exports.addReview = function(req, res, next){
     });
   }
   next()
+}
+
+module.exports.logout = function(req, res) {
+  
+  req.session.destroy(function(err) {
+     res.redirect('/')
+  })
+  
+ 
+  
 }

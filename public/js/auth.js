@@ -9,6 +9,31 @@ $(document).ready(function() {
 	
 	var standardError = "Please fill out all forms with valid information"
 	
+	$("#signIn").click(function(event) {
+		showStatus()
+		firebase.auth().signInWithEmailAndPassword($("[name='useremail']").val(), $("[name='userpassword']").val())
+			.then(function() {
+				var userProps = {
+					user: firebase.auth().currentUser.uid
+				}
+				
+				$.post('/validateUser', userProps, function(response) {
+					console.log(response)
+					window.location.href = "/"
+				}).fail(function(error) {
+					console.log(error.message)
+					showError()
+				})
+			})
+			.catch(function(error) {
+				hideStatus()
+				var errorMessage = error.message;
+				$(".errorMessage").text(errorMessage);
+				showError();
+				console.log(error);
+			})
+	})
+	
 	$("#signUp").click(function(event) {
 		var isValid = validateForm()
 		if (isValid == true) {
@@ -25,8 +50,8 @@ $(document).ready(function() {
 						location: $("[name='userlocation']").val()
 					}
 					
-					$.post('/newUser', userProps, function(response){
-						
+					$.post('/newUser', userProps, function(response) {
+						window.location.href = "/profile"
 					}).fail(function(error){
 						console.log(error.message)
 						$(".errorMessage").text("Something went wrong... Please wait and try again")
