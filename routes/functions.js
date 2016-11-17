@@ -4,31 +4,48 @@ var auth = firebase.auth()
 const userRef = db.ref("Users")
 
 module.exports.search = function(req, res, next) {
-//     console.log(req.body);
-//     if (req.body != null){
-//       //is the search request on dishes or restuarant
-//       var dish_or_rest = req.body.dish_or_rest;
-//       //what was inputted into the search bar
-//       var search_key = req.body.search_key;
-//       var results = [];
-//       if(dish_or_rest == "dish"){
-//         var ref = db.ref("Dish");
-//         ref.orderByKey().startAt(search_key).endAt(search_key+"\uf8ff").on("child_added", function(snapshot) {
-//          	results = {name: snapshot.val().name, desc: snapshot.val().food_description};
-//          	results.push(dish);
-//         });
-//       }else if(dish_or_rest == "rest"){
-//         var ref = db.ref("Restaurant");
-//         ref.orderByKey().startAt(search_key).endAt(search_key+"\uf8ff").on("child_added", function(snapshot) {
-//          	results = {name: snapshot.val().name, desc: snapshot.val().food_description};
-//          	results.push(dish);
-//         });
-//       }
-//   }
-// });
-      
-//     }
-	
+  console.log(req.query.type)
+  
+  var searchType = req.query.type
+  var searchQuery = req.query.query
+  
+  
+  req.results = {"test": "testMessage"}
+  next()
+
+}
+
+
+module.exports.getReviewData = function(req, res) {
+  var refDishes= db.ref("Dishes");
+  var revdishes = [];
+  var revdish;
+  var counter = 0
+  
+  if(req.query.user != null) {
+    console.log("REVIEW USER: "+ req.query.user)
+    console.log("TERMS: ")
+    console.log(req.query)
+    
+    //query
+    //Thais
+    //Write Review: Dishes
+    refDishes.orderByChild("restaurant_name").equalTo(req.query.restaurant).on("child_added", function (snapshot) {
+    	revdish = {name: snapshot.val().name, restaurant_name: snapshot.val().restaurant_name};
+    	
+    	var dishObject = {
+    	  id: revdish.name,
+    	  text: revdish.name
+    	}
+    	
+    	revdishes.push(dishObject);
+    });
+    
+    console.log(revdishes)
+    
+    res.successT({dishes: revdishes})
+  } 
+  
 }
 
 module.exports.auth = function(req, res, next) {
@@ -120,9 +137,8 @@ module.exports.addReview = function(req, res, next){
     var title= req.body.reviewtitle;
     var date = new Date().toJSON().slice(0,10);
     var rating = req.body.reviewrating;
-    //var revieweruid = user.uid;
-    //var revieweruid = auth.currentUser.uid;
-    //needs to get user name from user.uid
+    var user = req.user;
+    //Needs to get name of user
     //var reviewer= user.name;
 
     //Reviews -> Dish key -> Review key
@@ -138,15 +154,40 @@ module.exports.addReview = function(req, res, next){
       body: body,
       rating: rating,
       title: title,
-      // review_UID: revieweruid,
-      review_UID: "uid",
+      review_UID: user,
       date: date,
       //reviewer_name: reviewer
       reviewer_name: "Thais Aoki",
-      //thumbnail_URL: image
+      thumbnail_URL: ""
     });
   }
   next()
+}
+
+//Thais: BUG: For some reason dishkey is the same for every item.
+module.exports.addFavDish = function(req, res){
+  console.log(req.body);
+  if (req.body != null){
+    var user = req.user
+    var dishkey= req.body.fav_dishkey;
+    var userFavResRef = db.ref('Users/').child(user).child("SavedDishes");
+    console.log(dishkey);
+    userFavResRef.update({[dishkey] : true});
+  }
+  res.redirect('/')
+}
+
+//Thais: BUG: For some reason reskey is the same for every item.
+module.exports.addFavRes = function(req, res){
+  console.log(req.body);
+  if (req.body != null){
+    var user = req.user
+    var reskey= req.body.fav_reskey;
+    var userFavResRef = db.ref('Users/').child(user).child("SavedRestaurants");
+    console.log(reskey);
+    userFavResRef.update({[reskey] : true});
+  }
+  res.redirect('/')
 }
 
 module.exports.logout = function(req, res) {

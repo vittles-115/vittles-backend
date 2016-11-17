@@ -4,8 +4,6 @@ const db = firebase.database()
 
 
 module.exports.index = function(req, res) {
-	var session = req.session
-	var user = req.user
 	
 	
 	
@@ -20,8 +18,7 @@ module.exports.index = function(req, res) {
 
 
 module.exports.dish = function(req, res) {
-	var session = req.session
-	var user = req.user
+
 	
 	res.renderT('dish', {
 		template: 'dish',
@@ -31,30 +28,26 @@ module.exports.dish = function(req, res) {
 	})
 }
 
-module.exports.restaurant = function(req, res) {
-	var session = req.session
-	var user = req.user
-	
-	res.renderT('restaurant', {
-		template: 'restaurant',
-		user: req.user
-	})
-}
 
 module.exports.profile = function(req, res) {
 	var session = req.session
 	var user = req.user
-	
-	
+	var profile
+	for(var i=0; i<profiles.length; i++){
+		if (profiles[i].key == req.user){
+			profile= {name: profiles[i].name, location: profiles[i].location, savedDishes: profiles[i].savedDishes};
+		}
+	}
+	var favdishes= [{name: "Tuna", desc:"Very good"}];
 	res.renderT('profile', {
 		template: 'profile',
-		user: req.user
+		user: req.user,
+		profile: profile,
+		favdishes: favdishes
 	})
 }
 
 module.exports.editprofile = function(req, res) {
-	var session = req.session
-	var user = req.user
 	
 	res.renderT('editprofile', {
 		template: 'editprofile',
@@ -63,9 +56,7 @@ module.exports.editprofile = function(req, res) {
 }
 
 module.exports.results = function(req, res) {
-	var session = req.session
-	var user = req.user
-	
+	console.log(req.results)
 	
 	res.renderT('results', {
 		template: 'results',
@@ -74,30 +65,53 @@ module.exports.results = function(req, res) {
 }
 
 module.exports.writereview = function(req, res) {
-	var session = req.session
-	var user = req.user
+
+
+		console.log(restaurants)
 	
-	res.renderT('writereview', {
-		template: 'writereview',
-		restaurants:restaurants,
-		dishes:revdishes,
-		user: req.user
-	})
+	
+		res.renderT('writereview', {
+			template: 'writereview',
+			restaurants: restaurants,
+			dishes: revdishes,
+			user: req.user
+		})
+	// })
+	
+
 }
 
 module.exports.restaurant = function(req, res) {
-	var session = req.session
-	var user = req.user
+	var restaurantName = req.params.restaurant
+	console.log("RESTAURANT: "+restaurantName)
+
 	
-	res.renderT('restaurant', {
-		template: 'restaurant',
-		user: req.user
+	var restaurantData
+	
+	var restaurantRef = db.ref("Restaurants")
+	
+	restaurantRef.once('value', function(snapshot) {
+		if(snapshot.hasChild(restaurantName)) {
+			restaurantData = snapshot.val()[restaurantName]
+			console.log(restaurantData)
+			res.renderT('restaurant', {
+				template: 'restaurant',
+				restaurant: restaurantData,
+				user: req.user,
+				dishes: dishes
+			})
+		} else {
+			res.redirect("/")
+		}
 	})
+	
+	// Old code
+	
+	// var dishes = [];
+	
 }
 
 module.exports.additem = function(req, res) {
-	var session = req.session
-	var user = req.user
 	
 	res.renderT('additem', {
 		template: 'additem',
@@ -108,8 +122,6 @@ module.exports.additem = function(req, res) {
 }
 
 module.exports.register = function(req, res) {
-	var session = req.session
-	var user = req.user
 	
 	res.renderT('register', {
 		template: 'register',
@@ -118,8 +130,6 @@ module.exports.register = function(req, res) {
 }
 
 module.exports.signin = function(req, res) {
-	var session = req.session
-	var user = req.user
 	
 	res.renderT('signin', {
 		template: 'signin',
@@ -146,7 +156,7 @@ refDishes.orderByChild("type").on("child_added",function(snapshot){
 //Add Item Restaurants
 var restaurants = [];
 var restaurant;
-var refRes = db.ref("Resturants");
+var refRes = db.ref("Restaurants");
 refRes.orderByChild("name").on("child_added", function (snapshot){
 	restaurant= {name: snapshot.val().name};
 	restaurants.push(restaurant);
@@ -166,14 +176,14 @@ refRev.orderByChild("name").on("child_added", function (snapshot){
 var dishes = [];
 var dish;
 refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
-	dish = {name: snapshot.val().name, desc: snapshot.val().food_description};
+	dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key};
 	dishes.push(dish);
 });
 
 //Index: Hot Restaurants
 var hotrestaurants = [];
 refRes.orderByChild("name").on("child_added", function (snapshot){
-	hotrestaurants.push({name:snapshot.val().name, address: snapshot.val().address});
+	hotrestaurants.push({name:snapshot.val().name, address: snapshot.val().address, key: snapshot.key});
 });
 
 //Index: Recent? Change to date
@@ -200,4 +210,13 @@ var revdish;
 refDishes.orderByChild("name").on("child_added", function (snapshot) {
 	revdish = {name: snapshot.val().name, restaurant_name: snapshot.val().restaurant_name};
 	revdishes.push(revdish);
+});
+
+//Thais
+//Profiles
+var profiles = [];
+var refUsers = db.ref("Users");
+refUsers.orderByChild("name").on("child_added", function (snapshot){
+	var profile = {name: snapshot.val().name, location: snapshot.val().general_location, key: snapshot.key, savedDishes: snapshot.val().savedDishes};
+	profiles.push(profile);
 });

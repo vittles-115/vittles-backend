@@ -84,7 +84,7 @@ app.get('/', routes.functions.auth, routes.main.index )
 app.get('/dish', routes.functions.auth, routes.main.dish )
 app.get('/editprofile', routes.functions.auth, routes.main.editprofile )
 app.get('/profile', routes.functions.auth, routes.main.profile )
-app.get('/restaurant', routes.functions.auth, routes.main.restaurant)
+app.get('/restaurant/:restaurant', routes.functions.auth, routes.main.restaurant)
 app.get('/results', routes.functions.auth, routes.main.results )
 app.get('/writereview', routes.functions.auth, routes.main.writereview )
 app.get('/additem', routes.functions.auth, routes.main.additem)
@@ -95,11 +95,15 @@ app.get('/signin', routes.functions.auth, routes.main.signin)
 
 // GET REQUEST FOR DATA
 app.get('/search', routes.functions.search, routes.main.results )
+app.get('/getReviewData', routes.functions.getReviewData )
 
 
+app.post('/newFavDish', routes.functions.auth,routes.functions.addFavDish)
+app.post('/newFavRes', routes.functions.auth,routes.functions.addFavRes)
 app.post('/newUser', routes.functions.createUser, routes.main.profile )
 app.post('/newItem', routes.functions.addItem, routes.main.dish)
-app.post('/newReview', routes.functions.addReview,routes.main.restaurant)
+app.post('/newSearch', routes.functions.search, routes.main.results)
+app.post('/newReview', routes.functions.auth, routes.functions.addReview,routes.main.restaurant)
 app.post('/validateUser', routes.functions.validateUser )
 
 const server = app.listen(app.get('port'), () => {

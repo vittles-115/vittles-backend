@@ -21,10 +21,11 @@
       <div class="form-group">
         <label class="col-lg-3 control-label">Restaurant:</label>
         <div class="col-lg-8">
-          <select class="myselect" id="restname" name="reviewrestaurant" style="width: 50%">
+          <select class="selectRestaurant" id="restname" name="reviewrestaurant" style="width: 50%">
+            <option></option>
             <%restaurants.forEach(function(restaurant) {%>
               <option id="AL"><%= restaurant.name%></option>
-            <%});%>
+            <% }) %>
           </select>
         </div>
       </div>
@@ -32,26 +33,7 @@
         <label class="col-lg-3 control-label">Dish:</label>
         <div class="col-lg-8">
           <!---Select2 Stuff I forgot to push-->
-          <!--Thais: Having problems with displaying the chosen restaurant's dishes only
-                    The following code displays the dishes for Amazon Juices. Don't know how to
-                    get the value of the select2 above
-          <select class="myselect" name="reviewdish" style="width: 50%">
-            <% var resdishes = [];
-              for(var i=0; i<dishes.length;i++){
-                var dish= dishes[i];
-                if(dish.restaurant_name == "Amazon Juices"){
-                  resdishes.push(dish);
-                }
-              }
-              resdishes.forEach(function(dish) {%>
-                <option id="AL"><%= dish.name%></option>
-              <%}); 
-            %>
-          </select>-->
-          <select class="myselect" name="reviewdish" style="width: 50%">
-            <%dishes.forEach(function(dish) {%>
-              <option id="AL"><%= dish.name%></option>
-            <%});%>
+          <select class="selectDish" name="reviewdish" style="width: 50%">
           </select>
         </div>
       </div>

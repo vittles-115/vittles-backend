@@ -19,6 +19,10 @@
                     <div class="result-description">
                       <h4 class="title">
                        	<a href="restaurant"><%= restaurant.name%></a>
+                       	<form action = "/newFavRes" method = "post" class="hearticon ">
+                          <label for="favheart" class="btn"></label>
+                          <input type="submit" name="fav_reskey" value=<%= restaurant.key%> id="favheart" class="hidden"/></input>
+                        </form>
                       </h4>
                       <p class="summary"><%= restaurant.address%></p>
                     </div>

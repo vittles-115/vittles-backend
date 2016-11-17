@@ -235,3 +235,91 @@ a.clink{
   font-size: medium;
   transition: all 0.6s ease;
 }
+
+/* Dish content Favorite heart */
+.hearticon{
+  float: right;
+}
+
+.hearticon input[type="checkbox"] {
+  display: none;
+}
+
+.hearticon input[type="checkbox"] + span:before {
+  font-family: 'FontAwesome';
+  padding-right: 3px;
+  font-size: 20px;
+}
+
+.hearticon input[type="checkbox"] + span:before {
+  content: "\f004"; /* check-empty */
+  color: #ddd;
+}
+
+.hearticon input[type="checkbox"]:checked + span:before {
+  content: "\f004"; /* check-empty */
+  color: red;
+}
+
+.hearticon input[type="checkbox"] + span:hover:before {
+  color: red;
+}
+
+/*.hearticon input[type=checkbox] + label*/
+/*{*/
+/*  background: url("http://www.corporatecomplianceinsights.com/wp-content/uploads/2013/06/Facebook-thumbs-up.jpg") no-repeat;*/
+/*  background-size: 50%;*/
+/*  height: 250px;*/
+/*  width: 250px;*/
+/*  display: inline-block;*/
+/*  padding: 0 0 0 0px;*/
+/*}*/
+
+/*.hearticon input[type=checkbox]:checked+label {*/
+/*  background: url("http://thepridepost.com/wp-content/uploads/2013/10/Facebook-thumbs-down.jpg") no-repeat;*/
+/*  background-size: 50%;*/
+/*  height: 250px;*/
+/*  width: 250px;*/
+/*  display: inline-block;*/
+/*  padding: 0 0 0 0px;*/
+/*}*/
+
+/*.hearticon:not(:checked) > label {*/
+/*  float:right;*/
+/*  width:2em;*/
+/*  padding:0 .1em;*/
+/*  overflow:hidden;*/
+/*  white-space:nowrap;*/
+/*  cursor:pointer;*/
+/*  font-size:200%;*/
+/*  line-height:1.2;*/
+/*  color:#ddd;*/
+/*}*/
+
+/*.hearticon:not(:checked) > label:before {*/
+/*  font-family: FontAwesome;*/
+/*  content: "\f004";*/
+/*}*/
+
+/*.hearticon > input:checked ~ label {*/
+/*  color: red;*/
+/*}*/
+
+/*.hearticon:not(:checked) > label:hover,*/
+/*.hearticon:not(:checked) > label:hover ~ label {*/
+/*  color: red;*/
+/*}*/
+
+/*.hearticon > input:checked + label:hover,*/
+/*.hearticon > input:checked + label:hover ~ label,*/
+/*.hearticon > input:checked ~ label:hover,*/
+/*.hearticon > input:checked ~ label:hover ~ label,*/
+/*.hearticon > label:hover ~ input:checked ~ label {*/
+/*  color: #ea0;*/
+/*}*/
+
+/*.hearticon > label:active {*/
+/*  position:relative;*/
+/*  top:2px;*/
+/*  left:2px;*/
+/*}*/
