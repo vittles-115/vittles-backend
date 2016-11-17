@@ -4,14 +4,31 @@ var auth = firebase.auth()
 const userRef = db.ref("Users")
 
 module.exports.search = function(req, res, next) {
-  console.log(req.query.type)
-  
-  var searchType = req.query.type
-  var searchQuery = req.query.query
-  
-  
-  req.results = {"test": "testMessage"}
-  next()
+  if(req.query!=null){
+      var searchType = req.query.type;
+      var searchQuery = req.query.query;
+      console.log(searchQuery);
+      console.log(searchType);
+      if(searchType == "Dishes"){
+        var ref = db.ref("Dishes");
+        var results = [];
+        ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
+      	  var result = {name: snapshot.val().name, desc: snapshot.val().food_description};
+      	  results.push(result);
+        });
+        console.log(results);
+      }else if(searchType == "Restaurants"){
+        var ref = db.ref("Restaurants");
+        var results = [];
+        ref.orderByKey().startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
+       	  result = {name:snapshot.val().name, address: snapshot.val().address};
+       	  console.log(result);
+       	  results.push(result);
+        });
+        console.log(results);
+      }
+      next();
+  }
 
 }
 
@@ -164,28 +181,34 @@ module.exports.addReview = function(req, res, next){
   next()
 }
 
-//Thais: BUG: For some reason dishkey is the same for every item.
-module.exports.addFavDish = function(req, res){
-  console.log(req.body);
+module.exports.addFavDish= function(req, res, next){
   if (req.body != null){
-    var user = req.user
-    var dishkey= req.body.fav_dishkey;
-    var userFavResRef = db.ref('Users/').child(user).child("SavedDishes");
-    console.log(dishkey);
-    userFavResRef.update({[dishkey] : true});
+    var user = req.user;
+    var dishkey= req.body.favdishkey;
+    var add=req.body.add;
+    if(add=="true"){
+      add=true;
+    }else{
+      add=false;
+    }
+    var userFavDishRef = db.ref('Users/').child(user).child("SavedDishes");
+    userFavDishRef.update({[dishkey] : add});
   }
   res.redirect('/')
 }
 
-//Thais: BUG: For some reason reskey is the same for every item.
 module.exports.addFavRes = function(req, res){
-  console.log(req.body);
   if (req.body != null){
     var user = req.user
-    var reskey= req.body.fav_reskey;
+    var reskey= req.body.favreskey;
+    var add=req.body.add;
+    if(add=="true"){
+      add=true;
+    }else{
+      add=false;
+    }
     var userFavResRef = db.ref('Users/').child(user).child("SavedRestaurants");
-    console.log(reskey);
-    userFavResRef.update({[reskey] : true});
+    userFavResRef.update({[reskey] : add});
   }
   res.redirect('/')
 }

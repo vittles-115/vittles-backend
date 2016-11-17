@@ -5,25 +5,57 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#logout").click(function(event) {
-		event.preventDefault()
+			event.preventDefault()
 	  	firebase.auth().signOut().then(function(){
-	  	    window.location.href = "/logout"
+	  		window.location.href = "/logout"
 	    },function(error) {
-	        console.log("ERROR: "+error.message)
-	        alert("Something went wrong logging you out. Please refresh and try again.")
+	      console.log("ERROR: "+error.message)
+	      alert("Something went wrong logging you out. Please refresh and try again.")
 	    })
 		})
-			$("hearticon").click(function(event){
-      	var data={
-      		dishkey: $(".favheart").val(),
-      	}
-      	console.log(dishkey)
-      	console.log(document.getElementById("favheart"));
-           // $.post('/newFavDish',)
-          
-        })
 		
-      
+		//Saving and Unsaving Dishes and Restaurants.
+		$('input[type="checkbox"][name="fav_dishkey"]').click(function(){
+      var favdishkey=$(this).val();
+      var user= firebase.auth().currentUser.uid;
+      if($(this).prop("checked") == true){
+        var data={
+          favdishkey: favdishkey,
+          user: user,
+          add: true
+        }
+        $.post('/newFavDish', data);
+      }
+      else if($(this).prop("checked") == false){
+        var data={
+          favdishkey: favdishkey,
+          user: user,
+          add: false
+        }
+        $.post('/newFavDish', data);
+      }
+    });
     
+    $('input[type="checkbox"][name="fav_reskey"]').click(function(){
+      var favreskey=$(this).val();
+      var user= firebase.auth().currentUser.uid;
+      if($(this).prop("checked") == true){
+        var data={
+          favreskey: favreskey,
+          user: user,
+          add: true
+        }
+        $.post('/newFavRes', data);
+      }
+      else if($(this).prop("checked") == false){
+        var data={
+          favreskey: favreskey,
+          user: user,
+          add: false
+        }
+        $.post('/newFavRes', data);
+      }
+    });	
 	})
+	
 </script>

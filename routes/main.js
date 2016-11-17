@@ -32,18 +32,46 @@ module.exports.dish = function(req, res) {
 module.exports.profile = function(req, res) {
 	var session = req.session
 	var user = req.user
-	var profile
+	var profile;
+	var favdisheskeys= [];
+	var favdishes=[];
+	var favreskeys=[];
+	var favres=[];
 	for(var i=0; i<profiles.length; i++){
 		if (profiles[i].key == req.user){
-			profile= {name: profiles[i].name, location: profiles[i].location, savedDishes: profiles[i].savedDishes};
+			profile= {name: profiles[i].name, location: profiles[i].location, savedDishes: profiles[i].savedDishes, savedRestaurants: profiles[i].savedRestaurants};
 		}
 	}
-	var favdishes= [{name: "Tuna", desc:"Very good"}];
+	//Favorite Dishes
+	for (var key in profile.savedDishes) {
+		if(profile.savedDishes[key]){
+			favdisheskeys.push(key);
+		}
+	}
+	for(var i=0; i<favdisheskeys.length; i++) {
+		refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function (snapshot) {
+			favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description});
+		});
+	}
+	
+	//Favorite Restaurants
+	for (var key in profile.savedRestaurants) {
+		if(profile.savedRestaurants[key]){
+			favreskeys.push(key);
+		}
+	}
+	for(var i=0; i<favreskeys.length; i++) {
+		refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function (snapshot) {
+			favres.push({name: snapshot.val().name, address: snapshot.val().address});
+		});
+	}
+	
 	res.renderT('profile', {
 		template: 'profile',
 		user: req.user,
 		profile: profile,
-		favdishes: favdishes
+		favdishes: favdishes,
+		//favres: favres
 	})
 }
 
@@ -55,6 +83,7 @@ module.exports.editprofile = function(req, res) {
 	})
 }
 
+//HERESHWETHA
 module.exports.results = function(req, res) {
 	console.log(req.results)
 	
@@ -217,6 +246,6 @@ refDishes.orderByChild("name").on("child_added", function (snapshot) {
 var profiles = [];
 var refUsers = db.ref("Users");
 refUsers.orderByChild("name").on("child_added", function (snapshot){
-	var profile = {name: snapshot.val().name, location: snapshot.val().general_location, key: snapshot.key, savedDishes: snapshot.val().savedDishes};
+	var profile = {name: snapshot.val().name, location: snapshot.val().general_location, key: snapshot.key, savedDishes: snapshot.val().SavedDishes, savedRestaurants:snapshot.val().SavedRestaurants};
 	profiles.push(profile);
 });
