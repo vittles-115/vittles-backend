@@ -3,35 +3,6 @@ const db = firebase.database()
 var auth = firebase.auth()
 const userRef = db.ref("Users")
 
-module.exports.search = function(req, res, next) {
-  if(req.query!=null){
-      var searchType = req.query.type;
-      var searchQuery = req.query.query;
-      console.log(searchQuery);
-      console.log(searchType);
-      if(searchType == "Dishes"){
-        var ref = db.ref("Dishes");
-        var results = [];
-        ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
-      	  var result = {name: snapshot.val().name, desc: snapshot.val().food_description};
-      	  results.push(result);
-        });
-        console.log(results);
-      }else if(searchType == "Restaurants"){
-        var ref = db.ref("Restaurants");
-        var results = [];
-        ref.orderByKey().startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
-       	  result = {name:snapshot.val().name, address: snapshot.val().address};
-       	  console.log(result);
-       	  results.push(result);
-        });
-        console.log(results);
-      }
-      next();
-  }
-
-}
-
 
 module.exports.getReviewData = function(req, res) {
   var refDishes= db.ref("Dishes");
@@ -155,9 +126,13 @@ module.exports.addReview = function(req, res, next){
     var date = new Date().toJSON().slice(0,10);
     var rating = req.body.reviewrating;
     var user = req.user;
+    
     //Needs to get name of user
-    //var reviewer= user.name;
-
+    var reviewer
+    var refUser = db.ref("Users")
+    refUser.orderByKey().equalTo(user).on("child_added", function (snapshot){
+      reviewer = snapshot.val().name;
+    });
     //Reviews -> Dish key -> Review key
     var dishkey;
     var refDish = db.ref("Dishes");
@@ -166,16 +141,14 @@ module.exports.addReview = function(req, res, next){
     });
 
     //Add Review to child of restaurants_id database
-    var revref= db.ref("Reviews").child(dishkey);
-    revref.push({
+    var revref= db.ref("Reviews");
+    revref.child(dishkey).push({
       body: body,
       rating: rating,
       title: title,
       review_UID: user,
       date: date,
-      //reviewer_name: reviewer
-      reviewer_name: "Thais Aoki",
-      thumbnail_URL: ""
+      reviewer_name: reviewer,
     });
   }
   next()

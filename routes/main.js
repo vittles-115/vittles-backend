@@ -40,6 +40,7 @@ module.exports.profile = function(req, res) {
 	for(var i=0; i<profiles.length; i++){
 		if (profiles[i].key == req.user){
 			profile= {name: profiles[i].name, location: profiles[i].location, savedDishes: profiles[i].savedDishes, savedRestaurants: profiles[i].savedRestaurants};
+			console.log(profile);
 		}
 	}
 	//Favorite Dishes
@@ -50,7 +51,7 @@ module.exports.profile = function(req, res) {
 	}
 	for(var i=0; i<favdisheskeys.length; i++) {
 		refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function (snapshot) {
-			favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description});
+			favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description, img:snapshot.val().thumbnail_URL});
 		});
 	}
 	
@@ -65,13 +66,12 @@ module.exports.profile = function(req, res) {
 			favres.push({name: snapshot.val().name, address: snapshot.val().address});
 		});
 	}
-	
 	res.renderT('profile', {
 		template: 'profile',
 		user: req.user,
 		profile: profile,
 		favdishes: favdishes,
-		//favres: favres
+		favres: favres
 	})
 }
 
@@ -85,12 +85,35 @@ module.exports.editprofile = function(req, res) {
 
 //HERESHWETHA
 module.exports.results = function(req, res) {
-	console.log(req.results)
+	var results = [];
+	if(req.query!=null){
+	   var searchType = req.query.type;
+	    var searchQuery = req.query.query;
+	    console.log(searchQuery);
+	    console.log(searchType);
+	    if(searchType == "Dishes"){
+	      var ref = db.ref("Dishes");
+	      ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
+	   		var result = {name: snapshot.val().name, desc: snapshot.val().food_description};
+	   		results.push(result);
+	      });
+	      console.log(results);
+	    }else if(searchType == "Restaurants"){
+	       var ref = db.ref("Restaurants");
+	       ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
+	       	 var result = {name:snapshot.val().name, address: snapshot.val().address};
+	       	 results.push(result);
+	       });
+	       console.log(results);
+	    }
+	}
 	
 	res.renderT('results', {
 		template: 'results',
+		restaurants: 
 		user: req.user
 	})
+
 }
 
 module.exports.writereview = function(req, res) {
@@ -205,7 +228,7 @@ refRev.orderByChild("name").on("child_added", function (snapshot){
 var dishes = [];
 var dish;
 refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
-	dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key};
+	dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key, img: snapshot.val().thumbnail_URL};
 	dishes.push(dish);
 });
 

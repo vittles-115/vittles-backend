@@ -1,0 +1,39 @@
+<div class="dishlist">
+  <div class="row">
+    <section class="content">
+     	<div class="container panel panel-default panel-body menu-container-fluid">
+        <table class="table table-borderless">
+          <tbody>
+            <%favres.forEach(function(restaurant) {%>
+            <tr>
+              <div class="result">
+              	<td class="result-img">
+                  <div class="center-block">
+                    <a href="#" class="pull-left">
+                      <img src="blah.jpg" class="result-photo">
+                    </a>
+                  </div>
+                </td>
+                <td>
+                  <div class="review">
+                    <div class="result-description">
+                      <h4 class="title">
+                       	<a href="restaurant"><%= restaurant.name%></a>
+                       	<label class="hearticon">
+                          <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favheart" /></input>
+                          <span class="checkboxImage"></span>
+                        </label>
+                      </h4>
+                      <p class="summary"><%= restaurant.address%></p>
+                    </div>
+                 	</div>
+                </td>
+              </div>
+            </tr>
+            <%}); %>
+          </tbody>
+       	</table>
+      </div>
+   	</section>
+  </div>
+</div>

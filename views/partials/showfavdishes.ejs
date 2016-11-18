@@ -10,7 +10,7 @@
                   <td class="result-img">
                     <div class="center-block">
                      	<a href="#" class="pull-left">
-                        <img src="blah.jpg" class="result-photo">
+                        <img src="<%= dish.img%>" class="result-photo">
                       </a>
                     </div>
                   </td>
@@ -19,10 +19,10 @@
                       <div class="result-description">
                         <h4 class="title">
                           <a href="dish"><%= dish.name%></a>
-                          <form action = "/newFavDish" method = "post" class="hearticon ">
-                            <label for="favheart" class="btn"></label>
-                            <input type="submit" name="fav_dishkey"  id="favheart" class="hidden"/></input>
-                          </form>
+                          <label class="hearticon">
+                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
+                            <span class="checkboxImage"></span>
+                          </label>
                         </h4>
                         <p class="summary"><%= dish.desc%></p>
                       </div>

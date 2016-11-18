@@ -12,14 +12,11 @@
         <p>Menu focused food app to review and discover the best dishes nearby.</p>
     </div>
     <ul class="nav nav-tabs">
-      <li class="nav-item col-md-4">
+      <li class="nav-item col-md-6 active">
         <a class="nav-link active" href="#hotdish" id="tab-1" data-toggle="tab">Hot Dishes</a>
       </li>
-      <li class="nav-item col-md-4">
-        <a class="nav-link" data-target="#hotrestaurants" id="tab-2" data-toggle="tab">Hot Restaurants</a>
-      </li>
-      <li class="nav-item col-md-4">
-        <a class="nav-link" href="#recent" id="tab-3" data-toggle="tab">Recent</a>
+      <li class="nav-item col-md-6">
+        <a class="nav-link" href="#hotrestaurants" id="tab-2" data-toggle="tab">Hot Restaurants</a>
       </li>
     </ul>
       <div class="tab-content">
@@ -28,9 +25,6 @@
         </div>
         <div class="tab-pane" id="hotrestaurants">
           <%- include('partials/showrestaurantscontent')%>
-        </div>
-        <div class="tab-pane" id="recent">
-          <%- include('partials/showrecentcontent')%>
         </div>
       </div>
     </div>
