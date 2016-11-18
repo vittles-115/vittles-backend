@@ -1,12 +1,8 @@
 $(document).ready(function() {
-	var searchType = "Dishes"
 	
-	$(".searchToggle").click(function(event) {
-		searchType = $(this).attr('id')
-	})
-	
-	
-	$("#sendSearch").click(function(event) {
+	$("#searchToggle").click(function(event) {
+		searchType = $(this).attr('val')
+
 		if($("#query").val() == "") {
 			alert("Enter a valid search")
 			return
@@ -18,8 +14,7 @@ $(document).ready(function() {
 		}
 		
 		window.location.href = "/search?type="+params.type+"&query="+params.query
-		
-		
 	})
-	
+
+
 })

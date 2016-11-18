@@ -101,7 +101,7 @@ module.exports.results = function(req, res) {
 	    }else if(searchType == "Restaurants"){
 	       var ref = db.ref("Restaurants");
 	       ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
-	       	 var result = {name:snapshot.val().name, address: snapshot.val().address};
+	       	 var result = {name:snapshot.val().name, desc: snapshot.val().address};
 	       	 results.push(result);
 	       });
 	       console.log(results);
@@ -110,7 +110,7 @@ module.exports.results = function(req, res) {
 	
 	res.renderT('results', {
 		template: 'results',
-		restaurants: 
+		results: results,
 		user: req.user
 	})
 

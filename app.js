@@ -94,7 +94,7 @@ app.get('/signin', routes.functions.auth, routes.main.signin)
 
 
 // GET REQUEST FOR DATA
-app.get('/search', routes.functions.search, routes.main.results )
+app.get('/search', routes.main.results )
 app.get('/getReviewData', routes.functions.getReviewData )
 
 

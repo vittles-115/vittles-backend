@@ -27,48 +27,29 @@
                   <div class="menu-container-fluid">
                     <table class="table table-borderless">
                       <tbody>
-                        <tr>
-                          <div class="result">
-                            <td class="result-img">
-                              <div class="center-block">
-                                <a href="#" class="pull-left">
-                                  <img src="blah.jpg" class="result-photo">
-                                </a>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="review">
-                                <div class="result-description">
-                                  <h4 class="title">
-                                    <a href="dish">Dish Name</a>
-                                  </h4>
-                                    <p class="summary">Dish Description</p>
+                        <%results.forEach(function(result) {%>
+                          <tr>
+                            <div class="result">
+                              <td class="result-img">
+                                <div class="center-block">
+                                  <a href="#" class="pull-left">
+                                    <img src="blah.jpg" class="result-photo">
+                                  </a>
                                 </div>
-                              </div>
-                            </td>
-                          </div>
-                        </tr>
-                        <tr>
-                          <div class="profile">
-                            <td class="result">
-                              <div class="center-block">
-                                <a href="#" class="pull-left">
-                                  <img src="blah.jpg" class="result-photo">
-                                </a>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="review">
-                                <div class="review-description">
-                                  <h4 class="title">
-                                    <a href="restaurant">Restuarant Name</a>
-                                  </h4>
-                                  <p class="summary">Restaurant Description</p>
+                              </td>
+                              <td>
+                                <div class="review">
+                                  <div class="result-description">
+                                    <h4 class="title">
+                                      <a href="dish"><%-result.name%></a>
+                                    </h4>
+                                      <p class="summary"><%-result.desc%></p>
+                                  </div>
                                 </div>
-                              </div>
-                            </td>
-                          </div>
-                        </tr>
+                              </td>
+                            </div>
+                          </tr>
+                        <%}); %>
                       </tbody>
                     </table>
                   </div>
