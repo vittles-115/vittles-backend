@@ -17,6 +17,7 @@
 		//Saving and Unsaving Dishes and Restaurants.
 		$('input[type="checkbox"][name="fav_dishkey"]').click(function(){
       var favdishkey=$(this).val();
+      console.log(favdishkey)
       var user= firebase.auth().currentUser.uid;
       if($(this).prop("checked") == true){
         var data={
@@ -24,6 +25,7 @@
           user: user,
           add: true
         }
+        
         $.post('/newFavDish', data);
       }
       else if($(this).prop("checked") == false){
@@ -38,6 +40,8 @@
     
     $('input[type="checkbox"][name="fav_reskey"]').click(function(){
       var favreskey=$(this).val();
+      console.log(favreskey);
+      console.log(user);
       var user= firebase.auth().currentUser.uid;
       if($(this).prop("checked") == true){
         var data={
@@ -56,6 +60,6 @@
         $.post('/newFavRes', data);
       }
     });	
-	})
+	});
 	
 </script>

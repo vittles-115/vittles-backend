@@ -164,6 +164,7 @@ module.exports.addFavDish= function(req, res, next){
     }else{
       add=false;
     }
+    console.log(dishkey)
     var userFavDishRef = db.ref('Users/').child(user).child("SavedDishes");
     userFavDishRef.update({[dishkey] : add});
   }
@@ -180,6 +181,7 @@ module.exports.addFavRes = function(req, res){
     }else{
       add=false;
     }
+    console.log(reskey)
     var userFavResRef = db.ref('Users/').child(user).child("SavedRestaurants");
     userFavResRef.update({[reskey] : add});
   }

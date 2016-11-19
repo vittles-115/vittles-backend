@@ -1,7 +1,6 @@
 <div class="dishlist">
-  <div class="row">
     <section class="content">
-      <div class="container panel panel-default panel-body menu-container-fluid">
+      <div class=" panel panel-default panel-body menu-container-fluid">
         <table class="table table-borderless">
           <tbody>
             <% dishes.forEach(function(dish) { %>
@@ -19,11 +18,17 @@
                     <div class="result-description">
                       <h4 class="title">
                         <a href="dish"><%= dish.name %></a>
-                        <label class="hearticon">
-                          <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
-                          <span class="checkboxImage"></span>
-
-                        </label>
+                        <% if(dish.saved){%>
+                          <label class="hearticon" id="hearticon">
+                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" checked/></input>
+                            <span class="checkboxImage"></span>
+                          </label>
+                        <%} else{%>
+                          <label class="hearticon" id="hearticon">
+                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
+                            <span class="checkboxImage"></span>
+                          </label>
+                        <% }%>
                       </h4>
                       <p class="summary"><%= dish.desc %></p>
                   	</div>
@@ -36,5 +41,4 @@
       	</table>
     	</div>
   	</section>
-	</div>
 </div>

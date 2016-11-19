@@ -81,7 +81,7 @@ app.use(function(req, res, next) {
 
 // GET REQUESTS (Page rendering, redirects, other non-database-modifying functions)
 app.get('/', routes.functions.auth, routes.main.index )
-app.get('/dish', routes.functions.auth, routes.main.dish )
+app.get('/dish/:dish', routes.functions.auth, routes.main.dish )
 app.get('/editprofile', routes.functions.auth, routes.main.editprofile )
 app.get('/profile', routes.functions.auth, routes.main.profile )
 app.get('/restaurant/:restaurant', routes.functions.auth, routes.main.restaurant)

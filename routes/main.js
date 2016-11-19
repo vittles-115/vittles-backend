@@ -4,75 +4,240 @@ const db = firebase.database()
 
 
 module.exports.index = function(req, res) {
-	
-	
-	
-	res.renderT('index', {
-		template: 'index',
-		dishes: dishes,
-		restaurants: hotrestaurants,
-		recents: recents,
-		user: req.user
+	var session = req.session
+	var user = req.user
+	var favdisheskeys= []
+	var favreskeys = []
+	var dishes = []
+	var dish
+	var userFav
+	var restaurants=[]
+	var restaurant
+	var userRef = db.ref("Users")
+
+	//Get users Favorite Dishes/Restaurants
+	userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
+		userFav = {
+			savedDishes: snapshot.val()[user]["SavedDishes"],
+			savedRestaurants: snapshot.val()[user]["SavedRestaurants"]
+		}
+	}).then(function() {
+		//User Favorite Dishes
+		for (var key in userFav.savedDishes) {
+			if(userFav.savedDishes[key]){
+				favdisheskeys.push(key);
+			}
+		}
+		
+		//For the top 10 dishes, color red if it is users' favorites
+		refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
+			for(var i=0;i<favdisheskeys.length;i++){
+				if(favdisheskeys[i]==snapshot.key){
+					dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key, img:snapshot.val().thumbnail_URL, saved: true};
+					break;
+				}else{
+					dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key, img:snapshot.val().thumbnail_URL, saved: false};
+				}
+			}
+			dishes.push(dish);
+		});
+
+		//User Favorite Restaurants
+		for (var key in userFav.savedRestaurants) {
+			if(userFav.savedRestaurants[key]){
+				favreskeys.push(key);
+			}
+		}
+		//For the top 10 restaurants, color red if it is users' favorites
+		refRes.orderByChild("name").limitToFirst(10).on("child_added", function (snapshot) {
+			for(var i=0;i<favreskeys.length;i++){
+				if(favreskeys[i]==snapshot.key){
+					restaurant = {
+						name: snapshot.val().name, 
+						address: snapshot.val().address, 
+						key: snapshot.key, 
+						saved: true
+					};
+					break;
+				}else{
+					restaurant = {
+						name: snapshot.val().name, 
+						address: snapshot.val().address, 
+						key: snapshot.key, 
+						saved: false
+					};
+				}
+			}
+			restaurants.push(restaurant);
+		});
+
+	}).then(function() {
+		res.renderT('index', {
+			template: 'index',
+			dishes: dishes,
+			restaurants: restaurants,
+			recents: recents,
+			user: req.user
+		})
 	})
 }
 
 
 module.exports.dish = function(req, res) {
+	var dishName = req.params.dish
+	
+	/*if(dishName = null) {
+		res.redirect("/")
+		
+	}
+	
+	console.log("DISH: " + dishName)
+
+
+	var dishData
+
+	
+	
+	var dishReviews = [];
+
+	dishRef.once('value', function(snapshot) {
+		if (snapshot.hasChild(dishName)) {
+			dishData = snapshot.val()[dishName]
+			// console.log(dishData)
+			// res.renderT('dish', {
+			// 	template: 'dish',
+			// 	restaurant: dishData,
+			// 	user: req.user
+			// })
+		}
+		else {
+			res.redirect("/")
+		}
+	}).then(function() {
+		return new Promise(function(reoslve, reject) {
+				refRev.orderByKey().on("child_added", function(snapshot) {
+					db.ref("Reviews/" + dishName).orderByChild("name").on("child_added", function(snapshot) {
+						dishReviews.push({
+							name: snapshot.val().reviewer_name,
+							title: snapshot.val().title,
+							body: snapshot.val().body,
+							rating: snapshot.val().rating
+						});
+						
+						resolve()
+						
+					});
+				});
+		})
+	}).then(function() {
+			console.log(dishData)
+			return res.renderT('dish', {
+				template: 'dish',
+				restaurant: dishData,
+				user: req.user,
+				reviews: dishReviews
+			})
+	})*/
+	
+	
+	//Sveta
+	//Dish: Reviews
+	/*
+	var rev=req.params.dish;
+	console.log(rev);
+	var dishReviews = [];
+	var refRev = db.ref("Dishes");
+	console.log("Hello"+rev);
+	
+	refRev.orderByKey().on("child_added", function (snapshot){
+		db.ref("Reviews/" + rev).orderByChild("name").on("child_added", function(snapshot){
+	 		dishreviews.push({name: snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
+		});
+	});
 
 	
 	res.renderT('dish', {
-		template: 'dish',
-		reviews: recents,
-		dishreviews : dishreviews,
-		user: req.user
-	})
+	 	template: 'dish',
+	 	reviews : dishReviews,
+	 	user: req.user
+	});
+	*/
 }
 
 
 module.exports.profile = function(req, res) {
 	var session = req.session
 	var user = req.user
+  console.log(user)
+  	
 	var profile;
 	var favdisheskeys= [];
 	var favdishes=[];
 	var favreskeys=[];
 	var favres=[];
-	for(var i=0; i<profiles.length; i++){
-		if (profiles[i].key == req.user){
-			profile= {name: profiles[i].name, location: profiles[i].location, savedDishes: profiles[i].savedDishes, savedRestaurants: profiles[i].savedRestaurants};
-			console.log(profile);
-		}
-	}
-	//Favorite Dishes
-	for (var key in profile.savedDishes) {
-		if(profile.savedDishes[key]){
-			favdisheskeys.push(key);
-		}
-	}
-	for(var i=0; i<favdisheskeys.length; i++) {
-		refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function (snapshot) {
-			favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description, img:snapshot.val().thumbnail_URL});
-		});
+	
+	var userRef = db.ref("Users")
+	
+	if(req.user == null || req.user == "") {
+		return res.redirect("/")
 	}
 	
-	//Favorite Restaurants
-	for (var key in profile.savedRestaurants) {
-		if(profile.savedRestaurants[key]){
-			favreskeys.push(key);
+	userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
+		profile = {
+			name: snapshot.val()[user]["name"],
+			location: snapshot.val()[user]["general_location"],
+			savedDishes: snapshot.val()[user]["SavedDishes"],
+			savedRestaurants: snapshot.val()[user]["SavedRestaurants"]
 		}
-	}
-	for(var i=0; i<favreskeys.length; i++) {
-		refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function (snapshot) {
-			favres.push({name: snapshot.val().name, address: snapshot.val().address});
-		});
-	}
-	res.renderT('profile', {
-		template: 'profile',
-		user: req.user,
-		profile: profile,
-		favdishes: favdishes,
-		favres: favres
+		console.log(profile)
+	}).then(function() {
+		//Favorite Dishes
+		for (var key in profile.savedDishes) {
+			if(profile.savedDishes[key]){
+				favdisheskeys.push(key);
+			}
+		}
+		for(var i=0; i<favdisheskeys.length; i++) {
+			refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function (snapshot) {
+				favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description, img:snapshot.val().thumbnail_URL, key: snapshot.key});
+			});
+		}
+		
+		//Favorite Restaurants
+		for (var key in profile.savedRestaurants) {
+			if(profile.savedRestaurants[key]){
+				favreskeys.push(key);
+			}
+		}
+		for(var i=0; i<favreskeys.length; i++) {
+			refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function (snapshot) {
+				favres.push({name: snapshot.val().name, address: snapshot.val().address, key: snapshot.key});
+			});
+		}
+	}).then(function() {
+			res.renderT('profile', {
+			template: 'profile',
+			user: req.user,
+			profile: profile,
+			favdishes: favdishes,
+			favres: favres
+		})
 	})
+	
+	
+	// for(var i=0; i<profiles.length; i++){
+	// 	if (profiles[i].key == req.user){
+	// 		profile = {
+	// 			name: profiles[i].name,
+	// 			location: profiles[i].location,
+	// 			savedDishes: profiles[i].savedDishes,
+	// 			savedRestaurants: profiles[i].savedRestaurants
+	// 		};
+	// 		console.assert(profile);
+	// 	}
+	// }
+	
+
 }
 
 module.exports.editprofile = function(req, res) {
@@ -83,7 +248,6 @@ module.exports.editprofile = function(req, res) {
 	})
 }
 
-//HERESHWETHA
 module.exports.results = function(req, res) {
 	var results = [];
 	if(req.query!=null){
@@ -134,27 +298,56 @@ module.exports.writereview = function(req, res) {
 }
 
 module.exports.restaurant = function(req, res) {
-	var restaurantName = req.params.restaurant
-	console.log("RESTAURANT: "+restaurantName)
+	var restaurantId = req.params.restaurant
 
-	
-	var restaurantData
-	
+	console.log("RESTAURANT: "+restaurantId)
+
 	var restaurantRef = db.ref("Restaurants")
+	var dishRef = db.ref("Dishes")
+	var restaurantData
+	var restaurantDishes = []
+	
+	
 	
 	restaurantRef.once('value', function(snapshot) {
-		if(snapshot.hasChild(restaurantName)) {
-			restaurantData = snapshot.val()[restaurantName]
+		if(snapshot.hasChild(restaurantId)) {
+			restaurantData = snapshot.val()[restaurantId]
 			console.log(restaurantData)
-			res.renderT('restaurant', {
-				template: 'restaurant',
-				restaurant: restaurantData,
-				user: req.user,
-				dishes: dishes
-			})
+			
 		} else {
 			res.redirect("/")
 		}
+	}).then(function() {
+		// Get dishes belonging to restaurant
+		return new Promise(function(resolve, reject) {
+			dishRef.orderByChild("restaurant").equalTo(restaurantId).once('value', function(snapshot) {
+				var dishList = snapshot.val()
+				console.log(snapshot.val())
+				
+				for (var key in dishList) {
+					if (dishList.hasOwnProperty(key)) {
+						var dishObject = {
+							name: dishList[key]["name"],
+							img: dishList[key]["thumbnail_URL"],
+							key: key,
+							desc: dishList[key]["food_description"]
+						}
+						restaurantDishes.push(dishObject)
+					}
+				}
+				
+				resolve()
+			})
+		})
+		
+		
+	}).then(function() {
+		res.renderT('restaurant', {
+				template: 'restaurant',
+				restaurant: restaurantData,
+				user: req.user,
+				dishes: restaurantDishes
+			})
 	})
 	
 	// Old code
@@ -225,11 +418,11 @@ refRev.orderByChild("name").on("child_added", function (snapshot){
 });
 
 //Index: Hot dishes
-var dishes = [];
+var hotdishes = [];
 var dish;
 refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
 	dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key, img: snapshot.val().thumbnail_URL};
-	dishes.push(dish);
+	hotdishes.push(dish);
 });
 
 //Index: Hot Restaurants
@@ -244,15 +437,7 @@ refDishes.orderByChild("number_of_ratings").limitToFirst(10).on("child_added", f
 	recents.push({name:snapshot.val().name, desc: snapshot.val().food_description});
 });
 
-//Sveta
-//Dish: Reviews
-var dishreviews = [];
-var rev="KTD3kA15O5pPCIv_ep4";
-refRev.orderByChild("name").on("child_added", function (snapshot){
-	db.ref("Reviews/" + rev).orderByChild("name").on("child_added", function(snapshot){
-		dishreviews.push({name: snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
-	});
-});
+
 
 
 //Thais
