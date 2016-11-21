@@ -34,8 +34,8 @@
                                         <center>
                                             <div class="dish-container-fluid">
                                                 <img src="<%=dish.img%>" class="result-photo">
-                                                <div></h3><%=dish.name%><h3></div>
-                                                <p><div><%=dish.desc%></div></p>
+                                                <div><h3><%=dish.restaurant%>: <%=dish.name%></h3></div>
+                                                <p></p><div><%=dish.desc%></div></p>
                                                 <div>
                                                     <% if(dish.rating% 1==0){%>
                                                         <% for(var i=0; i<dish.rating; i++) {%>
@@ -66,36 +66,38 @@
                                 <div class="menu-container-fluid">
                                     <table class="table table-borderless">
                                         <tbody>
-                                            <table class="table table-borderless">
-                                                <tbody>
-                                                	<%reviews.forEach(function(review) {%>
-                                            		    <tr>
-                                            		        <div class="dish">
-                                            		            <td class="dish-rating">
-                                            		                <div class="center-block">
-                                            		                    <a href="#" class="pull-left">
-                                            		                        <img src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg" class="sub-dish-photo">
-                                            		                    </a>
-                                            		                </div>
-                                            		            </td>
-                                            		            <td>
-                                            		                <div class="dish-description">
-                                            		                    <a>
-                                            		                        <i class="glyphicon glyphicon-star"></i>
-                                            		                    </a>
-                                            		                    <div class="dish-description">
-                                            		                        <h4 class="title">
-                                            		                            <a href="dish"><%-review.name%></a>
-                                            		                        </h4>
-                                            		                        <p class="summary"><%-review.title%></p>
-                                            		                    </div>
-                                            		                </div>
-                                            		            </td>
-                                            		        </div>
-                                            		    </tr>
-                                                	<%}); %>
-                                                </tbody>
-                                            </table>
+                                        	<%reviews.forEach(function(review) {%>
+                                        	    <tr class="review-row">
+                                		            <td class="dish-rating" style = "width:100px; padding-right:50px">
+                                        		          <a href="#" class="pull-left">
+                                        		           <img src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg" class="sub-dish-photo">
+                                        		          </a>
+                                    		              <a href="profile"><%=review.name%></a>
+                                		            </td>
+                                		            
+                                		            <td>
+                                		                <div class="dish-description">
+                                                                <% if(review.rating% 1==0){%>
+                                                                    <% for(var i=0; i<review.rating; i++) {%>
+                                                                        <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                                    <% } %>
+                                                                <%} else{%>
+                                                                    <% for(var i=1; i<review.rating; i++) {%>
+                                                                        <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                                    <% } %>
+                                                                    <% if(review.rating % 1>=0.5){%>
+                                                                        <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
+                                                                    <% } %>
+                                                                <% }%>
+                                                                
+                                		                    <div class="dish-description">
+                                		                        <h4 class="summary"><%=review.title%></h4>
+                                		                        <p><%=review.body%></p>
+                                		                    </div>
+                                		                </div>
+                                		            </td>
+                                    		    </tr>
+                                        	<%}); %>
                                         </tbody>
                                     </table>
                                 </div>

@@ -187,6 +187,7 @@ module.exports.addFavRes = function(req, res){
 }
 
 module.exports.updateProfile = function(req, res) {
+  // var storageRef = firebaes().storage().ref()
   console.log(req.body)
   res.redirect('/profile')
 }

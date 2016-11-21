@@ -40,7 +40,7 @@ module.exports.dish = function(req, res) {
 				img: dishsnapshot["thumbnail_URL"],
 				numrating: dishsnapshot["number_of_ratings"]
 			}
-			console.log(dishData);
+			//console.log(dishData);
 		} else {
 			res.redirect("/")
 		}
