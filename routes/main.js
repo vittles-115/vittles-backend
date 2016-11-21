@@ -28,10 +28,19 @@ module.exports.dish = function(req, res) {
 	var dishReviews = [];
 	
 	dishRef.once('value', function(snapshot) {
+		
 		if(snapshot.hasChild(dishId)) {
-			dishData = snapshot.val()[dishId];
-			//console.log("1");
-			//console.log(dishData);
+			dishsnapshot = snapshot.val()[dishId];
+			dishData = {
+				name: dishsnapshot["name"],
+				rating: dishsnapshot["averageRating"],
+				desc: dishsnapshot["food_description"],
+				restaurant: dishsnapshot["restaurant_name"],
+				restaurant_id: dishsnapshot["restaurant"],
+				img: dishsnapshot["thumbnail_URL"],
+				numrating: dishsnapshot["number_of_ratings"]
+			}
+			console.log(dishData);
 		} else {
 			res.redirect("/")
 		}
@@ -53,7 +62,7 @@ module.exports.dish = function(req, res) {
 								body: revList[key][subkey]["body"],
 								rating: revList[key][subkey]["rating"]
 							}
-							console.log(revObject);
+							//console.log(revObject);
 							dishReviews.push(revObject);
 						}
 					}
@@ -135,28 +144,37 @@ module.exports.profile = function(req, res) {
 			favres: favres
 		})
 	})
-	
-	
-	// for(var i=0; i<profiles.length; i++){
-	// 	if (profiles[i].key == req.user){
-	// 		profile = {
-	// 			name: profiles[i].name,
-	// 			location: profiles[i].location,
-	// 			savedDishes: profiles[i].savedDishes,
-	// 			savedRestaurants: profiles[i].savedRestaurants
-	// 		};
-	// 		console.assert(profile);
-	// 	}
-	// }
-	
 
 }
 
 module.exports.editprofile = function(req, res) {
 	
+	var session = req.session
+	var user = req.user
+  console.log(user)
+  	
+	var profile;
+	
+	var userRef = db.ref("Users")
+	
+	if(req.user == null || req.user == "") {
+		return res.redirect("/")
+	}
+	
+	userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
+		profile = {
+			name: snapshot.val()[user]["name"],
+			location: snapshot.val()[user]["general_location"],
+			savedDishes: snapshot.val()[user]["SavedDishes"],
+			savedRestaurants: snapshot.val()[user]["SavedRestaurants"]
+		}
+		console.log(profile)
+	})
+	
 	res.renderT('editprofile', {
 		template: 'editprofile',
-		user: req.user
+		user: req.user,
+		userInfo: profile
 	})
 }
 

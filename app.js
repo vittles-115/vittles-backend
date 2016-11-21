@@ -97,7 +97,7 @@ app.get('/signin', routes.functions.auth, routes.main.signin)
 app.get('/search', routes.main.results )
 app.get('/getReviewData', routes.functions.getReviewData )
 
-app.post('/editProfile',routes.functions.auth,routes.functions.editProfile)
+
 app.post('/newFavDish', routes.functions.auth,routes.functions.addFavDish)
 app.post('/newFavRes', routes.functions.auth,routes.functions.addFavRes)
 app.post('/newUser', routes.functions.createUser, routes.main.profile )
@@ -105,6 +105,7 @@ app.post('/newItem', routes.functions.addItem, routes.main.dish)
 app.post('/newSearch', routes.main.results)
 app.post('/newReview', routes.functions.auth, routes.functions.addReview,routes.main.restaurant)
 app.post('/validateUser', routes.functions.validateUser )
+app.post('/updateProfile', routes.functions.auth, routes.functions.updateProfile)
 
 const server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode: http://localhost:%s', app.get('port'), app.get('env'), app.get('port'));

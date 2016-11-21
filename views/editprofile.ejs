@@ -10,7 +10,7 @@
       <h1>Edit Profile</h1>
       <div class="row">
         <div class="col-md-9 edit-profile-user">
-          <form class="form-horizontal" role="form" method="post" action="/editProfile">
+          <form class="form-horizontal" role="form" method="post" action="/updateProfile">
             <div class="form-group">
               <label class="col-lg-3 control-label">Profile Picture:</label>
               <div class="col-lg-8 edit-profile-userimg">
@@ -21,13 +21,13 @@
             <div class="form-group">
               <label class="col-lg-3 control-label">Name:</label>
               <div class="col-lg-8">
-                <input class="form-control" type="text" value="<%=userInfo.name%>" name="editusername">
+                <input class="form-control" type="text" value="<!%=userInfo.name%>" name="editusername">
               </div>
             </div>
             <div class="form-group">
               <label class="col-lg-3 control-label">Location:</label>
               <div class="col-lg-8">
-                <input class="form-control" type="text" value="<%=userInfo.location%>" name="edituserlocation">
+                <input class="form-control" type="text" value="<!%=userInfo.location%>" name="edituserlocation">
               </div>
             </div>
             <div class="form-group">

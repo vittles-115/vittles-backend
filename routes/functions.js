@@ -164,7 +164,6 @@ module.exports.addFavDish= function(req, res, next){
     }else{
       add=false;
     }
-    console.log(dishkey)
     var userFavDishRef = db.ref('Users/').child(user).child("SavedDishes");
     userFavDishRef.update({[dishkey] : add});
   }
@@ -181,33 +180,14 @@ module.exports.addFavRes = function(req, res){
     }else{
       add=false;
     }
-    console.log(reskey)
     var userFavResRef = db.ref('Users/').child(user).child("SavedRestaurants");
     userFavResRef.update({[reskey] : add});
   }
   res.redirect('/')
 }
 
-module.exports.editProfile= function(req,res){
-  if(req.body != null){
-    console.log(req.body)
-    var user = req.user;
-    var name= req.body.editusername;
-    var location= req.body.edituserlocation;
-    var userRef= db.ref('Users').child(user);
-    userRef.update({
-      general_location: location,
-      name: name
-    });
-
-    var userimg = req.body.userimg
-    //BUG: firebase.storage() Not a function
-    //console.log("User img " +userimg)
-   // var storage = firebase.storage();
-    // var uploadimg= storage.ref().child('thumbnailSized/Users/').child(uid).put(userimg);
-    // var downloadURL = uploadimg.snapshot.downloadURL;
-    // console.log(downloadURL);
-  }
+module.exports.updateProfile = function(req, res) {
+  console.log(req.body)
   res.redirect('/profile')
 }
 
@@ -216,7 +196,4 @@ module.exports.logout = function(req, res) {
   req.session.destroy(function(err) {
      res.redirect('/')
   })
-  
- 
-  
 }
