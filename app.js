@@ -97,7 +97,7 @@ app.get('/signin', routes.functions.auth, routes.main.signin)
 app.get('/search', routes.main.results )
 app.get('/getReviewData', routes.functions.getReviewData )
 
-
+app.post('/editProfile',routes.functions.auth,routes.functions.editProfile)
 app.post('/newFavDish', routes.functions.auth,routes.functions.addFavDish)
 app.post('/newFavRes', routes.functions.auth,routes.functions.addFavRes)
 app.post('/newUser', routes.functions.createUser, routes.main.profile )

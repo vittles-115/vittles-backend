@@ -4,133 +4,15 @@ const db = firebase.database()
 
 
 module.exports.index = function(req, res) {
-	var session = req.session
-	var user = req.user
-	var favdisheskeys= []
-	var favreskeys = []
-	var dishes = []
-	var dish
-	var userFav
-	var restaurants=[]
-	var restaurant
-	var userRef = db.ref("Users")
-	if(user == null || user==''){
-		refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
-			dish = {
-				name: snapshot.val().name,
-				desc: snapshot.val().food_description,
-				key: snapshot.key,
-				img:snapshot.val().thumbnail_URL,
-				resname: snapshot.val().restaurant_name,
-				rating: snapshot.val().averageRating,
-				numrating: snapshot.val().number_of_ratings,
-				saved: false
-			};
-			dishes.push(dish);
-		});
 
-		refRes.orderByChild("name").limitToFirst(10).on("child_added", function (snapshot) {
-			restaurant = {
-				name: snapshot.val().name,
-				address: snapshot.val().address,
-				key: snapshot.key,
-				saved: false
-			};
-			restaurants.push(restaurant);
-		});
-
-		res.renderT('index', {
-			template: 'index',
-			dishes: dishes,
-			restaurants: restaurants,
-			recents: recents,
-			user: req.user
-		})
-	}else{
-		//Get users Favorite Dishes/Restaurants
-		userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
-			userFav = {
-				savedDishes: snapshot.val()[user]["SavedDishes"],
-				savedRestaurants: snapshot.val()[user]["SavedRestaurants"]
-			}
-		}).then(function() {
-			//User Favorite Dishes
-			for (var key in userFav.savedDishes) {
-				if(userFav.savedDishes[key]){
-					favdisheskeys.push(key);
-				}
-			}
-
-			//For the top 10 dishes, color red if it is users' favorites
-			refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
-				for(var i=0;i<favdisheskeys.length;i++){
-					if(favdisheskeys[i]==snapshot.key){
-						dish = {
-							name: snapshot.val().name,
-							desc: snapshot.val().food_description,
-							key: snapshot.key,
-							img:snapshot.val().thumbnail_URL,
-							resname: snapshot.val().restaurant_name,
-							rating: snapshot.val().averageRating,
-							numrating: snapshot.val().number_of_ratings,
-							saved: true
-						};
-						break;
-					}else{
-						dish = {
-							name: snapshot.val().name,
-							desc: snapshot.val().food_description,
-							key: snapshot.key,
-							img:snapshot.val().thumbnail_URL,
-							resname: snapshot.val().restaurant_name,
-							rating: snapshot.val().averageRating,
-							numrating: snapshot.val().number_of_ratings,
-							saved: false
-						};
-					}
-				}
-				dishes.push(dish);
-			});
-
-			//User Favorite Restaurants
-			for (var key in userFav.savedRestaurants) {
-				if(userFav.savedRestaurants[key]){
-					favreskeys.push(key);
-				}
-			}
-			//For the top 10 restaurants, color red if it is users' favorites
-			refRes.orderByChild("name").limitToFirst(10).on("child_added", function (snapshot) {
-				for(var i=0;i<favreskeys.length;i++){
-					if(favreskeys[i]==snapshot.key){
-						restaurant = {
-							name: snapshot.val().name,
-							address: snapshot.val().address,
-							key: snapshot.key,
-							saved: true
-						};
-						break;
-					}else{
-						restaurant = {
-							name: snapshot.val().name,
-							address: snapshot.val().address,
-							key: snapshot.key,
-							saved: false
-						};
-					}
-				}
-				restaurants.push(restaurant);
-			});
-
-		}).then(function() {
-			res.renderT('index', {
-				template: 'index',
-				dishes: dishes,
-				restaurants: restaurants,
-				recents: recents,
-				user: req.user
-			})
-		})
-	}
+	
+	res.renderT('index', {
+		template: 'index',
+		dishes: hotdishes,
+		restaurants: hotrestaurants,
+		recents: recents,
+		user: req.user
+	})
 }
 
 
@@ -192,30 +74,6 @@ module.exports.dish = function(req, res) {
 				reviews: dishReviews
 			})
 	})
-	
-	
-	//Sveta
-	//Dish: Reviews
-	/*
-	var rev=req.params.dish;
-	console.log(rev);
-	var dishReviews = [];
-	var refRev = db.ref("Dishes");
-	console.log("Hello"+rev);
-	
-	refRev.orderByKey().on("child_added", function (snapshot){
-		db.ref("Reviews/" + rev).orderByChild("name").on("child_added", function(snapshot){
-	 		dishreviews.push({name: snapshot.val().reviewer_name, title: snapshot.val().title, body:snapshot.val().body, rating:snapshot.val().rating});
-		});
-	});
-
-	
-	res.renderT('dish', {
-	 	template: 'dish',
-	 	reviews : dishReviews,
-	 	user: req.user
-	});
-	*/
 }
 
 
@@ -253,15 +111,7 @@ module.exports.profile = function(req, res) {
 		}
 		for(var i=0; i<favdisheskeys.length; i++) {
 			refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function (snapshot) {
-				favdishes.push({
-					name: snapshot.val().name,
-					desc: snapshot.val().food_description,
-					img:snapshot.val().thumbnail_URL,
-					key: snapshot.key,
-					resname: snapshot.val().restaurant_name,
-					rating: snapshot.val().averageRating,
-					numrating: snapshot.val().number_of_ratings,
-				});
+				favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description, img:snapshot.val().thumbnail_URL});
 			});
 		}
 		
@@ -273,7 +123,7 @@ module.exports.profile = function(req, res) {
 		}
 		for(var i=0; i<favreskeys.length; i++) {
 			refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function (snapshot) {
-				favres.push({name: snapshot.val().name, address: snapshot.val().address, key: snapshot.key});
+				favres.push({name: snapshot.val().name, address: snapshot.val().address});
 			});
 		}
 	}).then(function() {
@@ -368,13 +218,41 @@ module.exports.restaurant = function(req, res) {
 	var dishRef = db.ref("Dishes")
 	var restaurantData
 	var restaurantDishes = []
+	var star_rating =0;
+	var dish_count =0;
+	var num_ratings =0;
+	var avg_star_rating;
 	
 	
 	
 	restaurantRef.once('value', function(snapshot) {
 		if(snapshot.hasChild(restaurantId)) {
-			restaurantData = snapshot.val()[restaurantId]
-			console.log(restaurantData)
+			var restRef = snapshot.val()[restaurantId];
+			var average_dish_rating;
+			
+				dishRef.orderByChild("restaurant").equalTo(restaurantId).once('value', function(snapshot) {
+					var dishList = snapshot.val()
+					//console.log(snapshot.val())
+					
+					for (var key in dishList) {
+						if (dishList.hasOwnProperty(key)) {
+							star_rating += dishList[key]["averageRating"];
+							dish_count++;
+							num_ratings += dishList[key]["number_of_ratings"];
+						}
+					}
+					
+					avg_star_rating = star_rating/dish_count;
+					
+				})
+			restaurantData = {
+				name: restRef["name"],
+				address: restRef["address"],
+				avgdishrating: avg_star_rating,
+				numrating: num_ratings,
+				img: "no img"
+			}
+			//console.log(restaurantData);
 			
 		} else {
 			res.redirect("/")
@@ -384,13 +262,15 @@ module.exports.restaurant = function(req, res) {
 		return new Promise(function(resolve, reject) {
 			dishRef.orderByChild("restaurant").equalTo(restaurantId).once('value', function(snapshot) {
 				var dishList = snapshot.val()
-				console.log(snapshot.val())
+				//console.log(snapshot.val())
 				
 				for (var key in dishList) {
 					if (dishList.hasOwnProperty(key)) {
 						var dishObject = {
 							name: dishList[key]["name"],
 							img: dishList[key]["thumbnail_URL"],
+							rating: dishList[key]["averageRating"],
+							numrating: dishList[key]["number_of_ratings"],
 							key: key,
 							desc: dishList[key]["food_description"]
 						}
@@ -404,6 +284,7 @@ module.exports.restaurant = function(req, res) {
 		
 		
 	}).then(function() {
+		console.log(restaurantData);
 		res.renderT('restaurant', {
 				template: 'restaurant',
 				restaurant: restaurantData,

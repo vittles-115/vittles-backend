@@ -188,6 +188,29 @@ module.exports.addFavRes = function(req, res){
   res.redirect('/')
 }
 
+module.exports.editProfile= function(req,res){
+  if(req.body != null){
+    console.log(req.body)
+    var user = req.user;
+    var name= req.body.editusername;
+    var location= req.body.edituserlocation;
+    var userRef= db.ref('Users').child(user);
+    userRef.update({
+      general_location: location,
+      name: name
+    });
+
+    var userimg = req.body.userimg
+    //BUG: firebase.storage() Not a function
+    //console.log("User img " +userimg)
+   // var storage = firebase.storage();
+    // var uploadimg= storage.ref().child('thumbnailSized/Users/').child(uid).put(userimg);
+    // var downloadURL = uploadimg.snapshot.downloadURL;
+    // console.log(downloadURL);
+  }
+  res.redirect('/profile')
+}
+
 module.exports.logout = function(req, res) {
   
   req.session.destroy(function(err) {

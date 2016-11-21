@@ -1,65 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('partials/head') %>
     <title>Vittles | Edit Profile</title>
-</head>
-<body>
+  </head>
+  <body>
     <%- include('partials/header') %>
     <div class="container">
-        <h1>Edit Profile</h1>
-        <div class="row">
-            <div class="col-md-3 edit-profile-userimg">
-                <h3>Edit Picture</h3>
-                <img class="img img-thumbnail"src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg">
-                <input type="file" class="file-input">
-            </div>
-
+      <h1>Edit Profile</h1>
+      <div class="row">
         <div class="col-md-9 edit-profile-user">
-            <h3>Edit Profile Information</h3>
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Name:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" type="text" placeholder="First Name" id="editusername">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Location:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" type="text" placeholder="Location" id="edituserlocation">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Email:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" type="text" placeholder="Email" id="edituseremail">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">New Password:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" type="password" placeholder="Password" id="edituserpassword">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Confirm Password:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" type="password" placeholder="Password" id="edituserconfirmpassword">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label"></label>
-                    <div class="col-md-8 buttons">
-                        <input type="button" class="btn btn-primary" value="Save Changes">
-                        <span></span>
-                        <input type="reset" class="btn btn-default" value="Cancel">
-                    </div>
-                </div>
-            </form>
+          <form class="form-horizontal" role="form" method="post" action="/editProfile">
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Profile Picture:</label>
+              <div class="col-lg-8 edit-profile-userimg">
+                <img class="img img-thumbnail"src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg">
+                <input type="file" class="file-input" name="userimg">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Name:</label>
+              <div class="col-lg-8">
+                <input class="form-control" type="text" value="<%=userInfo.name%>" name="editusername">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Location:</label>
+              <div class="col-lg-8">
+                <input class="form-control" type="text" value="<%=userInfo.location%>" name="edituserlocation">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label"></label>
+              <div class="col-md-8 buttons">
+                <input type="submit" class="btn btn-primary" value="Save Changes" required>
+                <span></span>
+                <a href="/profile" class="btn btn-default" value="Cancel">Cancel</a>
+              </div>
+            </div>
+          </form>
         </div>
-        </div>
+      </div>
     </div>
-
-</body>
+    <%- include('partials/js-imports.ejs') -%>
+  </body>
 </html>

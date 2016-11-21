@@ -17,36 +17,14 @@
                   <div class="review">
                     <div class="result-description">
                       <h4 class="title">
-                        <a href="dish"class="namelink"><%= dish.name %></a>
-                        <span class="dishresname">&nbsp@<%= dish.resname %></span>
-                        <% if(user != ""){%>
-                        <% if(dish.saved){%>
-                          <label class="hearticon" id="hearticon">
-                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" checked/></input>
-                            <span class="checkboxImage"></span>
-                          </label>
-                        <%} else{%>
-                          <label class="hearticon" id="hearticon">
-                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
-                            <span class="checkboxImage"></span>
-                          </label>
-                        <% }%>
-                        <% }%>
+                        <a href="dish"><%= dish.name %></a>
+                        <label class="hearticon">
+                          <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
+                          <span class="checkboxImage"></span>
+
+                        </label>
                       </h4>
                       <p class="summary"><%= dish.desc %></p>
-                        <% if(dish.rating% 1==0){%>
-                            <% for(var i=0; i<dish.rating; i++) {%>
-                                <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                            <% } %>
-                        <%} else{%>
-                            <% for(var i=1; i<dish.rating; i++) {%>
-                                <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                            <% } %>
-                            <% if(dish.rating % 1>=0.5){%>
-                                <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
-                            <% } %>
-                        <% }%>
-                        <span>&nbsp(<%= dish.numrating %>)</span>
                   	</div>
                   </div>
                	</td>
