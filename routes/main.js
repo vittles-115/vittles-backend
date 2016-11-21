@@ -188,14 +188,58 @@ module.exports.results = function(req, res) {
 	    if(searchType == "Dishes"){
 	      var ref = db.ref("Dishes");
 	      ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
-	   		var result = {name: snapshot.val().name, desc: snapshot.val().food_description};
+	   		var result = {
+	   			id: snapshot.key,
+	   			type: "dish",
+	   			name: snapshot.val().name,
+	   			desc: snapshot.val().food_description,
+	   			img: snapshot.val().thumbnail_URL,
+	   			link: snapshot.val().restaurant,
+	   			link_name: snapshot.val().restaurant_name
+	   		};
 	   		results.push(result);
 	      });
 	      console.log(results);
 	    }else if(searchType == "Restaurants"){
 	       var ref = db.ref("Restaurants");
 	       ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
-	       	 var result = {name:snapshot.val().name, desc: snapshot.val().address};
+	       	 var result = {
+	       	 	 id: snapshot.key,
+	       	 	 type: "restaurant",
+	       	 	 name:snapshot.val().name, 
+		       	 desc: snapshot.val().address, 
+		       	 img: "no img",
+		       	 link: "null",
+		       	 link_name: "null"
+	       	 };
+	       	 results.push(result);
+	       });
+	       console.log(results);
+	    }else{
+	      var ref = db.ref("Dishes");
+	      ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
+	   		var result = {
+	   			id: snapshot.key,
+	   			type: "dish",
+	   			name: snapshot.val().name,
+	   			desc: snapshot.val().food_description,
+	   			img: snapshot.val().thumbnail_URL,
+	   			link: snapshot.val().restaurant,
+	   			link_name: snapshot.val().restaurant_name
+	   		};
+	   		results.push(result);
+	      });
+	      var ref = db.ref("Restaurants");
+	       ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
+	       	 var result = {
+	       	 	 id: snapshot.key,
+	       	 	 type: "restaurant",
+	       	 	 name:snapshot.val().name, 
+		       	 desc: snapshot.val().address, 
+		       	 img: "no img",
+		       	 link: "null",
+		       	 link_name: "null"
+	       	 };
 	       	 results.push(result);
 	       });
 	       console.log(results);

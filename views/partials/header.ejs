@@ -7,21 +7,22 @@
 				<a class = "navbar-name" href="/">Vittles</a>
 			</div>
 
-				<div class="col-md-4 search-i" role="search">
-					<input type="text" class="form-control" placeholder="Search" id="query">
-				</div>
-
-				
-				
-				<div class="btn-group">
-					<a class="btn btn-default dropdown-toggle" type="submit" data-toggle="dropdown" id="dropdownMenu" href="#"><i class="fa fa-search" aria-hidden="true"></i></i>
-						<span class="caret" title="Toggle dropdown menu"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#" class="dropdown-item" id="dishToggle" val="Dishes">DISHES</a></li>
-						<li><a href="#" class="dropdown-item" id="restToggle" val="Restaurants">RESTAURANTS</a></li>
-					</ul>
-				</div>
+			<div class="col-md-4 search-i" role="search">
+				<input type="text" class="form-control" placeholder="Search" id="query">
+			</div>
+			
+			<div class="btn-group">
+				<a class="btn btn-default dropdown-toggle" type="submit" data-toggle="dropdown" id="dropdownMenu" val="none" href="#" style="width:50px">
+					<i class="fa fa-search" aria-hidden="true" id="icon" style="display: inline"></i>
+					<p id="dishDrop" val="Dishes" style="display: none">DISHES</p>
+					<p id="restDrop" val="Restaurants" style="display: none">RESTAURANTS</p>
+					<span class="caret" title="Toggle dropdown menu"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#" class="dropdown-item" id="dishToggle" val="Dishes">DISHES</a></li>
+					<li><a href="#" class="dropdown-item" id="restToggle" val="Restaurants">RESTAURANTS</a></li>
+				</ul>
+			</div>
 
 			<!--If logged out-->
 			<div class="navbar navbar-right cl-effect-4">

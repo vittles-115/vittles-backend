@@ -33,16 +33,27 @@
                               <td class="result-img">
                                 <div class="center-block">
                                   <a href="#" class="pull-left">
-                                    <img src="blah.jpg" class="result-photo">
+                                    <% if(result.img == "no img"){ %>
+                                      <div>-<%=result.img%>-</div>
+                                    <% }else{ %>
+                                      <img src="<%=result.img%>" class="result-photo">
+                                    <% } %>
+                                    
                                   </a>
                                 </div>
                               </td>
                               <td>
                                 <div class="review">
                                   <div class="result-description">
-                                    <h4 class="title">
-                                      <a href="dish"><%-result.name%></a>
-                                    </h4>
+                                    <h3 class="title">
+                                      <a href="<%=result.type%>/<%=result.id%>"><%=result.name%></a>
+                                    </h3>
+                                    <% if(result.link!="null"){ %>
+                                      <h5>
+                                        &nbsp;
+                                        <a href="restaurant/<%=result.link%>">@<%-result.link_name%></a>
+                                      </h5>
+                                    <% } %>
                                       <p class="summary"><%-result.desc%></p>
                                   </div>
                                 </div>
