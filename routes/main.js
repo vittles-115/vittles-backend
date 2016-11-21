@@ -186,8 +186,8 @@ module.exports.results = function(req, res) {
 	    var searchQuery = req.query.query;
 	    searchQuery = searchQuery.toLowerCase();
 	    searchQuery = searchQuery.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-	    console.log(searchQuery);
-	    console.log(searchType);
+	    // console.log(searchQuery);
+	    // console.log(searchType);
 	    if(searchType == "Dishes"){
 	      var ref = db.ref("Dishes");
 	      ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
@@ -202,7 +202,7 @@ module.exports.results = function(req, res) {
 	   		};
 	   		results.push(result);
 	      });
-	      console.log(results);
+	      //console.log(results);
 	    }else if(searchType == "Restaurants"){
 	       var ref = db.ref("Restaurants");
 	       ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
@@ -217,7 +217,7 @@ module.exports.results = function(req, res) {
 	       	 };
 	       	 results.push(result);
 	       });
-	       console.log(results);
+	       //console.log(results);
 	    }else{
 	      var ref = db.ref("Dishes");
 	      ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery+"\uf8ff").on("child_added", function(snapshot) {
@@ -245,7 +245,7 @@ module.exports.results = function(req, res) {
 	       	 };
 	       	 results.push(result);
 	       });
-	       console.log(results);
+	       //console.log(results);
 	    }
 	}
 	
@@ -260,7 +260,7 @@ module.exports.results = function(req, res) {
 module.exports.writereview = function(req, res) {
 
 
-		console.log(restaurants)
+		// console.log(restaurants)
 	
 	
 		res.renderT('writereview', {
@@ -276,6 +276,10 @@ module.exports.writereview = function(req, res) {
 
 module.exports.restaurant = function(req, res) {
 	var restaurantId = req.params.restaurant
+	
+	if(restaurantId == null || restaurantId == "") {
+		return res.redirect('/')
+	}
 
 	console.log("RESTAURANT: "+restaurantId)
 
