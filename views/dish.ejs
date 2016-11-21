@@ -34,7 +34,7 @@
                                         <center>
                                             <div class="dish-container-fluid">
                                                 <img src="<%=dish.img%>" class="result-photo">
-                                                <div><h3><%=dish.restaurant%>: <%=dish.name%></h3></div>
+                                                <div><h3><a href:"restaurant/<%=dish.restaurant_id%>"><%=dish.restaurant%>:</a> <%=dish.name%></h3></div>
                                                 <p></p><div><%=dish.desc%></div></p>
                                                 <div>
                                                     <% if(dish.rating% 1==0){%>

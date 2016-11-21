@@ -56,8 +56,9 @@ module.exports.dish = function(req, res) {
 					if (revList.hasOwnProperty(key) && key==dishId) {
 						for(var subkey in revList[key]){
 							var revObject = {
+								key: subkey,
 								name: revList[key][subkey]["reviewer_name"],
-								title: revList[key][subkey]["title"],
+								title: revList[key][subkey]["titles"],
 								id: revList[key][subkey]["reviewer_UID"],
 								body: revList[key][subkey]["body"],
 								rating: revList[key][subkey]["rating"]
