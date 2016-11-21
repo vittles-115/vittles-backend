@@ -183,6 +183,8 @@ module.exports.results = function(req, res) {
 	if(req.query!=null){
 	   var searchType = req.query.type;
 	    var searchQuery = req.query.query;
+	    searchQuery = searchQuery.toLowerCase();
+	    searchQuery = searchQuery.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 	    console.log(searchQuery);
 	    console.log(searchType);
 	    if(searchType == "Dishes"){
