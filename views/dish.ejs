@@ -68,6 +68,7 @@
                                         <tbody>
                                         	<%reviews.forEach(function(review) {%>
                                         	    <tr class="review-row">
+                                        	        
                                 		            <td class="dish-rating" style = "width:100px; padding-right:50px">
                                         		          <a href="#" class="pull-left">
                                         		           <img src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg" class="sub-dish-photo">
@@ -89,13 +90,13 @@
                                                                         <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
                                                                     <% } %>
                                                                 <% }%>
-                                                                
                                 		                    <div class="dish-description">
                                 		                        <h4 class="summary"><%=review.title%></h4>
                                 		                        <p><%=review.body%></p>
                                 		                    </div>
                                 		                </div>
                                 		            </td>
+                                		            
                                     		    </tr>
                                         	<%}); %>
                                         </tbody>
@@ -104,6 +105,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </section>
 
             </div>
