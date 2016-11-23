@@ -82,6 +82,7 @@ app.use(function(req, res, next) {
 // GET REQUESTS (Page rendering, redirects, other non-database-modifying functions)
 app.get('/', routes.functions.auth, routes.main.index )
 app.get('/dish/:dish', routes.functions.auth, routes.main.dish )
+
 app.get('/editprofile', routes.functions.auth, routes.main.editprofile )
 app.get('/profile', routes.functions.auth, routes.main.profile )
 app.get('/restaurant/:restaurant', routes.functions.auth, routes.main.restaurant)
@@ -100,10 +101,10 @@ app.get('/getReviewData', routes.functions.getReviewData )
 
 app.post('/newFavDish', routes.functions.auth,routes.functions.addFavDish)
 app.post('/newFavRes', routes.functions.auth,routes.functions.addFavRes)
-app.post('/newUser', routes.functions.createUser, routes.main.profile )
+app.post('/newUser', routes.functions.createUser, routes.main.profile)
 app.post('/newItem', routes.functions.addItem, routes.main.dish)
 app.post('/newSearch', routes.main.results)
-app.post('/newReview', routes.functions.auth, routes.functions.addReview,routes.main.restaurant)
+app.post('/newReview', routes.functions.auth, routes.functions.addReview, routes.main.dish)
 app.post('/validateUser', routes.functions.validateUser )
 app.post('/updateProfile', routes.functions.auth, routes.functions.updateProfile)
 

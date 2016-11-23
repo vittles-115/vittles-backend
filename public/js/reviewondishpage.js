@@ -11,25 +11,6 @@ $(document).ready(function() {
 		$(".extraspace").css("display","block");
 		$("#submitrev").css("display","block");
 	})
-	
-	/*
-	$("#restToggle").click(function(event) {
-
-	})
-	
-	$("#query").keypress(function (e) {
-		if (e.which == 13) {
-			if($("#query").val() == "") {
-				alert("Enter a valid search")
-				return
-			}
-		  	var params = {
-				type: searchType,
-				query: $("#query").val()
-			}
-			window.location.href = "/search?type="+params.type+"&query="+params.query
-		}
-	});*/
 
 
 })

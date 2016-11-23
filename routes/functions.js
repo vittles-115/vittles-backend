@@ -118,6 +118,7 @@ module.exports.addItem = function(req, res, next){
 
 module.exports.addReview = function(req, res, next){
   console.log(req.body);
+  var dishkey;
   if (req.body != null){
     var restaurantname= req.body.reviewrestaurant;
     var dishname = req.body.reviewdish;
@@ -134,7 +135,6 @@ module.exports.addReview = function(req, res, next){
       reviewer = snapshot.val().name;
     });
     //Reviews -> Dish key -> Review key
-    var dishkey;
     var refDish = db.ref("Dishes");
     refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
       dishkey = snapshot.key;
@@ -150,8 +150,10 @@ module.exports.addReview = function(req, res, next){
       date: date,
       reviewer_name: reviewer,
     });
+    
   }
-  next()
+  req.params.dish = dishkey;
+  next();
 }
 
 module.exports.addFavDish= function(req, res, next){
