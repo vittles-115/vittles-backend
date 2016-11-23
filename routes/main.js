@@ -4,15 +4,158 @@ const db = firebase.database()
 
 
 module.exports.index = function(req, res) {
+	var session = req.session
+	var user = req.user
+	var favdisheskeys= []
+	var favreskeys = []
+	var dishes = []
+	var dish
+	var userFav
+	var restaurants=[]
+	var restaurant
+	var userRef = db.ref("Users")
+	//If user is not logged in
+	if(user == null || user=='') {
+		refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
+			dish = {
+				name: snapshot.val().name,
+				desc: snapshot.val().food_description,
+				key: snapshot.key,
+				img: snapshot.val().thumbnail_URL,
+				resname: snapshot.val().restaurant_name,
+				rating: snapshot.val().averageRating,
+				numrating: snapshot.val().number_of_ratings,
+				saved: false
+			};
+			dishes.push(dish);
+		});
+		refRes.orderByChild("name").limitToFirst(10).on("child_added", function (snapshot) {
+			restaurant = {
+				name: snapshot.val().name,
+				address: snapshot.val().address,
+				key: snapshot.key,
+				titles: snapshot.val().menu_titles,
+				saved: false
+			};
+			restaurants.push(restaurant);
+		});
+		res.renderT('index', {
+			template: 'index',
+			dishes: dishes,
+			restaurants: restaurants,
+			recents: recents,
+			user: req.user
+		})
+	}else{
+		//If user is logged in
+		//Get users Favorite Dishes/Restaurants
+		userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
+			userFav = {
+				savedDishes: snapshot.val()[user]["SavedDishes"],
+				savedRestaurants: snapshot.val()[user]["SavedRestaurants"]
+			}
+		}).then(function() {
+			//User Favorite Dishes
+			for (var key in userFav.savedDishes) {
+				if(userFav.savedDishes[key]){
+					favdisheskeys.push(key);
+				}
+			}
 
-	
-	res.renderT('index', {
-		template: 'index',
-		dishes: hotdishes,
-		restaurants: hotrestaurants,
-		recents: recents,
-		user: req.user
-	})
+			//For the top 10 dishes, color red if it is users' favorites
+			refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
+				//If there is no dishes favorites
+				if(favdisheskeys.length==0){
+					dish = {
+						name: snapshot.val().name,
+						desc: snapshot.val().food_description,
+						key: snapshot.key,
+						img:snapshot.val().thumbnail_URL,
+						resname: snapshot.val().restaurant_name,
+						rating: snapshot.val().averageRating,
+						numrating: snapshot.val().number_of_ratings,
+						saved: false
+					};
+				}
+				for(var i=0;i<favdisheskeys.length;i++){
+					if(favdisheskeys[i]==snapshot.key){
+						dish = {
+							name: snapshot.val().name,
+							desc: snapshot.val().food_description,
+							key: snapshot.key,
+							img:snapshot.val().thumbnail_URL,
+							resname: snapshot.val().restaurant_name,
+							rating: snapshot.val().averageRating,
+							numrating: snapshot.val().number_of_ratings,
+							saved: true
+						};
+						break;
+					}else{
+						dish = {
+							name: snapshot.val().name,
+							desc: snapshot.val().food_description,
+							key: snapshot.key,
+							img:snapshot.val().thumbnail_URL,
+							resname: snapshot.val().restaurant_name,
+							rating: snapshot.val().averageRating,
+							numrating: snapshot.val().number_of_ratings,
+							saved: false
+						};
+					}
+				}
+				dishes.push(dish);
+			});
+
+			//User Favorite Restaurants
+			for (var key in userFav.savedRestaurants) {
+				if(userFav.savedRestaurants[key]){
+					favreskeys.push(key);
+				}
+			}
+			//For the top 10 restaurants, color red if it is users' favorites
+			refRes.orderByChild("name").limitToFirst(10).on("child_added", function (snapshot) {
+				//If there is no restaurant favorites
+				if(favreskeys.length==0){
+					restaurant = {
+						name: snapshot.val().name,
+						address: snapshot.val().address,
+						key: snapshot.key,
+						titles: snapshot.val().menu_titles,
+						saved: false
+					};
+				}
+				for(var i=0;i<favreskeys.length;i++){
+					if(favreskeys[i]==snapshot.key){
+						restaurant = {
+							name: snapshot.val().name,
+							address: snapshot.val().address,
+							key: snapshot.key,
+							titles: snapshot.val().menu_titles,
+							saved: true
+						};
+						break;
+					}else{
+						restaurant = {
+							name: snapshot.val().name,
+							address: snapshot.val().address,
+							key: snapshot.key,
+							titles: snapshot.val().menu_titles,
+							saved: false
+						};
+					}
+				}
+				restaurants.push(restaurant);
+			});
+		}).then(function() {
+			res.renderT('index', {
+				template: 'index',
+				dishes: dishes,
+				restaurants: restaurants,
+				recents: recents,
+				user: req.user
+			})
+		})
+	}
 }
 
 
@@ -80,6 +223,7 @@ module.exports.dish = function(req, res) {
 		res.renderT('dish', {
 				template: 'dish',
 				dish: dishData,
+				req: req,
 				user: req.user,
 				reviews: dishReviews
 			})
@@ -111,7 +255,6 @@ module.exports.profile = function(req, res) {
 			savedDishes: snapshot.val()[user]["SavedDishes"],
 			savedRestaurants: snapshot.val()[user]["SavedRestaurants"]
 		}
-		console.log(profile)
 	}).then(function() {
 		//Favorite Dishes
 		for (var key in profile.savedDishes) {
@@ -124,11 +267,11 @@ module.exports.profile = function(req, res) {
 				favdishes.push({
 					name: snapshot.val().name,
 					desc: snapshot.val().food_description,
+					img:snapshot.val().thumbnail_URL,
 					key: snapshot.key,
-					img: snapshot.val().thumbnail_URL,
 					resname: snapshot.val().restaurant_name,
 					rating: snapshot.val().averageRating,
-					numrating: snapshot.val().number_of_ratings
+					numrating: snapshot.val().number_of_ratings,
 				});
 			});
 		}
@@ -141,7 +284,7 @@ module.exports.profile = function(req, res) {
 		}
 		for(var i=0; i<favreskeys.length; i++) {
 			refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function (snapshot) {
-				favres.push({name: snapshot.val().name, address: snapshot.val().address, img:snapshot.val().thumbnail_URL, key: snapshot.key});
+				favres.push({name: snapshot.val().name, address: snapshot.val().address, key: snapshot.key});
 			});
 		}
 	}).then(function() {
@@ -440,23 +583,15 @@ refRev.orderByChild("name").on("child_added", function (snapshot){
 //Index: Hot dishes
 var hotdishes = [];
 var dish;
-refDishes.orderByChild("averageRating").limitToLast(10).on("child_added", function (snapshot) {
-	dish = {
-		name: snapshot.val().name,
-		desc: snapshot.val().food_description,
-		key: snapshot.key,
-		img: snapshot.val().thumbnail_URL,
-		resname: snapshot.val().restaurant_name,
-		rating: snapshot.val().averageRating,
-		numrating: snapshot.val().number_of_ratings
-	};
+refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
+	dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key, img: snapshot.val().thumbnail_URL};
 	hotdishes.push(dish);
 });
 
 //Index: Hot Restaurants
 var hotrestaurants = [];
 refRes.orderByChild("name").on("child_added", function (snapshot){
-	hotrestaurants.push({name:snapshot.val().name, address: snapshot.val().address, key: snapshot.key, img: snapshot.val().thumbnail_URL});
+	hotrestaurants.push({name:snapshot.val().name, address: snapshot.val().address, key: snapshot.key});
 });
 
 //Index: Recent? Change to date

@@ -36,21 +36,23 @@
                                                 <div>-<%=restaurant.img%>-</div>
                                                 <h3><div><%=restaurant.name%></div></h3>
                                                 <h4><div><%=restaurant.address%></div></h4>
-                                                <div>
-                                                    <% if(restaurant.avgdishrating% 1==0){%>
-                                                        <% for(var i=0; i<restaurant.avgdishrating; i++) {%>
-                                                            <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                                                        <% } %>
-                                                    <%} else{%>
-                                                        <% for(var i=1; i<restaurant.avgdishrating; i++) {%>
-                                                            <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                                                        <% } %>
-                                                        <% if(restaurant.avgdishrating % 1>=0.5){%>
-                                                            <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
-                                                        <% } %>
-                                                    <% }%>
-                                                </div>
-                                                <span>&nbsp(<%= restaurant.numrating %>)</span>
+                                                    <% if(restaurant.numrating>0){ %>
+                                                        <div>
+                                                            <% if(restaurant.avgdishrating% 1==0){%>
+                                                                <% for(var i=0; i<restaurant.avgdishrating; i++) {%>
+                                                                    <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                                <% } %>
+                                                            <%} else{%>
+                                                                <% for(var i=1; i<restaurant.avgdishrating; i++) {%>
+                                                                    <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                                <% } %>
+                                                                <% if(restaurant.avgdishrating % 1>=0.5){%>
+                                                                    <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
+                                                                <% } %>
+                                                            <% }%>
+                                                        </div>
+                                                        <span>&nbsp(<%= restaurant.numrating %>)</span>
+                                                    <% } %>
                                                 </center>
                                             </div>
                                         </div>
@@ -64,64 +66,70 @@
                             <div class="dishlist">
                                 <section class="content">
                                   <div class=" panel panel-default panel-body menu-container-fluid">
-                                        <table class="table table-borderless">
-                                              <tbody>
-                                                    <% console.log(dishes.length) %>
-                                                    <% dishes.forEach(function(dish) { %>
-                                                       	<tr>
-                                                            <div class="result">
-                                                                <td class="result-img">
-                                                                  <div class="center-block">
-                                                                    <a href="#" class="pull-left">
-                                                                      <img src="<%=dish.img%>" class="result-photo">
-                                                                    </a>
-                                                                  </div>
-                                                                </td>
-                                                                <td>
-                                                                  <div class="review">
-                                                                    <div class="result-description">
-                                                                      <h4 class="title">
-                                                                        <a href="/dish/<%=dish.key%>" class="namelink"><%= dish.name %></a>
-                                                                        <% if(user != ""){%>
-                                                                            <% if(dish.saved){%>
-                                                                              <label class="staricon" id="staricon">
-                                                                                <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favstar" checked/></input>
-                                                                                <span class="checkboxImage"></span>
-                                                                              </label>
-                                                                            <%} else{%>
-                                                                              <label class="staricon" id="staricon">
-                                                                                <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
-                                                                                <span class="checkboxImage"></span>
-                                                                              </label>
+                                        <% if(dishes.length>0){ %>
+                                            <table class="table table-borderless">
+                                                  <tbody>
+                                                        <% console.log(dishes.length) %>
+                                                        <% dishes.forEach(function(dish) { %>
+                                                           	<tr>
+                                                                <div class="result">
+                                                                    <td class="result-img">
+                                                                      <div class="center-block">
+                                                                        <a href="#" class="pull-left">
+                                                                          <img src="<%=dish.img%>" class="result-photo">
+                                                                        </a>
+                                                                      </div>
+                                                                    </td>
+                                                                    <td>
+                                                                      <div class="review">
+                                                                        <div class="result-description">
+                                                                          <h4 class="title">
+                                                                            <a href="/dish/<%=dish.key%>" class="namelink"><%= dish.name %></a>
+                                                                            <% if(user != ""){%>
+                                                                                <% if(dish.saved){%>
+                                                                                  <label class="staricon" id="staricon">
+                                                                                    <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favstar" checked/></input>
+                                                                                    <span class="checkboxImage"></span>
+                                                                                  </label>
+                                                                                <%} else{%>
+                                                                                  <label class="staricon" id="staricon">
+                                                                                    <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
+                                                                                    <span class="checkboxImage"></span>
+                                                                                  </label>
+                                                                                <% }%>
                                                                             <% }%>
-                                                                        <% }%>
-                                                                      </h4>
-                                                                      <p class="summary"><%= dish.desc %></p>
-                                                                        <% if(dish.rating% 1==0){%>
-                                                                            <% for(var i=0; i<dish.rating; i++) {%>
-                                                                                <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                                                                            <% } %>
-                                                                        <%} else{%>
-                                                                            <% for(var i=1; i<dish.rating; i++) {%>
-                                                                                <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                                                                            <% } %>
-                                                                            <% if(dish.rating % 1>=0.5){%>
-                                                                                <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
-                                                                            <% } %>
-                                                                        <% }%>
-                                                                        <%if(dish.rating==null){%>
-                                                                            <span>No ratings yet.</span>
-                                                                        <%}else{%>
-                                                                            <span>&nbsp(<%= dish.numrating %>)</span>
-                                                                        <%}%>
-                                                                  	</div>
-                                                                  </div>
-                                                               	</td>
-                                                          </div>
-                                                        </tr>
-                                                  	<% }); %>
-                                            	</tbody>
-                                      	</table>
+                                                                          </h4>
+                                                                          <p class="summary"><%= dish.desc %></p>
+                                                                            <% if(dish.rating% 1==0){%>
+                                                                                <% for(var i=0; i<dish.rating; i++) {%>
+                                                                                    <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                                                <% } %>
+                                                                            <%} else{%>
+                                                                                <% for(var i=1; i<dish.rating; i++) {%>
+                                                                                    <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                                                <% } %>
+                                                                                <% if(dish.rating % 1>=0.5){%>
+                                                                                    <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
+                                                                                <% } %>
+                                                                            <% }%>
+                                                                            <%if(dish.rating==null){%>
+                                                                                <span>No ratings yet.</span>
+                                                                            <%}else{%>
+                                                                                <span>&nbsp(<%= dish.numrating %>)</span>
+                                                                            <%}%>
+                                                                      	</div>
+                                                                      </div>
+                                                                   	</td>
+                                                              </div>
+                                                            </tr>
+                                                      	<% }); %>
+                                                	</tbody>
+                                          	</table>
+                                        <% }else{ %>
+                                            <center>
+                                                <h3 style="color:lightgray">No menu items have been added yet.</h3>
+                                            </center>
+                                        <% } %>
                                 	</div>
                               	</section>
                             </div>

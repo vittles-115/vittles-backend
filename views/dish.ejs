@@ -36,21 +36,23 @@
                                                 <img src="<%=dish.img%>" class="result-photo">
                                                 <div><h3><a href="/restaurant/<%=dish.restaurant_id%>"><%=dish.restaurant%>:</a> <%=dish.name%></h3></div>
                                                 <p></p><div><%=dish.desc%></div></p>
-                                                <div>
-                                                    <% if(dish.rating% 1==0){%>
-                                                        <% for(var i=0; i<dish.rating; i++) {%>
-                                                            <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                                                        <% } %>
-                                                    <%} else{%>
-                                                        <% for(var i=1; i<dish.rating; i++) {%>
-                                                            <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                                                        <% } %>
-                                                        <% if(dish.rating % 1>=0.5){%>
-                                                            <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
-                                                        <% } %>
-                                                    <% }%>
-                                                 </div>
-                                                <span>&nbsp(<%= dish.numrating %>)</span>
+                                                <% if(dish.numrating>0){ %>
+                                                    <div>
+                                                        <% if(dish.rating% 1==0){%>
+                                                            <% for(var i=0; i<dish.rating; i++) {%>
+                                                                <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                            <% } %>
+                                                        <%} else{%>
+                                                            <% for(var i=1; i<dish.rating; i++) {%>
+                                                                <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                                                            <% } %>
+                                                            <% if(dish.rating % 1>=0.5){%>
+                                                                <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
+                                                            <% } %>
+                                                        <% }%>
+                                                     </div>
+                                                    <span>&nbsp(<%= dish.numrating %>)</span>
+                                                <% } %>
                                             </div>
                                         </center>
                                     </div>
@@ -61,40 +63,55 @@
               
               
               
-                    <!div class="container" style="width:400px" style="position:absolute">
-                        <center>
+                <% if (user != "") { %>
+                    <center>
                         <div class="panel panel-default" id="reviewbox" style="width:400px">
-                            <div class="panel-body">
-                                <div class="menu-container-fluid">
-                                    <div class="form-group">
-                                        <center>
-                                            <h4 id="reviewheader" style="display:block"><i>Tried this dish out? Leave it a review!</i></h4>
-                                            <hr id="top-divider" style="display:block"></hr>
-                                            <!--src= https://jsfiddle.net/leaverou/CGP87/ -->
-                                            &nbsp;
-                                            <fieldset class="onpage-rating" style="display:inline">
-                                              <input type="radio" id="s1" name="reviewrating" value="1" /><label for="s1"></label>
-                                              <input type="radio" id="s2" name="reviewrating" value="2" /><label for="s2"></label>
-                                              <input type="radio" id="s3" name="reviewrating" value="3" /><label for="s3"></label>
-                                              <input type="radio" id="s4" name="reviewrating" value="4" /><label for="s4"></label>
-                                              <input type="radio" id="s5" name="reviewrating" value="5" /><label for="s5"></label>
-                                            </fieldset>
-                                            <hr id="bottom-divider" style="display:none"></hr>
-                                            <textarea class="form-control" rows="3" placeholder="What did you think?" id="onpage-reviewpost" name="onpage-reviewpost" style="display:none; max-width:100%; min-width:100%;"></textarea>
-                                        </center>
+                            <form role="form" method="post" action="/newReview">
+                                <div class="panel-body">
+                                    <div class="menu-container-fluid">
+                                        <div class="form-group">
+                                            <center>
+                                                
+                                                <h4 id="reviewheader" style="display:block"><i>Tried this dish out? Leave it a review!</i></h4>
+                                                <hr id="top-divider" style="display:block"></hr>
+                                                <!--src= https://jsfiddle.net/leaverou/CGP87/ -->
+                                                &nbsp;
+                                                <fieldset class="onpage-rating" style="display:inline">
+                                                  <input type="radio" id="s5" name="reviewrating" value="5" /><label for="s5"></label>
+                                                  <input type="radio" id="s4" name="reviewrating" value="4" /><label for="s4"></label>
+                                                  <input type="radio" id="s3" name="reviewrating" value="3" /><label for="s3"></label>
+                                                  <input type="radio" id="s2" name="reviewrating" value="2" /><label for="s2"></label>
+                                                  <input type="radio" id="s1" name="reviewrating" value="1" /><label for="s1"></label>
+                                                </fieldset>
+                                                
+                                                <hr id="bottom-divider" style="display:none"></hr>
+                                                
+                                                <input class="form-control" type="text" rows="3" placeholder="What did you think?" id="onpage-reviewtitle" name="reviewtitle" style="display:none; max-width:100%; min-width:100%;"></textarea>
+                                                <div class="extraspace" style="display:none; height:10px"></div>
+                                                <textarea class="form-control" rows="3" placeholder="Go ahead, tell us more!" id="onpage-reviewpost" name="reviewpost" style="display:none; max-width:100%; min-width:100%;"></textarea>
+                                                <div class="extraspace" style="display:none; height:10px"></div>
+                                                <input type="submit" class="btn btn-primary" id="submitrev" value="Post Review" style="display:none;" required>
+                                                
+                                                <input name="reviewrestaurant" style="display:none" value="<%=dish.restaurant%>"></textarea>
+                                                <input name="reviewdish" style="display:none" value="<%=dish.name%>"></textarea>
+
+                                                
+                                            </center>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        </center>
-                    <!/div>
+                    </center>
+                <% } %>
               
 
 
-                    <div class="container">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="menu-container-fluid">
+                <div class="container">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="menu-container-fluid">
+                                <% if(reviews.length > 0){ %>
                                     <table class="table table-borderless">
                                         <tbody>
                                         	<%reviews.forEach(function(review) {%>
@@ -130,12 +147,18 @@
                                 		            
                                     		    </tr>
                                         	<%}); %>
+                                        
                                         </tbody>
                                     </table>
-                                </div>
+                                <% }else{ %>
+                                    <center>
+                                        <h3 style="color:lightgray">No reviews yet... Help us out and be first!</h3>
+                                    </center>
+                                <% } %>
                             </div>
                         </div>
                     </div>
+                </div>
                     
                 </section>
 
