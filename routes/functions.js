@@ -120,6 +120,9 @@ module.exports.addReview = function(req, res, next){
   console.log(req.body);
   var dishkey;
   if (req.body != null){
+    var restkey;
+    var rest_numofreviews;
+    var rest_avgreview;
     var restaurantname= req.body.reviewrestaurant;
     var dishname = req.body.reviewdish;
     var body= req.body.reviewpost;
@@ -134,13 +137,32 @@ module.exports.addReview = function(req, res, next){
     refUser.orderByKey().equalTo(user).on("child_added", function (snapshot){
       reviewer = snapshot.val().name;
     });
+    
     //Reviews -> Dish key -> Review key
     var refDish = db.ref("Dishes");
     refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
       dishkey = snapshot.key;
     });
+    
+    var refRest = db.ref("Restaurants");
+    refRest.orderByChild("name").equalTo(restaurantname).on("child_added", function (snapshot){
+      restkey = snapshot.key;
+      rest_avgreview = snapshot.averageRating;
+    });
+    
 
     //Add Review to child of restaurants_id database
+    var revref= db.ref("Reviews");
+    revref.child(dishkey).push({
+      body: body,
+      rating: rating,
+      title: title,
+      review_UID: user,
+      date: date,
+      reviewer_name: reviewer,
+    });
+    
+    //Make it so that Restaurant
     var revref= db.ref("Reviews");
     revref.child(dishkey).push({
       body: body,
