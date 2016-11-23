@@ -121,7 +121,15 @@ module.exports.profile = function(req, res) {
 		}
 		for(var i=0; i<favdisheskeys.length; i++) {
 			refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function (snapshot) {
-				favdishes.push({name: snapshot.val().name, desc: snapshot.val().food_description, img:snapshot.val().thumbnail_URL});
+				favdishes.push({
+					name: snapshot.val().name,
+					desc: snapshot.val().food_description,
+					key: snapshot.key,
+					img: snapshot.val().thumbnail_URL,
+					resname: snapshot.val().restaurant_name,
+					rating: snapshot.val().averageRating,
+					numrating: snapshot.val().number_of_ratings
+				});
 			});
 		}
 		
@@ -133,7 +141,7 @@ module.exports.profile = function(req, res) {
 		}
 		for(var i=0; i<favreskeys.length; i++) {
 			refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function (snapshot) {
-				favres.push({name: snapshot.val().name, address: snapshot.val().address});
+				favres.push({name: snapshot.val().name, address: snapshot.val().address, img:snapshot.val().thumbnail_URL, key: snapshot.key});
 			});
 		}
 	}).then(function() {
@@ -432,15 +440,23 @@ refRev.orderByChild("name").on("child_added", function (snapshot){
 //Index: Hot dishes
 var hotdishes = [];
 var dish;
-refDishes.orderByChild("averageRating").limitToFirst(10).on("child_added", function (snapshot) {
-	dish = {name: snapshot.val().name, desc: snapshot.val().food_description, key: snapshot.key, img: snapshot.val().thumbnail_URL};
+refDishes.orderByChild("averageRating").limitToLast(10).on("child_added", function (snapshot) {
+	dish = {
+		name: snapshot.val().name,
+		desc: snapshot.val().food_description,
+		key: snapshot.key,
+		img: snapshot.val().thumbnail_URL,
+		resname: snapshot.val().restaurant_name,
+		rating: snapshot.val().averageRating,
+		numrating: snapshot.val().number_of_ratings
+	};
 	hotdishes.push(dish);
 });
 
 //Index: Hot Restaurants
 var hotrestaurants = [];
 refRes.orderByChild("name").on("child_added", function (snapshot){
-	hotrestaurants.push({name:snapshot.val().name, address: snapshot.val().address, key: snapshot.key});
+	hotrestaurants.push({name:snapshot.val().name, address: snapshot.val().address, key: snapshot.key, img: snapshot.val().thumbnail_URL});
 });
 
 //Index: Recent? Change to date

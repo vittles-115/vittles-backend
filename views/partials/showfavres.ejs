@@ -4,27 +4,34 @@
      	<div class="container panel panel-default panel-body menu-container-fluid">
         <table class="table table-borderless resbody">
           <tbody>
+            <%if(favres.length == 0){%>
+            <p class="nocontent">No Favorite Restaurants Yet</p>
+          <%}%>
             <%favres.forEach(function(restaurant) {%>
             <tr class="rescell">
               <div class="result">
+                <td class="result-img" width="100px">
+                  <div class="center-block">
+                  <a href="#">
+                    <%if(restaurant.img == null){%>
+                      <img src="/restaurant-icon.jpg" class="result-photo">
+                    <%}else{%>
+                      <img src="<%=restaurant.img%>" class="result-photo">
+                    <%}%>
+                  </a>
+                  </div>
+                </td>
                 <td>
                   <h4 class="restitle">
-                    <a href="restaurant" class="namelink"><%= restaurant.name%></a>
+                    <a href="restaurant/<%=restaurant["key"]%>" class="namelink"><%= restaurant.name%></a>
                   </h4>
                   <p class="ressummary"><%= restaurant.address%></p>
                 </td>
                 <td>
-                  <label class="hearticon">
-                    <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favheart" checked/></input>
+                  <label class="staricon">
+                    <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favstar" checked/></input>
                     <span class="checkboxImage"></span>
                   </label>
-                  <div class="review">
-                    <div class="result-description">
-                      <% restaurant.titles.forEach(function (title){%>
-                        <p class="restitle"><%= title%></p>
-                      <%}); %>
-                    </div>
-                  </div>
                 </td>
               </div>
             </tr>

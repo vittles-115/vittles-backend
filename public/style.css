@@ -89,9 +89,35 @@ a.clink{
 
 .profile-user{
   text-align: center;
-  padding: 20px;
+  padding: 25px;
+  border: 2px solid white;
+  border-radius: 4px;
+  width: 22%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+.profile-username{
+  width: 200px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  font-size: 20px;
+
+}
+
+.profile-userlocation{
+  text-align: center;
+  font-size: 16px;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-reviews{
+  padding-top: 20px;
+}
 /* Edit Profile Page css */
 
 .edit-profile-userimg{
@@ -242,6 +268,71 @@ a.clink{
   
 }
 
+
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.onpage-rating:not(:checked) > input {
+  position:absolute;
+  top:-9999px;
+  clip:rect(0,0,0,0);
+}
+
+.onpage-rating:not(:checked) > label {
+  float:right;
+  width:2em;
+  padding:0 .1em;
+  cursor:pointer;
+  font-size:100%;
+  line-height:1.2;
+  color:#ddd;
+}
+
+.onpage-rating:not(:checked) > label:before {
+  font-family: FontAwesome;
+  content: "\f005";
+}
+
+.onpage-rating > input:checked ~ label {
+  color: gold;
+}
+
+.onpage-rating:not(:checked) > label:hover,
+.onpage-rating:not(:checked) > label:hover ~ label {
+  color: gold;
+}
+
+.onpage-rating > input:checked + label:hover,
+.onpage-rating > input:checked + label:hover ~ label,
+.onpage-rating > input:checked ~ label:hover,
+.onpage-rating > input:checked ~ label:hover ~ label,
+.onpage-rating > label:hover ~ input:checked ~ label {
+  color: #ea0;
+}
+
+.onpage-rating > label:active {
+  position:relative;
+  top:2px;
+  left:2px;
+}
+
+.errorMessage {
+  height: 0px;
+  opacity: 0;
+  padding-top: 15px;
+  color: red;
+  text-align: center;
+  font-size: medium;
+  transition: all 0.6s ease;
+  
+}
+
+
+
+
+
+
+
 .statusMessage {
   height: 0px;
   opacity: 0;
@@ -251,33 +342,33 @@ a.clink{
   transition: all 0.6s ease;
 }
 
-/* Dish content Favorite heart */
-.hearticon{
+/* Dish content Favorite star */
+.staricon{
   float: right;
 }
 
-.hearticon input[type="checkbox"] {
+.staricon input[type="checkbox"] {
   display: none;
 }
 
-.hearticon input[type="checkbox"] + span:before {
+.staricon input[type="checkbox"] + span:before {
   font-family: 'FontAwesome';
   padding-right: 3px;
   font-size: 40px;
 }
 
-.hearticon input[type="checkbox"] + span:before {
-  content: "\f004"; /* check-empty */
+.staricon input[type="checkbox"] + span:before {
+  content: "\f005"; /* check-empty */
   color: #ddd;
 }
 
-.hearticon input[type="checkbox"]:checked + span:before {
-  content: "\f004"; /* check-empty */
-  color: red;
+.staricon input[type="checkbox"]:checked + span:before {
+  content: "\f005"; /* check-empty */
+  color: #ffe34f;
 }
 
-.hearticon input[type="checkbox"] + span:hover:before {
-  color: red;
+.staricon input[type="checkbox"] + span:hover:before {
+  color: #ffe34f;
 }
 
 /*.hearticon input[type=checkbox] + label*/
@@ -363,8 +454,8 @@ a.namelink{
   line-height: 200%;
 }
 
-.resbody{
-  width:70%;
-  margin-left: auto;
-  margin-right: auto;
+.nocontent{
+  color:grey;
+  font-size: 25px;
+  text-align: center;
 }

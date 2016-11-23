@@ -1,15 +1,26 @@
 <div class="dishlist">
-  <div class="row">
     <section class="content">
-     	<div class="container panel panel-default panel-body menu-container-fluid">
-        <table class="table table-borderless resbody">
+     	<div class="panel panel-default panel-body menu-container-fluid">
+        <table class="table table-borderless">
           <tbody>
             <%restaurants.forEach(function(restaurant) {%>
             <tr class="rescell">
               <div class="result">
+                <div class="center-block">
+                <td class="result-img" width="100px">
+                  <a href="#">
+                    <%if(restaurant.img == null){%>
+                      <img src="/restaurant-icon.jpg" class="result-photo">
+                    <%}else{%>
+                      <img src="<%=restaurant.img%>" class="result-photo">
+                    <%}%>
+                  </a>
+                  </div>
+                </td>
               	<td>
                   <h4 class="restitle">
-                    <a href="restaurant" class="namelink"><%= restaurant.name%></a>
+                    <% console.log(restaurant.key) %>
+                    <a href="/restaurant/<%=restaurant.key%>" class="namelink"><%= restaurant.name%></a>
                   </h4>
                   <p class="ressummary"><%= restaurant.address%></p>
                 </td>
@@ -17,23 +28,18 @@
                   <h4 class="title">
                        	<% if(user != ""){%>
                        	  <% if(restaurant.saved){%>
-                            <label class="hearticon" id="hearticon">
-                              <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favheart" checked/></input>
+                            <label class="staricon" id="staricon">
+                              <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favstar" checked/></input>
                               <span class="checkboxImage"></span>
                             </label>
-                          <% } else{ %>
-                            <label class="hearticon" id="hearticon">
-                              <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favheart" /></input>
+                          <% }else{ %>
+                            <label class="staricon" id="staricon">
+                              <input type="checkbox" name="fav_reskey" value="<%= restaurant["key"] %>" id="favstar" /></input>
                               <span class="checkboxImage"></span>
                             </label>
-                          <% }%>
+                          <% } %>
                         <% }%>
-                      </h4>
-                  <div class="review">
-                    <div class="result-description">
-                     
-                    </div>
-                 	</div>
+                    </h4>
                 </td>
               </div>
             </tr>
@@ -42,5 +48,4 @@
        	</table>
       </div>
    	</section>
-  </div>
 </div>

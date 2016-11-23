@@ -66,6 +66,7 @@
                                   <div class=" panel panel-default panel-body menu-container-fluid">
                                         <table class="table table-borderless">
                                               <tbody>
+                                                    <% console.log(dishes.length) %>
                                                     <% dishes.forEach(function(dish) { %>
                                                        	<tr>
                                                             <div class="result">
@@ -83,12 +84,12 @@
                                                                         <a href="/dish/<%=dish.key%>" class="namelink"><%= dish.name %></a>
                                                                         <% if(user != ""){%>
                                                                             <% if(dish.saved){%>
-                                                                              <label class="hearticon" id="hearticon">
-                                                                                <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" checked/></input>
+                                                                              <label class="staricon" id="staricon">
+                                                                                <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favstar" checked/></input>
                                                                                 <span class="checkboxImage"></span>
                                                                               </label>
                                                                             <%} else{%>
-                                                                              <label class="hearticon" id="hearticon">
+                                                                              <label class="staricon" id="staricon">
                                                                                 <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" /></input>
                                                                                 <span class="checkboxImage"></span>
                                                                               </label>
@@ -108,7 +109,11 @@
                                                                                 <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
                                                                             <% } %>
                                                                         <% }%>
-                                                                        <span>&nbsp(<%= dish.numrating %>)</span>
+                                                                        <%if(dish.rating==null){%>
+                                                                            <span>No ratings yet.</span>
+                                                                        <%}else{%>
+                                                                            <span>&nbsp(<%= dish.numrating %>)</span>
+                                                                        <%}%>
                                                                   	</div>
                                                                   </div>
                                                                	</td>
@@ -130,7 +135,7 @@
 
     </div>
 
-
+<%- include('partials/js-imports.ejs') -%>
 </body>
 
 </html>

@@ -4,13 +4,20 @@
       <div class="container panel panel-default panel-body menu-container-fluid">
         <table class="table table-borderless">
           <tbody>
+            <%if(favdishes.length==0){%>
+              <p class="nocontent">No Favorite Dishes Yet</p>
+            <%}%>
             <%favdishes.forEach(function(dish) {%>
             	<tr>
                 <div class="result">
-                  <td class="result-img">
+                  <td class="result-img" width=100px>
                     <div class="center-block">
                      	<a href="#" class="pull-left">
-                        <img src="<%= dish.img%>" class="result-photo">
+                        <%if(dish.img == null){%>
+                          <img src="/dish-icon.jpg" class="result-photo">
+                        <%}else{%>
+                          <img src="<%=dish.img%>" class="result-photo">
+                        <%}%>
                       </a>
                     </div>
                   </td>
@@ -18,27 +25,31 @@
                     <div class="review">
                       <div class="result-description">
                         <h4 class="title">
-                          <a href="dish"class="namelink"><%= dish.name %></a>
+                          <a href="/dish/<%=dish.key%>" class="namelink"><%= dish.name %></a>
                           <span class="dishresname">    @<%= dish.resname %></span>
-                          <label class="hearticon">
-                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favheart" checked/></input>
+                          <label class="staricon">
+                            <input type="checkbox" name="fav_dishkey" value="<%= dish["key"] %>" id="favstar" checked/></input>
                             <span class="checkboxImage"></span>
                           </label>
                         </h4>
                         <p class="summary"><%= dish.desc %></p>
                           <% if(dish.rating% 1==0){%>
-                          <% for(var i=0; i<dish.rating; i++) {%>
-                          <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                          <% } %>
+                            <% for(var i=0; i<dish.rating; i++) {%>
+                              <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                            <% } %>
                           <%} else{%>
-                          <% for(var i=1; i<dish.rating; i++) {%>
-                          <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
-                          <% } %>
-                          <% if(dish.rating % 1>=0.5){%>
-                          <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
-                          <% } %>
+                            <% for(var i=1; i<dish.rating; i++) {%>
+                              <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
+                            <% } %>
+                            <% if(dish.rating % 1>=0.5){%>
+                              <i class="fa fa-star-half" aria-hidden="true" id="ratingstar"></i>
+                            <% } %>
                           <% }%>
-                          <span>&nbsp(<%= dish.numrating %>)</span>
+                          <%if(dish.rating==null){%>
+                            <span>No ratings yet.</span>
+                          <%}else{%>
+                            <span>&nbsp(<%= dish.numrating %>)</span>
+                          <%}%>
                       </div>
                     </div>
                   </td>
