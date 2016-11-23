@@ -282,6 +282,8 @@ a.clink{
   float:right;
   width:2em;
   padding:0 .1em;
+  overflow:hidden;
+  white-space:nowrap;
   cursor:pointer;
   font-size:100%;
   line-height:1.2;

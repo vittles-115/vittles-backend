@@ -63,22 +63,24 @@
               
                     <!div class="container" style="width:400px" style="position:absolute">
                         <center>
-                        <div class="panel panel-default" style="width:400px">
+                        <div class="panel panel-default" id="reviewbox" style="width:400px">
                             <div class="panel-body">
                                 <div class="menu-container-fluid">
                                     <div class="form-group">
                                         <center>
-                                            <h4><i>Tried this dish out? Leave it a review!</i></h4>
-                                            <hr></hr>
+                                            <h4 id="reviewheader" style="display:block"><i>Tried this dish out? Leave it a review!</i></h4>
+                                            <hr id="top-divider" style="display:block"></hr>
                                             <!--src= https://jsfiddle.net/leaverou/CGP87/ -->
                                             &nbsp;
                                             <fieldset class="onpage-rating" style="display:inline">
-                                              <input type="radio" id="s1" name="reviewrating" value="1" style="display:inline"/><label for="star1"></label>
-                                              <input type="radio" id="s2" name="reviewrating" value="2" style="display:inline"/><label for="star2"></label>
-                                              <input type="radio" id="s3" name="reviewrating" value="3" style="display:inline"/><label for="star3"></label>
-                                              <input type="radio" id="s4" name="reviewrating" value="4" style="display:inline"/><label for="star4"></label>
-                                              <input type="radio" id="s5" name="reviewrating" value="5" style="display:inline"/><label for="star5"></label>
+                                              <input type="radio" id="s1" name="reviewrating" value="1" /><label for="s1"></label>
+                                              <input type="radio" id="s2" name="reviewrating" value="2" /><label for="s2"></label>
+                                              <input type="radio" id="s3" name="reviewrating" value="3" /><label for="s3"></label>
+                                              <input type="radio" id="s4" name="reviewrating" value="4" /><label for="s4"></label>
+                                              <input type="radio" id="s5" name="reviewrating" value="5" /><label for="s5"></label>
                                             </fieldset>
+                                            <hr id="bottom-divider" style="display:none"></hr>
+                                            <textarea class="form-control" rows="3" placeholder="What did you think?" id="onpage-reviewpost" name="onpage-reviewpost" style="display:none; max-width:100%; min-width:100%;"></textarea>
                                         </center>
                                     </div>
                                 </div>
@@ -111,7 +113,7 @@
                                                                     <% for(var i=0; i<review.rating; i++) {%>
                                                                         <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
                                                                     <% } %>
-                                                                <%} else{%>
+                                                                <% } else { %>
                                                                     <% for(var i=1; i<review.rating; i++) {%>
                                                                         <i class="fa fa-star" aria-hidden="true" id="ratingstar"></i>
                                                                     <% } %>
