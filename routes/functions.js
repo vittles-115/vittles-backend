@@ -153,7 +153,12 @@ module.exports.addReview = function(req, res, next){
     refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
       dishkey = snapshot.key;
       dish_numofreviews = snapshot.val().number_of_ratings +1;
-      dish_avgreview = ((snapshot.val().averageRating * (dish_numofreviews-1)) + rating) / dish_numofreviews;
+      var totalstars = snapshot.val().averageRating * (dish_numofreviews-1);
+      console.log(totalstars);
+      console.log(totalstars+rating);
+      console.log((totalstars+rating)/dish_numofreviews);
+      dish_avgreview = (totalstars+rating)/dish_numofreviews;
+      
     });
     
     //Add Review to child of restaurants_id database

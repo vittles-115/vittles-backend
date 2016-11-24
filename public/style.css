@@ -449,3 +449,7 @@ input[type="file"] {
   color: #555;
 }
 
+#newPictureText {
+  display: none;
+}
+

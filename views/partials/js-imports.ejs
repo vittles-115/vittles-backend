@@ -149,6 +149,11 @@
 		$("[name='adddishimage']").change(function(){
 			readURL(this);
 		});
+		
+		$("input#profilePic").change(function(){
+			$("#newPictureText").css("display", "inherit")
+			readURL(this);
+		});
     
     
 	})

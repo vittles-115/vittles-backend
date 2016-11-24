@@ -19,8 +19,15 @@
                 <% } else { %>
                 <img class="img img-thumbnail" src="<%=userInfo.img%>">
                 <% } %>
-                
-                <input type="file" class="file-input" name="userimg">
+                <div>
+                  <label for="profilePic" class="custom-file-upload">Change profile picture</label>
+                  <input type="file" id="profilePic" class="file-input" name="userimg">
+                </div>
+                <div>
+                  <p id="newPictureText">New picture:</p>
+                  <img style="height: auto; max-width: 150px; padding: 20px 0px; display: none" id="imagePreview" src="">
+                </div>  
+                  
               </div>
             </div>
             <div class="form-group">

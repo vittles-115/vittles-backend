@@ -14,8 +14,10 @@ module.exports.index = function(req, res) {
 	var dishes = []
 	var restaurants = []
 	var userRef = db.ref("Users")
-		//If user is not logged in
+	
+	//If user is not logged in
 	if (user == null || user == '') {
+		//Gets 10 highest rated dishes from database.
 		refDishes.orderByChild("averageRating").limitToLast(10).on("child_added", function(snapshot) {
 			dish = {
 				name: snapshot.val().name,
@@ -29,6 +31,7 @@ module.exports.index = function(req, res) {
 			};
 			dishes.push(dish);
 		});
+		//Gets 10 restaurants from database.
 		refRes.orderByChild("name").limitToFirst(10).on("child_added", function(snapshot) {
 			restaurant = {
 				name: snapshot.val().name,
@@ -77,6 +80,7 @@ module.exports.index = function(req, res) {
 						saved: false
 					};
 				}
+				//If dish is one of user's favorites, have saved be true
 				for (var i = 0; i < favdisheskeys.length; i++) {
 					if (favdisheskeys[i] == snapshot.key) {
 						dish = {
@@ -126,6 +130,7 @@ module.exports.index = function(req, res) {
 						saved: false
 					};
 				}
+				//if restaurants is one of user's favorites, have saved be true
 				for (var i = 0; i < favreskeys.length; i++) {
 					if (favreskeys[i] == snapshot.key) {
 						restaurant = {
@@ -191,7 +196,7 @@ module.exports.dish = function(req, res) {
 			res.redirect("/")
 		}
 	}).then(function() {
-		// Get revies belonging to dish
+		// Get reviews belonging to dish
 		return new Promise(function(resolve, reject) {
 			revRef.orderByKey().once('value', function(snapshot) {
 				var revList = snapshot.val()
@@ -261,19 +266,18 @@ module.exports.dish = function(req, res) {
 module.exports.profile = function(req, res) {
 	var session = req.session
 	var user = req.user
-
 	var profile;
 	var favdisheskeys = [];
 	var favdishes = [];
 	var favreskeys = [];
 	var favres = [];
-
 	var userRef = db.ref("Users")
-
+	//If user is not logged in, the user is not able to see this page
 	if (req.user == null || req.user == "") {
 		return res.redirect("/")
 	}
-
+	
+	//Get user information from database
 	userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
 		profile = {
 			name: snapshot.val()[user]["name"],
@@ -283,12 +287,13 @@ module.exports.profile = function(req, res) {
 			img: snapshot.val()[user]["thumbnail_URL"]
 		}
 	}).then(function() {
-		//Favorite Dishes
+		//Gets keys of user's favorite dishes
 		for (var key in profile.savedDishes) {
 			if (profile.savedDishes[key]) {
 				favdisheskeys.push(key);
 			}
 		}
+		//Gets user's favorite dishes from database
 		for (var i = 0; i < favdisheskeys.length; i++) {
 			refDishes.orderByKey().equalTo(favdisheskeys[i]).on("child_added", function(snapshot) {
 				favdishes.push({
@@ -303,12 +308,13 @@ module.exports.profile = function(req, res) {
 			});
 		}
 
-		//Favorite Restaurants
+		//Gets keys of user's favorite restaurants
 		for (var key in profile.savedRestaurants) {
 			if (profile.savedRestaurants[key]) {
 				favreskeys.push(key);
 			}
 		}
+		//Gets user's favorite restaurants from database
 		for (var i = 0; i < favreskeys.length; i++) {
 			refRes.orderByKey().equalTo(favreskeys[i]).on("child_added", function(snapshot) {
 				favres.push({
@@ -334,15 +340,14 @@ module.exports.editprofile = function(req, res) {
 
 	var session = req.session
 	var user = req.user
-
 	var profile;
-
 	var userRef = db.ref("Users")
-
+	//If user is not logged in, the user is not able to see this page
 	if (req.user == null || req.user == "") {
 		return res.redirect("/")
 	}
-
+	
+	//Gets logged in user's information
 	userRef.orderByKey().equalTo(user).once("value", function(snapshot) {
 		profile = {
 			name: snapshot.val()[user]["name"],
@@ -439,7 +444,13 @@ module.exports.results = function(req, res) {
 }
 
 module.exports.writereview = function(req, res) {
-
+	var revdishes = [];
+	var revdish;
+	//Gets dishes' names that users can choose from using dropdown menu
+	refDishes.orderByChild("name").on("child_added", function (snapshot) {
+		revdish = {name: snapshot.val().name, restaurant_name: snapshot.val().restaurant_name};
+		revdishes.push(revdish);
+	});
 	res.renderT('writereview', {
 		template: 'writereview',
 		restaurants: restaurants,
@@ -455,8 +466,6 @@ module.exports.restaurant = function(req, res) {
 		return res.redirect('/')
 	}
 
-	//console.log("RESTAURANT: " + restaurantId)
-
 	var restaurantRef = db.ref("Restaurants")
 	var dishRef = db.ref("Dishes")
 	var restaurantData
@@ -465,7 +474,6 @@ module.exports.restaurant = function(req, res) {
 	var dish_count = 0;
 	var num_ratings = 0;
 	var avg_star_rating;
-
 
 
 	restaurantRef.once('value', function(snapshot) {
@@ -605,26 +613,5 @@ refRev.orderByChild("name").on("child_added", function(snapshot) {
 	reviews.push(review);
 });
 
-//Thais
-//Write Review: Dishes
-var revdishes = [];
-var revdish;
-refDishes.orderByChild("name").on("child_added", function (snapshot) {
-	revdish = {name: snapshot.val().name, restaurant_name: snapshot.val().restaurant_name};
-	revdishes.push(revdish);
-});
 
-//Thais
-//Profiles
-var profiles = [];
-var refUsers = db.ref("Users");
-refUsers.orderByChild("name").on("child_added", function(snapshot) {
-	var profile = {
-		name: snapshot.val().name,
-		location: snapshot.val().general_location,
-		key: snapshot.key,
-		savedDishes: snapshot.val().SavedDishes,
-		savedRestaurants: snapshot.val().SavedRestaurants
-	};
-	profiles.push(profile);
-});
+

@@ -16,18 +16,23 @@ firebase.auth().onAuthStateChanged(function(user) {
   		var locationUpdate = $("[name='edituserlocation']").val()
   		var imageUpdate = document.querySelector("[name='userimg']").files[0]
 
+			userRef.update({
+				"name" : nameUpdate,
+				"general_location": locationUpdate
+			}).then(function() {
+				console.log("name/location updated")
+				
+				if (imageUpdate != null && imageUpdate != "") {
+					console.log("Image present")
+					profileImageRef.put(imageUpdate).then(function() {
+						console.log("storage updated")
+						linkProfileImage(userRef, profileImageRef)
+					})
 
-  		if (imageUpdate != null && imageUpdate != "") {
-  			console.log("Image present")
-  			profileImageRef.put(imageUpdate).then(function() {
-  				console.log("storage updated")
-  				linkProfileImage(userRef, profileImageRef)
-  				
-  				
-
-  			})
-  			
-  		}
+				} else {
+					window.location.reload()
+				}
+			})
 
   	})	
   	
@@ -52,15 +57,4 @@ firebase.auth().onAuthStateChanged(function(user) {
   
 })
 
-
-
-	// Create a reference to 'mountains.jpg'
-	// var mountainsRef = storageRef.child('mountains.jpg');
-
-	// // Create a reference to 'images/mountains.jpg'
-	// var mountainImagesRef = storageRef.child('images/mountains.jpg');
-
-	// // While the file names are the same, the references point to different files
-	// mountainsRef.name === mountainImagesRef.name            // true
-	// mountainsRef.fullPath === mountainImagesRef.fullPath    // false
 
