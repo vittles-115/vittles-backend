@@ -138,7 +138,7 @@ module.exports.addReview = function(req, res, next){
     var body= req.body.reviewpost;
     var title= req.body.reviewtitle;
     var date = new Date().toJSON().slice(0,10);
-    var rating = req.body.reviewrating;
+    var rating = parseInt(req.body.reviewrating)
     var user = req.user;
     
     //Needs to get name of user
@@ -152,12 +152,12 @@ module.exports.addReview = function(req, res, next){
     var refDish = db.ref("Dishes");
     refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
       dishkey = snapshot.key;
-      dish_numofreviews = snapshot.val().number_of_ratings +1;
-      var totalstars = snapshot.val().averageRating * (dish_numofreviews-1);
-      console.log(totalstars);
-      console.log(totalstars+rating);
-      console.log((totalstars+rating)/dish_numofreviews);
-      dish_avgreview = (totalstars+rating)/dish_numofreviews;
+      dish_numofreviews = parseInt(snapshot.val().number_of_ratings +1)
+      var totalstars = parseInt(snapshot.val().averageRating * (dish_numofreviews-1))
+      console.log(totalstars)
+      console.log(totalstars + rating)
+      console.log((totalstars+rating)/dish_numofreviews)
+      dish_avgreview = (totalstars+rating)/dish_numofreviews
       
     });
     
