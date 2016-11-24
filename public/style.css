@@ -442,5 +442,10 @@ input[type="file"] {
 
 .nav-tabs li .nav-link{
   color: #aaa;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs li .nav-link:hover{
+  color: #555;
 }
 
