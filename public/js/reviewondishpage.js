@@ -6,9 +6,23 @@ $(document).ready(function() {
 		$("#bottom-divider").css("display","block");
 		$("#onpage-reviewpost").css("display","block");
 		$("#onpage-reviewtitle").css("display","block");
+		$("#closereview").css("display","block");
 		$("#reviewbox").css("width","800px");
 		$(".extraspace").css("display","block");
 		$("#submitrev").css("display","block");
 	})
+	
+	$("#closereview").click(function(event) {
+		$("#reviewheader").css("display", "block");
+		$("#top-divider").css("display", "block");
+		$("#bottom-divider").css("display","none");
+		$("#onpage-reviewpost").css("display","none");
+		$("#onpage-reviewtitle").css("display","none");
+		$("#closereview").css("display","none");
+		$("#reviewbox").css("width","400px");
+		$(".extraspace").css("display","none");
+		$("#submitrev").css("display","none");
+	})
+
 
 })

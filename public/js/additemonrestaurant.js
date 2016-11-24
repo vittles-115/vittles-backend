@@ -28,8 +28,8 @@ $(document).ready(function() {
 		$("#onpage-adddishdesc").css("display","none");
 		$("#addimglabel").css("display","none");
 		$("#additem").css("display","none");
+		$("#closeadditem").css("display", "none");
 		$("#reviewbox").css("width","400px");
-		$("#closedadditem").css("display", "block");
 		$(".extraspace").css("display","none");
 	})
 
