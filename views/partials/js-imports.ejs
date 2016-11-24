@@ -17,7 +17,7 @@
 	    })
 		})
 		
-		//Saving and Unsaving Dishes and Restaurants.
+		//Saving and Unsaving Dishes.
 		$('input[type="checkbox"][name="fav_dishkey"]').click(function(){
       var favdishkey=$(this).val();
       var user= firebase.auth().currentUser.uid;
@@ -38,7 +38,7 @@
         $.post('/newFavDish', data);
       }
     });
-    
+    //Saving and Unsaving Restaurants.
     $('input[type="checkbox"][name="fav_reskey"]').click(function(){
       var favreskey=$(this).val();
       var user= firebase.auth().currentUser.uid;
