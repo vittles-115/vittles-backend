@@ -8,12 +8,13 @@
             	<div class="result">
                 <td class="result-img">
                   <div class="center-block">
-                    <a href="#" class="pull-left">
+                    <a href="/dish/<%=dish.key%>" class="pull-left">
+
                       <%if(dish.img == null){%>
                         <img src="/dish-icon.jpg" class="result-photo">
-                      <%}else{%>
+                      <% }else{ %>
                         <img src="<%=dish.img%>" class="result-photo">
-                      <%}%>
+                      <% } %>
                     </a>
                   </div>
                 </td>
