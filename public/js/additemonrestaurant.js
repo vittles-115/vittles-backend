@@ -4,7 +4,7 @@ $(document).ready(function() {
         placeholder: "Choose a category"
     });
     
-	
+	//if add item button is clicked open add item form
 	$("#add-item").click(function(event) {
 		$("#additemheader").css("display", "none");
 		$("#top-divider").css("display", "none");
@@ -18,7 +18,8 @@ $(document).ready(function() {
 		$("#closeadditem").css("display", "block");
 		$(".extraspace").css("display","block");
 	})
-
+	
+	//if x is clicked close add item form
 	$("#closeadditem").click(function(event) {
 		$("#additemheader").css("display", "block");
 		$("#top-divider").css("display", "block");

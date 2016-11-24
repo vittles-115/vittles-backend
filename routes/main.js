@@ -368,12 +368,15 @@ module.exports.editprofile = function(req, res) {
 module.exports.results = function(req, res) {
 	var results = [];
 	if (req.query != null) {
+		//Get the search information from req
 		var searchType = req.query.type;
 		var searchQuery = req.query.query;
+		//code to capitalize the first letter of every word, everything else should be lowercase
 		searchQuery = searchQuery.toLowerCase();
 		searchQuery = searchQuery.replace(/\w\S*/g, function(txt) {
 			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 		});
+		//This finds dishes that start with the characters signified by search query for dishes
 		if (searchType == "Dishes") {
 			var ref = db.ref("Dishes");
 			ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery + "").on("child_added", function(snapshot) {
@@ -389,6 +392,7 @@ module.exports.results = function(req, res) {
 				results.push(result);
 			});
 		}
+		//This finds dishes that start with the characters signified by search query for dishes
 		else if (searchType == "Restaurants") {
 			var ref = db.ref("Restaurants");
 			ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery + "").on("child_added", function(snapshot) {
@@ -405,6 +409,7 @@ module.exports.results = function(req, res) {
 			});
 			//console.log(results);
 		}
+		//If type not specified, search performed on dishes+restaurants
 		else {
 			var ref = db.ref("Dishes");
 			ref.orderByChild("name").startAt(searchQuery).endAt(searchQuery + "").on("child_added", function(snapshot) {
@@ -465,7 +470,8 @@ module.exports.restaurant = function(req, res) {
 	if (restaurantId == null || restaurantId == "") {
 		return res.redirect('/')
 	}
-
+	
+	//Initialized variables for loading restaurant page
 	var restaurantRef = db.ref("Restaurants")
 	var dishRef = db.ref("Dishes")
 	var restaurantData
@@ -474,7 +480,6 @@ module.exports.restaurant = function(req, res) {
 	var dish_count = 0;
 	var num_ratings = 0;
 	var avg_star_rating;
-
 
 	restaurantRef.once('value', function(snapshot) {
 		if (snapshot.hasChild(restaurantId)) {
@@ -485,6 +490,7 @@ module.exports.restaurant = function(req, res) {
 				var dishList = snapshot.val()
 
 				for (var key in dishList) {
+					//find the average star rating for that restaurant
 					if (dishList.hasOwnProperty(key)) {
 						star_rating += dishList[key]["averageRating"];
 						dish_count++;
@@ -495,6 +501,7 @@ module.exports.restaurant = function(req, res) {
 				avg_star_rating = star_rating / dish_count;
 
 			})
+			//get the restaurant data 
 			restaurantData = {
 				key: restaurantId,
 				name: restRef["name"],
@@ -513,7 +520,7 @@ module.exports.restaurant = function(req, res) {
 		return new Promise(function(resolve, reject) {
 			dishRef.orderByChild("restaurant").equalTo(restaurantId).once('value', function(snapshot) {
 				var dishList = snapshot.val()
-
+				//get the dish data for the restaurant
 				for (var key in dishList) {
 					if (dishList.hasOwnProperty(key)) {
 						var dishObject = {
@@ -535,6 +542,7 @@ module.exports.restaurant = function(req, res) {
 
 	}).then(function() {
 		//console.log(restaurantData);
+		//render restaurant page
 		res.renderT('restaurant', {
 			types: types,
 			template: 'restaurant',

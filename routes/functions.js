@@ -91,18 +91,20 @@ module.exports.addItem = function(req, res, next){
   console.log(req.body);
   var restkey;
   if (req.body != null) {
+    //getting request data
     var restaurant= req.body.addrestaurant;
     var category = req.body.addtype;
     var dish = req.body.adddishname;
     var desc= req.body.adddishdesc;
     var lcdish = dish.toLowerCase();
     
+    //get the restaurant id to facillitate redirect
     var refRest = db.ref("Restaurants");
     refRest.orderByChild("name").equalTo(restaurant).on("child_added", function (snapshot){
       restkey = snapshot.key;
     });
     
-    console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"+restkey);
+    //console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"+restkey);
 
     //Add Items to database
     var refDish=db.ref("Dishes");
@@ -131,6 +133,7 @@ module.exports.addReview = function(req, res, next){
   console.log(req.body);
   var dishkey;
   if (req.body != null) {
+    //facilliate calculating new average review
     var dish_numofreviews;
     var dish_avgreview;
     var restaurantname= req.body.reviewrestaurant;
@@ -148,10 +151,11 @@ module.exports.addReview = function(req, res, next){
       reviewer = snapshot.val().name;
     });
     
-    //Reviews -> Dish key -> Review key
+    //Reference dishes to get the total number of reviews and stars
     var refDish = db.ref("Dishes");
     refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
       dishkey = snapshot.key;
+      //use the total reviews and stars to calculate the average dish review
       dish_numofreviews = parseInt(snapshot.val().number_of_ratings +1)
       var totalstars = parseInt(snapshot.val().averageRating * (dish_numofreviews-1))
       console.log(totalstars)
@@ -178,6 +182,7 @@ module.exports.addReview = function(req, res, next){
       averageRating : dish_avgreview
     });
   }
+  //Set params to dishkey so that proper redirect is facillitated
   req.params.dish = dishkey;
   next();
 }
@@ -208,6 +213,7 @@ module.exports.addFavRes = function(req, res){
     } else {
       add = false;
     }
+     //Updates user's saved restaurants on database
     var userFavResRef = db.ref('Users/').child(user).child("SavedRestaurants");
     userFavResRef.update({[reskey] : add});
   }

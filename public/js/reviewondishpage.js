@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	
+	//If any of the stars are clicked open review form
 	$("#s1, #s2, #s3, #s4, #s5").click(function(event) {
 		$("#reviewheader").css("display", "none");
 		$("#top-divider").css("display", "none");
@@ -12,6 +13,7 @@ $(document).ready(function() {
 		$("#submitrev").css("display","block");
 	})
 	
+	//If x is clicked close review form
 	$("#closereview").click(function(event) {
 		$("#reviewheader").css("display", "block");
 		$("#top-divider").css("display", "block");
