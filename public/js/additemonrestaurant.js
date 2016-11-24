@@ -15,7 +15,22 @@ $(document).ready(function() {
 		$("#addimglabel").css("display","block");
 		$("#additem").css("display","block");
 		$("#reviewbox").css("width","800px");
+		$("#closeadditem").css("display", "block");
 		$(".extraspace").css("display","block");
+	})
+
+	$("#closeadditem").click(function(event) {
+		$("#additemheader").css("display", "block");
+		$("#top-divider").css("display", "block");
+		$("#add-item").css("display","block");
+		$("#categorylist").css("display","none");
+		$("#onpage-adddishname").css("display","none");
+		$("#onpage-adddishdesc").css("display","none");
+		$("#addimglabel").css("display","none");
+		$("#additem").css("display","none");
+		$("#reviewbox").css("width","400px");
+		$("#closedadditem").css("display", "block");
+		$(".extraspace").css("display","none");
 	})
 
 

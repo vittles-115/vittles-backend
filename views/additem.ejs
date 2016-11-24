@@ -45,15 +45,19 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-3 control-label"></label>
-        <div class="col-md-8 buttons">
+        <div class="col-md-offset-3 col-md-8">
           <label for="file-upload" class="custom-file-upload">Add dish image</label>
-          <input type="file" id="file-upload" name="adddishimage" accept="image/gif, image/jpeg, image/png" required>
-          </div>
+          <input type="file" id="file-upload" name="adddishimage" accept="image/gif, image/jpeg, image/png" >
+        </div>
       </div>
+      
+      <div class="col-md-offset-3 col-md-8">
+        <img style="height: auto; max-width: 150px; padding: 20px 0px; display: none" id="imagePreview" src="">  
+      </div>
+      
+
       <div class="form-group">
-        <label class="col-md-3 control-label"></label>
-        <div class="col-md-8 buttons">
+        <div class="col-md-offset-3 col-md-8">
           <input type="submit" class="btn btn-primary" value="Add Item" id="additem"required>
           <span></span>
           <input type="reset" class="btn btn-default" value="Cancel">

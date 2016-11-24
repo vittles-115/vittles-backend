@@ -64,7 +64,9 @@
                                         <div class="panel-body">
                                             <div class="menu-container-fluid">
                                                 <div class="form-group">
-                                                    <div style="float:right"><i class="fa fa-plus-square" aria-hidden="true"></i></div>
+                                                    
+                                                    <div id="closeadditem" style="float:right; display:none"><i class="fa fa-times" aria-hidden="true" style="color:red"></i></div>
+                                                    
                                                     <center>
                                                         
                                                         <h4 id="additemheader" style="display:block"><i>Know of a dish that's not listed on here?</i></h4>
@@ -94,11 +96,18 @@
                                                         
                                                         <div id="addimglabel" style="display:none; width:600px;">
                                                           <center>
-                                                               <label for="file-uploadrespage" class="custom-file-upload">Add dish image</label>
-                                                              <input type="file" name="adddishimage" id="file-uploadrespage" accept="image/gif, image/jpeg, image/png" style="float:right">
+                                                            <label for="file-uploadrespage" class="custom-file-upload">Add dish image</label>
+                                                            <input type="file" name="adddishimage" id="file-uploadrespage" accept="image/gif, image/jpeg, image/png" style="float:right">
+                                                            
                                                           </center>
+                                                          
                                                         </div>
                                                         
+                                                        <div>
+                                                            <img style="height: auto; max-width: 150px; padding: 20px 0px; display: none" id="imagePreview" src="">
+                                                        </div>
+                                                        
+
                                                         <div class="extraspace" style="display:none; height:10px"></div>
                                                         
                                                         <input type="submit" class="btn btn-primary" id="additem" value="Add Dish!"  style="display:none" required>
