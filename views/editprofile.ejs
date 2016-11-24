@@ -14,7 +14,12 @@
             <div class="form-group">
               <label class="col-lg-3 control-label">Profile Picture:</label>
               <div class="col-lg-8 edit-profile-userimg">
-                <img class="img img-thumbnail"src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg">
+                <% if(userInfo.img == null || userInfo.img == "") { %>
+                <img class="img img-thumbnail" src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg">
+                <% } else { %>
+                <img class="img img-thumbnail" src="<%=userInfo.img%>">
+                <% } %>
+                
                 <input type="file" class="file-input" name="userimg">
               </div>
             </div>

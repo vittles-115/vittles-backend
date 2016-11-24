@@ -1,16 +1,15 @@
 <!-- views/partials/header.ejs -->
-
 <nav class="navbar navbar-default">
   <div class="containerheader">
 		<div class="container">
 			<div class="navbar-header col-md-3 cl-effect-4">
-				<a class = "navbar-name" href="/">Vittles</a>
+				<a class = "navbar-name" href="/">
+					<img src="/images/vittlesLogo.png" style="width: 130px;">
+				</a>
 			</div>
-
 			<div class="col-md-4 search-i" role="search">
 				<input type="text" class="form-control" placeholder="Search" id="query">
 			</div>
-			
 			<div class="btn-group">
 				<a class="btn btn-default dropdown-toggle" type="submit" data-toggle="dropdown" id="dropdownMenu" val="none" href="#" style="width:50px">
 					<i class="fa fa-search" aria-hidden="true" id="icon" style="display: inline"></i>
@@ -23,23 +22,19 @@
 					<li><a href="#" class="dropdown-item" id="restToggle" val="Restaurants">RESTAURANTS</a></li>
 				</ul>
 			</div>
-
-			<!--If logged out-->
 			<div class="navbar navbar-right cl-effect-4">
+				<!--If logged in-->
 				<% if (user != "") {%>
+					<a href="/writereview" class="clink"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 					<a href="/profile" class="clink">Profile</a>
 					<a id="logout" href="#" class="clink">Logout</a>
-					
 				<% } else { %>
-				    <a href="signin" class="clink">Sign in</a>
-				    <a href="register" class="clink">Register</a>
+					<!--If logged out-->
+				   <a href="signin" class="clink">Sign in</a>
+				   <a href="register" class="clink">Register</a>
 				<% } %>
 				
 			</div>
-			<!--If logged in
-			<a href="writereview.html" class="clink"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
-			<a href="profile.html" class = "clink"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
-			-->
 		</div>
 	</div>
 </nav>

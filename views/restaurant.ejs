@@ -1,7 +1,6 @@
 <head>
     <title>Vittles | Restaurant</title>
     <%- include('partials/head') %>
-
     <style>
         .col-xs-12{
             height: 100px;
@@ -12,20 +11,12 @@
 
 </head>
 <body>
-
-    <!--Makes look good on all sizes-->
     <div>
-
         <%- include('partials/header') %>
-
         <div class="dishlist">
-            <!---!!!!-->
             <div class="container-fluid">
                 <div class="row">
-
                     <section class="content">
-
-
                         <div class="container">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -33,7 +24,11 @@
                                         <div class = "center-block" style = "width:200px">
                                             <div class="restaurant-container-fluid">
                                                 <center>
-                                                <div>-<%=restaurant.img%>-</div>
+                                                    <%if(restaurant.img == null){%>
+                                                      <div><img src="/restaurant-icon.jpg" class="result-photo"></div>
+                                                    <%}else{%>
+                                                         <div><img src="<%=restaurant.img%>" class="result-photo"></div>
+                                                     <%}%>
                                                 <h3><div><%=restaurant.name%></div></h3>
                                                 <h4><div><%=restaurant.address%></div></h4>
                                                     <% if(restaurant.numrating>0){ %>
@@ -60,6 +55,64 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <% if (user != "") { %>
+                            <center>
+                                <div class="panel panel-default" id="reviewbox" style="width:400px">
+                                    <form role="form" method="post" action="/newItem">
+                                        <div class="panel-body">
+                                            <div class="menu-container-fluid">
+                                                <div class="form-group">
+                                                    <center>
+                                                        
+                                                        <h4 id="additemheader" style="display:block"><i>Know of a dish that's not listed on here?</i></h4>
+                                                        <hr id="top-divider" style="display:block"></hr>
+                                                        
+                                                        <input class="btn btn-primary" id="add-item" value="Add it!"  style="display:block" required>
+                                                        
+                                                        <div id="categorylist" style="display:none">
+                                                          <select class="myselect" name="addtype" style="width: 100%" required>
+                                                            <option></option>
+                                                            <%types.forEach(function(types) {%>
+                                                              <option id="AL"><%= types.type%></option>
+                                                            <%}); %>
+                                                          </select>
+                                                        </div>
+                                                        
+                                                        <div class="extraspace" style="display:none; height:10px"></div>
+                                                        
+                                                        <input class="form-control" type="text" rows="3" placeholder="Dish Name" id="onpage-adddishname" name="adddishname" style="display:none; max-width:100%; min-width:100%;" required></textarea>
+                                                        
+                                                        <div class="extraspace" style="display:none; height:10px"></div>
+                                                        
+                                                        <textarea class="form-control" rows="3" placeholder="Dish Description" id="onpage-adddishdesc" name="adddishdesc" style="display:none; max-width:100%; min-width:100%;" required></textarea>
+                                                        
+                                                        <div class="extraspace" style="display:none; height:10px"></div>
+                                                        
+                                                        
+                                                        <div id="addimglabel" style="display:none; width:600px;">
+                                                          <center>
+                                                               <label for="file-uploadrespage" class="custom-file-upload">Add dish image</label>
+                                                              <input type="file" name="adddishimage" id="file-uploadrespage" accept="image/gif, image/jpeg, image/png" style="float:right" required>
+                                                          </center>
+                                                        </div>
+                                                        
+                                                        <div class="extraspace" style="display:none; height:10px"></div>
+                                                        
+                                                        <input type="submit" class="btn btn-primary" id="additem" value="Add Dish!"  style="display:none" required>
+                                                    
+                                                        <input name="addrestaurant" style="display:none" value="<%=restaurant.name%>"></textarea>
+        
+                                                        
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </center>
+                        <% } %>
 
 
                         <div class="container">
@@ -134,15 +187,11 @@
                               	</section>
                             </div>
                         </div>
-                        
                     </section>
                 </div>
             </div>
-            <!--!!!!-->
         </div>
-
     </div>
-
 <%- include('partials/js-imports.ejs') -%>
 </body>
 

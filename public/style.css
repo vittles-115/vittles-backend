@@ -1,17 +1,27 @@
+/* General css */
 body {
   background-color: #ddd;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .container{
   padding-top: 20px;
 }
 
+.nocontent{
+  color:grey;
+  font-size: 25px;
+  text-align: center;
+}
+
+/* Header css */
 .navbar {
   border: none;
   margin-bottom: 0;
 }
 
 .navbar-name {
+  margin: 10px 0px;
   top: -5px;
 }
 
@@ -20,11 +30,25 @@ body {
   text-decoration: none;
 }
 
+.navbar-name:active {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-name:visited {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-name:focus {
+  color: white;
+  text-decoration: none;
+}
+
 .navbar-name::after {
   display: none;
 }
 
-/*Header css */
 form.navbar-form{
   width: 500px !important;
   align-content:center;
@@ -69,6 +93,7 @@ a.clink{
 }
 
 /* Home Page css */
+
 .jumbotron h1{
   text-align: center;
 }
@@ -81,6 +106,7 @@ a.clink{
 }
 
 /* Profile Page css */
+
 .img{
   width:125px;
   height: 125px;
@@ -89,6 +115,7 @@ a.clink{
 
 .profile-user{
   text-align: center;
+  background: white;
   padding: 25px;
   border: 2px solid white;
   border-radius: 4px;
@@ -104,7 +131,6 @@ a.clink{
   margin-right: auto;
   padding-top: 10px;
   font-size: 20px;
-
 }
 
 .profile-userlocation{
@@ -118,6 +144,7 @@ a.clink{
 .profile-reviews{
   padding-top: 20px;
 }
+
 /* Edit Profile Page css */
 
 .edit-profile-userimg{
@@ -166,6 +193,10 @@ a.clink{
   border: none;
 }
 
+.review-username{
+  text-align: center;
+}
+
 /* Restaurant Page css */
 
 .restaurant-photo{
@@ -192,6 +223,7 @@ a.clink{
 }
 
 /*Sign In / Reigster css */
+
 .container-signin{
   align-content: center;
   width: 100%;
@@ -203,7 +235,8 @@ a.clink{
 }
 
 
-/*Rating https://jsfiddle.net/leaverou/CGP87/*/
+/*Rating source: https://jsfiddle.net/leaverou/CGP87/*/
+
 .rating {
   float:left;
 }
@@ -226,7 +259,7 @@ a.clink{
   cursor:pointer;
   font-size:200%;
   line-height:1.2;
-  color:#ddd;
+  color:darkgrey;
 }
 
 .rating:not(:checked) > label:before {
@@ -265,7 +298,6 @@ a.clink{
   text-align: center;
   font-size: medium;
   transition: all 0.6s ease;
-  
 }
 
 
@@ -296,7 +328,7 @@ a.clink{
 }
 
 .onpage-rating > input:checked ~ label {
-  color: gold;
+  color: #ffdb00;
 }
 
 .onpage-rating:not(:checked) > label:hover,
@@ -309,7 +341,7 @@ a.clink{
 .onpage-rating > input:checked ~ label:hover,
 .onpage-rating > input:checked ~ label:hover ~ label,
 .onpage-rating > label:hover ~ input:checked ~ label {
-  color: #ea0;
+  color: gold;
 }
 
 .onpage-rating > label:active {
@@ -326,14 +358,7 @@ a.clink{
   text-align: center;
   font-size: medium;
   transition: all 0.6s ease;
-  
 }
-
-
-
-
-
-
 
 .statusMessage {
   height: 0px;
@@ -344,7 +369,8 @@ a.clink{
   transition: all 0.6s ease;
 }
 
-/* Dish content Favorite star */
+/* Favorite star icon css */
+
 .staricon{
   float: right;
 }
@@ -373,66 +399,8 @@ a.clink{
   color: #ffe34f;
 }
 
-/*.hearticon input[type=checkbox] + label*/
-/*{*/
-/*  background: url("http://www.corporatecomplianceinsights.com/wp-content/uploads/2013/06/Facebook-thumbs-up.jpg") no-repeat;*/
-/*  background-size: 50%;*/
-/*  height: 250px;*/
-/*  width: 250px;*/
-/*  display: inline-block;*/
-/*  padding: 0 0 0 0px;*/
-/*}*/
-
-/*.hearticon input[type=checkbox]:checked+label {*/
-/*  background: url("http://thepridepost.com/wp-content/uploads/2013/10/Facebook-thumbs-down.jpg") no-repeat;*/
-/*  background-size: 50%;*/
-/*  height: 250px;*/
-/*  width: 250px;*/
-/*  display: inline-block;*/
-/*  padding: 0 0 0 0px;*/
-/*}*/
-
-/*.hearticon:not(:checked) > label {*/
-/*  float:right;*/
-/*  width:2em;*/
-/*  padding:0 .1em;*/
-/*  overflow:hidden;*/
-/*  white-space:nowrap;*/
-/*  cursor:pointer;*/
-/*  font-size:200%;*/
-/*  line-height:1.2;*/
-/*  color:#ddd;*/
-/*}*/
-
-/*.hearticon:not(:checked) > label:before {*/
-/*  font-family: FontAwesome;*/
-/*  content: "\f004";*/
-/*}*/
-
-/*.hearticon > input:checked ~ label {*/
-/*  color: red;*/
-/*}*/
-
-/*.hearticon:not(:checked) > label:hover,*/
-/*.hearticon:not(:checked) > label:hover ~ label {*/
-/*  color: red;*/
-/*}*/
-
-/*.hearticon > input:checked + label:hover,*/
-/*.hearticon > input:checked + label:hover ~ label,*/
-/*.hearticon > input:checked ~ label:hover,*/
-/*.hearticon > input:checked ~ label:hover ~ label,*/
-/*.hearticon > label:hover ~ input:checked ~ label {*/
-/*  color: #ea0;*/
-/*}*/
-
-/*.hearticon > label:active {*/
-/*  position:relative;*/
-/*  top:2px;*/
-/*  left:2px;*/
-/*}*/
-
 /*Index page*/
+
 .dishresname{
   color: lightgray;
   font-size: 16px;
@@ -456,8 +424,15 @@ a.namelink{
   line-height: 200%;
 }
 
-.nocontent{
-  color:grey;
-  font-size: 25px;
-  text-align: center;
+/* Add item css */
+input[type="file"] {
+    display: none;
 }
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+

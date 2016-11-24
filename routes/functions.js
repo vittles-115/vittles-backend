@@ -10,14 +10,12 @@ module.exports.getReviewData = function(req, res) {
   var revdish;
   var counter = 0
   
-  if(req.query.user != null) {
+  if (req.query.user != null) {
     console.log("REVIEW USER: "+ req.query.user)
     console.log("TERMS: ")
     console.log(req.query)
     
     //query
-    //Thais
-    //Write Review: Dishes
     refDishes.orderByChild("restaurant_name").equalTo(req.query.restaurant).on("child_added", function (snapshot) {
     	revdish = {name: snapshot.val().name, restaurant_name: snapshot.val().restaurant_name};
     	
@@ -53,7 +51,7 @@ module.exports.validateUser = function( req, res ) {
   var session = req.session
   var uid = ""
 
-  if(req.body.user != null) {
+  if (req.body.user != null) {
     uid = req.body.user
   } else {
     res.errorT()
@@ -67,11 +65,9 @@ module.exports.validateUser = function( req, res ) {
 
 module.exports.createUser = function(req, res, next) {
   var session = req.session
-  
-  
 	console.log(req.body.user)
 	
-	if( req.body != null) {
+	if ( req.body != null) {
 		var uid = req.body.user
 		var newUserRef = userRef.child(uid)
 		newUserRef.update({
@@ -88,41 +84,49 @@ module.exports.createUser = function(req, res, next) {
 		    message: "Error writing new user info"
 		  })
 		})
-		
 	}
-	
-	
 }
 
 module.exports.addItem = function(req, res, next){
   console.log(req.body);
-  if (req.body != null){
+  var restkey;
+  if (req.body != null) {
     var restaurant= req.body.addrestaurant;
     var category = req.body.addtype;
     var dish = req.body.adddishname;
     var desc= req.body.adddishdesc;
-    //var image = req.body.adddishimage;
+    var lcdish = dish.toLowerCase();
+    
+    var refRest = db.ref("Restaurants");
+    refRest.orderByChild("name").equalTo(restaurant).on("child_added", function (snapshot){
+      restkey = snapshot.key;
+    });
+    
+    console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"+restkey);
 
     //Add Items to database
-    var ref=db.ref("Dishes");
-    ref.push({
+    var refDish=db.ref("Dishes");
+    refDish.push({
       restaurant_name: restaurant,
       food_description: desc,
       type: category,
-      name: dish,
-      //thumbnail_URL: image
+      averageRating: 0,
+      number_of_ratings: 0,
+      lowercased_name: lcdish,
+      restaurant: restkey,
+      name: dish
     });
   }
+  req.params.restaurant = restkey;
   next()
 }
 
 module.exports.addReview = function(req, res, next){
   console.log(req.body);
   var dishkey;
-  if (req.body != null){
-    var restkey;
-    var rest_numofreviews;
-    var rest_avgreview;
+  if (req.body != null) {
+    var dish_numofreviews;
+    var dish_avgreview;
     var restaurantname= req.body.reviewrestaurant;
     var dishname = req.body.reviewdish;
     var body= req.body.reviewpost;
@@ -142,15 +146,10 @@ module.exports.addReview = function(req, res, next){
     var refDish = db.ref("Dishes");
     refDish.orderByChild("name").equalTo(dishname).on("child_added", function (snapshot){
       dishkey = snapshot.key;
+      dish_numofreviews = snapshot.val().number_of_ratings +1;
+      dish_avgreview = ((snapshot.val().averageRating * (dish_numofreviews-1)) + rating) / dish_numofreviews;
     });
     
-    var refRest = db.ref("Restaurants");
-    refRest.orderByChild("name").equalTo(restaurantname).on("child_added", function (snapshot){
-      restkey = snapshot.key;
-      rest_avgreview = snapshot.averageRating;
-    });
-    
-
     //Add Review to child of restaurants_id database
     var revref= db.ref("Reviews");
     revref.child(dishkey).push({
@@ -159,34 +158,28 @@ module.exports.addReview = function(req, res, next){
       title: title,
       review_UID: user,
       date: date,
-      reviewer_name: reviewer,
+      reviewer_name: reviewer
     });
     
-    //Make it so that Restaurant
-    var revref= db.ref("Reviews");
-    revref.child(dishkey).push({
-      body: body,
-      rating: rating,
-      title: title,
-      review_UID: user,
-      date: date,
-      reviewer_name: reviewer,
+    //Update the dish child in the database
+    refDish.child(dishkey).update({
+      number_of_ratings : dish_numofreviews,
+      averageRating : dish_avgreview
     });
-    
   }
   req.params.dish = dishkey;
   next();
 }
 
 module.exports.addFavDish= function(req, res, next){
-  if (req.body != null){
+  if (req.body != null) {
     var user = req.user;
-    var dishkey= req.body.favdishkey;
-    var add=req.body.add;
-    if(add=="true"){
-      add=true;
-    }else{
-      add=false;
+    var dishkey = req.body.favdishkey;
+    var add = req.body.add;
+    if (add == "true") {
+      add = true;
+    } else {
+      add = false;
     }
     var userFavDishRef = db.ref('Users/').child(user).child("SavedDishes");
     userFavDishRef.update({[dishkey] : add});
@@ -195,14 +188,14 @@ module.exports.addFavDish= function(req, res, next){
 }
 
 module.exports.addFavRes = function(req, res){
-  if (req.body != null){
+  if (req.body != null) {
     var user = req.user
-    var reskey= req.body.favreskey;
-    var add=req.body.add;
-    if(add=="true"){
-      add=true;
-    }else{
-      add=false;
+    var reskey = req.body.favreskey;
+    var add = req.body.add;
+    if (add == "true") {
+      add = true;
+    } else {
+      add = false;
     }
     var userFavResRef = db.ref('Users/').child(user).child("SavedRestaurants");
     userFavResRef.update({[reskey] : add});
@@ -217,7 +210,6 @@ module.exports.updateProfile = function(req, res) {
 }
 
 module.exports.logout = function(req, res) {
-  
   req.session.destroy(function(err) {
      res.redirect('/')
   })

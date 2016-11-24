@@ -13,7 +13,7 @@
       <div class="form-group">
         <label class="col-lg-3 control-label">Choose Restaurant:</label>
         <div class="col-lg-8">
-          <select class="myselect" name="addrestaurant" style="width: 50%" >
+          <select class="myselect" name="addrestaurant" style="width: 50%" required>
             <option></option>
             <%restaurants.forEach(function(restaurant) {%>
               <option id="AL"><%= restaurant.name%></option>
@@ -24,7 +24,7 @@
       <div class="form-group">
         <label class="col-lg-3 control-label">Category:</label>
         <div class="col-lg-8 dropdown">
-          <select class="myselect" name="addtype" style="width: 50%">
+          <select class="myselect" name="addtype" style="width: 50%" required>
             <option></option>
             <%types.forEach(function(types) {%>
               <option id="AL"><%= types.type%></option>
@@ -35,20 +35,21 @@
       <div class="form-group">
         <label class="col-lg-3 control-label">Add Dish:</label>
         <div class="col-lg-8">
-          <input class="form-control" type="text" placeholder="Name" name="adddishname">
+          <input class="form-control" type="text" placeholder="Name" name="adddishname" required>
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Add Description:</label>
         <div class="col-lg-8">
-          <textarea class="form-control" rows="3" type="text" placeholder="Decription" name="adddishdesc"></textarea>
+          <textarea class="form-control" rows="3" type="text" placeholder="Decription" name="adddishdesc" required></textarea>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-lg-3 control-label">Add Image:</label>
-        <div class="col-lg-8">
-          <input type="file" name="adddishimage" accept="image/gif, image/jpeg, image/png">
-        </div>
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8 buttons">
+          <label for="file-upload" class="custom-file-upload">Add dish image</label>
+          <input type="file" id="file-upload" name="adddishimage" accept="image/gif, image/jpeg, image/png" required>
+          </div>
       </div>
       <div class="form-group">
         <label class="col-md-3 control-label"></label>

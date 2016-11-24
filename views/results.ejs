@@ -28,7 +28,9 @@
                     <table class="table table-borderless">
                       <tbody>
                         <%if(results.length==0){%>
-                          <p class="nocontent">Sorry! Page not found.</p>
+                          <center>
+                            <h3 style="color:lightgray">No results found. Try another search.</h3>
+                          </center>
                         <%}%>
                         <%results.forEach(function(result) {%>
                           <tr>

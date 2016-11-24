@@ -9,7 +9,11 @@
     <div class="container">
       <h1>Profile Page</h1>
       <div class="profile-user">
+        <% if( profile.img == "" || profile.img == null) {  %>
         <img src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg">
+        <% } else { %>
+        <img src="<%=profile.img%>" style="width: 170px; height: 170px;">
+        <% } %>
         <div class="profile-username">
           <%- profile.name%>
         </div>

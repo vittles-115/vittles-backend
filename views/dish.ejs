@@ -52,6 +52,8 @@
                                                         <% }%>
                                                      </div>
                                                     <span>&nbsp(<%= dish.numrating %>)</span>
+                                                <% }else{ %>
+                                                    <span>No ratings yet.</span>
                                                 <% } %>
                                             </div>
                                         </center>
@@ -119,9 +121,15 @@
                                         	        
                                 		            <td class="dish-rating" style = "width:100px; padding-right:50px">
                                         		          <a href="#" class="pull-left">
+                                        		           
+                                        		           <% if(review.img == null || review.img == "") { %>   
                                         		           <img src="https://media.licdn.com/mpr/mpr/p/4/005/06a/2bc/180b3b7.jpg" class="sub-dish-photo">
+                                        		           <% } else { %>
+                                        		           <img src="<%=review.img%>" class="sub-dish-photo">
+                                        		           <% } %>
+                                        		           
                                         		          </a>
-                                    		              <p><%=review.name%></p>
+                                    		              <p class="review-username"><%=review.name%></p>
                                 		            </td>
                                 		            
                                 		            <td>
