@@ -4,6 +4,7 @@
 <script src="/js/searchbar.js"></script>
 <script src="/js/reviewondishpage.js"></script>
 <script src="/js/additemonrestaurant.js"></script>
+<script src="/js/writereview.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#logout").click(function(event) {
@@ -58,6 +59,63 @@
         $.post('/newFavRes', data);
       }
     });	
+    
+    
+    // Submit new item to restaurant
+		var storageRef = firebase.storage().ref()
+		var imagePathRef = firebase.database().ref("ImagePaths/Dishes")
+		var dishRef
+		var newDishKey
+		var newDishImage
+		var smallDishImageRef 
+    var fullDishImageRef 
+    var fileName = "/dish.jpg"
+    
+    $("[action='/newItem']").on('submit', function(event) {
+    		event.preventDefault()
+    		newDishImage = document.querySelector("[name='adddishimage']").files[0]
+    		
+    		$.post('/newItem', $("[action='/newItem']").serialize(), function(response) {
+    			console.log(response)
+    			newDishKey = response.newDishRef
+    			
+    			if(newDishImage != null) {
+    				dishRef = firebase.database().ref("Dishes/"+ newDishKey)
+    				smallDishImageRef = storageRef.child("thumbnailSized/Dishes/" + newDishKey + fileName)
+    				fullDishImageRef = storageRef.child("fullSizedImage/Dishes/" + newDishKey + fileName)
+    				
+    				smallDishImageRef.put(newDishImage).then(function() {
+    					console.log("small image set")
+    					return fullDishImageRef.put(newDishImage)
+    				}).then(function() {
+    					console.log("full image set")
+    					return linkDishImages(dishRef, newDishKey, smallDishImageRef, fullDishImageRef)
+    				})
+    				
+    			}
+    			
+    		})
+    		
+
+    	
+    	
+    })
+    
+    function linkDishImages(dishRef, newDishKey, smallDishImageRef, fullDishImageRef) {
+    	smallDishImageRef.getDownloadURL().then(function(imgURL) {
+    		dishRef.child("thumbnail_URL").set(imgURL)
+    		imagePathRef.child(newDishKey+"/thumbnailSized").set(imgURL)
+    		console.log("set dish and small img ref")
+    	})
+    	
+    	fullDishImageRef.getDownloadURL().then(function(imgURL) {
+    		imagePathRef.child(newDishKey+"/fullSizedImage").set(imgURL)
+    		console.log("set large img ref")
+    	})
+    	
+    }
+    
+    
 	})
 	
 </script>

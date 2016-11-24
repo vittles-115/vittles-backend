@@ -392,7 +392,7 @@ module.exports.results = function(req, res) {
 					type: "restaurant",
 					name: snapshot.val().name,
 					desc: snapshot.val().address,
-					img: "no img",
+					img: snapshot.val().thumbnail_URL,
 					link: "null",
 					link_name: "null"
 				};
@@ -421,7 +421,7 @@ module.exports.results = function(req, res) {
 					type: "restaurant",
 					name: snapshot.val().name,
 					desc: snapshot.val().address,
-					img: "no img",
+					img: snapshot.val().thumbnail_URL,
 					link: "null",
 					link_name: "null"
 				};

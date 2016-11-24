@@ -436,3 +436,11 @@ input[type="file"] {
     cursor: pointer;
 }
 
+.nav-tabs .nav-item {
+  font-size: 1.8em;
+}
+
+.nav-tabs li .nav-link{
+  color: #aaa;
+}
+

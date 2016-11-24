@@ -106,7 +106,7 @@ module.exports.addItem = function(req, res, next){
 
     //Add Items to database
     var refDish=db.ref("Dishes");
-    refDish.push({
+    var newDishRef = refDish.push({
       restaurant_name: restaurant,
       food_description: desc,
       type: category,
@@ -118,7 +118,13 @@ module.exports.addItem = function(req, res, next){
     });
   }
   req.params.restaurant = restkey;
-  next()
+  
+  console.log("NEWDISH: "+newDishRef.key)
+
+  res.successT({
+    newDishRef: newDishRef.key
+  })
+  // next()
 }
 
 module.exports.addReview = function(req, res, next){
