@@ -64,6 +64,7 @@
     // Submit new item to restaurant
 		var storageRef = firebase.storage().ref()
 		var imagePathRef = firebase.database().ref("ImagePaths/Dishes")
+		var restaurantKey
 		var dishRef
 		var newDishKey
 		var newDishImage
@@ -73,11 +74,13 @@
     
     $("[action='/newItem']").on('submit', function(event) {
     		event.preventDefault()
+    		$("[type='submit']").attr("disabled", true)
     		newDishImage = document.querySelector("[name='adddishimage']").files[0]
     		
     		$.post('/newItem', $("[action='/newItem']").serialize(), function(response) {
     			console.log(response)
     			newDishKey = response.newDishRef
+    			restaurantKey = response.restaurant
     			
     			if(newDishImage != null) {
     				dishRef = firebase.database().ref("Dishes/"+ newDishKey)
@@ -89,7 +92,7 @@
     					return fullDishImageRef.put(newDishImage)
     				}).then(function() {
     					console.log("full image set")
-    					return linkDishImages(dishRef, newDishKey, smallDishImageRef, fullDishImageRef)
+    					return linkDishImages(dishRef, newDishKey, smallDishImageRef, fullDishImageRef, restaurantKey)
     				})
     				
     			}
@@ -101,16 +104,30 @@
     	
     })
     
-    function linkDishImages(dishRef, newDishKey, smallDishImageRef, fullDishImageRef) {
+    function linkDishImages(dishRef, newDishKey, smallDishImageRef, fullDishImageRef, restaurantKey) {
+    	var smallURL 
+    	var fullURL
+    	
     	smallDishImageRef.getDownloadURL().then(function(imgURL) {
     		dishRef.child("thumbnail_URL").set(imgURL)
-    		imagePathRef.child(newDishKey+"/thumbnailSized").set(imgURL)
+    		smallURL = imgURL
+    		// imagePathRef.child(newDishKey+"/thumbnailSized").set(imgURL)
     		console.log("set dish and small img ref")
-    	})
-    	
-    	fullDishImageRef.getDownloadURL().then(function(imgURL) {
-    		imagePathRef.child(newDishKey+"/fullSizedImage").set(imgURL)
-    		console.log("set large img ref")
+    	}).then(function() {
+	    	return fullDishImageRef.getDownloadURL().then(function(imgURL) {
+	    		fullURL = imgURL
+	    		// imagePathRef.child(newDishKey+"/fullSizedImage").set(imgURL)
+	    		console.log("set large img ref")
+	    	})	
+    	}).then(function() {
+    		return imagePathRef.child(newDishKey).push({
+	    		fullSizedImage: fullURL,
+	    		thumbnailSized: smallURL,
+	    		uploader_UDID: firebase.auth().currentUser.uid
+	    	})
+    	}).then(function() {
+    		console.log("push successful")
+    		window.location.href = "/restaurant/" + restaurantKey
     	})
     	
     }

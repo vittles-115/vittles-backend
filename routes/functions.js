@@ -122,9 +122,9 @@ module.exports.addItem = function(req, res, next){
   console.log("NEWDISH: "+newDishRef.key)
 
   res.successT({
-    newDishRef: newDishRef.key
+    newDishRef: newDishRef.key,
+    restaurant: restkey
   })
-  // next()
 }
 
 module.exports.addReview = function(req, res, next){
